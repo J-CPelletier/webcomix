@@ -1,7 +1,7 @@
 #! python3
 
 # TODO: Make this work for any other comic than xkcd
-import webbrowser, requests, os, bs4
+import webbrowser, requests, os, urllib, bs4
 
 def downloadComic(url):
     os.makedirs('finalComic') # The exists_ok = True prevents the program from giving us an exception when the folder exists
@@ -24,19 +24,19 @@ def downloadComic(url):
                 print("Downloading image {}".format(comicURL))
                 result = request.get(comicURL)
                 result.raise_for_status()
+
+                # TODO: Save the image to ./finalComic
+                image = urllib.request.urlopen(comicURL)
+                with open(os.path.join(os.getcwd(), 'finalComic', os.path.basename(comicURL)), 'wb') as imageFile:
+                    imageFile.write(image.read())
+
             except:
                 # Skip the comic
                 url = "http://xkcd.com" + prevLink.get('href')
                 continue
 
-        # TODO: Save the image to ./finalComic
-        imageFile = open(os.path.join(os.getcwd(), 'finalComic', os.path.basename(comicURL)), 'wb')
-        for chunk in result.iter_content(100000):
-            imageFile.write(chunk)
-        imageFile.close()
         # TODO: Get the "previous" button's URL
         url = 'http://xkcd.com' + prevLink.get('href')
-
     print("Done.")
 
 downloadComic('http://xkcd.com/')
