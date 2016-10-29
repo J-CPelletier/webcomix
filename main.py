@@ -4,7 +4,7 @@
 import webbrowser, requests, os, urllib, bs4, pdb
 
 def downloadComic(url):
-    os.makedirs('finalComic') # The exists_ok = True prevents the program from giving us an exception when the folder exists
+    os.makedirs('finalComic')
     while not url.endswith('#'):
         # Download the page
         print("Downloading page {}".format(url))
@@ -18,7 +18,7 @@ def downloadComic(url):
         if comicElem == []:
             print('Could not find comic image.')
         else:
-            # TODO: Download the image
+            # Download the image
             try:
                 comicURL = 'http:' + comicElem[0].get('src')
                 print("Downloading image {}".format(comicURL))
@@ -27,7 +27,7 @@ def downloadComic(url):
                 # pdb.set_trace()
                 # To get the comic's name, use os.path.basename(comicURL) instead of os.path.splitext(os.path.basename(comicURL))[1] (which only gives the extension)
 
-                # TODO: Save the image to ./finalComic
+                # Save the image to ./finalComic
                 image = urllib.request.urlopen(comicURL)
                 with open(os.path.join(os.getcwd(), 'finalComic', url.strip("http://xkcd.com/") + os.path.splitext(os.path.basename(comicURL))[1]), 'wb') as imageFile:
                     imageFile.write(result.content)
@@ -37,8 +37,26 @@ def downloadComic(url):
                 url = "http://xkcd.com" + nextLink.get('href')
                 continue
 
-        # TODO: Get the "previous" button's URL
+        # Get the "previous" button's URL
         url = 'http://xkcd.com' + nextLink.get('href')
     print("Done.")
 
-downloadComic('http://xkcd.com/1/')
+# downloadComic('http://xkcd.com/1/')
+while True:
+    comic = input("Which comic do you want to download?(use 'help' to see available choices) ")
+
+    if comic == "help":
+        # Print all of the comics supported and gives a link to their website
+        comics = ["xkcd: http://xkcd.com/"
+        ]
+
+        misc = ["quit: Leaves the program"
+        ]
+
+        print("\n_Comics_ \n" + "\n".join(comics) + "\n \n_Misc_ \n" + "\n".join(misc))
+
+    if comic == "xkcd":
+        downloadComic('http://xkcd.com/1/')
+
+    elif comic == "quit":
+        break
