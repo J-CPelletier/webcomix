@@ -14,7 +14,7 @@ def downloadComic(url):
 
         # Find the URL of the comic page
         comicElem = parsedHTML.select('#comic img') # The div selected must be different depending on the webPage it is taken from
-        prevLink = parsedHTML.find_all("a", rel="prev")[0]
+        nextLink = parsedHTML.find_all("a", rel="next")[0]
         if comicElem == []:
             print('Could not find comic image.')
         else:
@@ -23,23 +23,22 @@ def downloadComic(url):
                 comicURL = 'http:' + comicElem[0].get('src')
                 print("Downloading image {}".format(comicURL))
                 result = requests.get(comicURL)
-                # result.raise_for_status()
-                # a = parsedHTML.select("#middleContainer br")
+                result.raise_for_status()
                 # pdb.set_trace()
+                # To get the comic's name, use os.path.basename(comicURL) instead of os.path.splitext(os.path.basename(comicURL))[1] (which only gives the extension)
 
                 # TODO: Save the image to ./finalComic
                 image = urllib.request.urlopen(comicURL)
-                with open(os.path.join(os.getcwd(), 'finalComic', os.path.basename(comicURL)), 'wb') as imageFile:
+                with open(os.path.join(os.getcwd(), 'finalComic', url.strip("http://xkcd.com/") + os.path.splitext(os.path.basename(comicURL))[1]), 'wb') as imageFile:
                     imageFile.write(result.content)
 
             except:
                 # Skip the comic
-                print("kappa")
-                url = "http://xkcd.com" + prevLink.get('href')
+                url = "http://xkcd.com" + nextLink.get('href')
                 continue
 
         # TODO: Get the "previous" button's URL
-        url = 'http://xkcd.com' + prevLink.get('href')
+        url = 'http://xkcd.com' + nextLink.get('href')
     print("Done.")
 
-downloadComic('http://xkcd.com/')
+downloadComic('http://xkcd.com/1/')
