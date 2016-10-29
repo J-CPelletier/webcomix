@@ -1,7 +1,7 @@
 #! python3
 
 # TODO: Make this work for any other comic than xkcd
-import webbrowser, requests, os, urllib, bs4
+import webbrowser, requests, os, urllib, bs4, pdb
 
 def downloadComic(url):
     os.makedirs('finalComic') # The exists_ok = True prevents the program from giving us an exception when the folder exists
@@ -22,16 +22,19 @@ def downloadComic(url):
             try:
                 comicURL = 'http:' + comicElem[0].get('src')
                 print("Downloading image {}".format(comicURL))
-                result = request.get(comicURL)
-                result.raise_for_status()
+                result = requests.get(comicURL)
+                # result.raise_for_status()
+                # a = parsedHTML.select("#middleContainer br")
+                # pdb.set_trace()
 
                 # TODO: Save the image to ./finalComic
                 image = urllib.request.urlopen(comicURL)
                 with open(os.path.join(os.getcwd(), 'finalComic', os.path.basename(comicURL)), 'wb') as imageFile:
-                    imageFile.write(image.read())
+                    imageFile.write(result.content)
 
             except:
                 # Skip the comic
+                print("kappa")
                 url = "http://xkcd.com" + prevLink.get('href')
                 continue
 
