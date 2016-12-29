@@ -50,12 +50,4 @@ class Comic:
         cwd = os.path.join(os.getcwd())
         directory = "finalComic"
         extension = os.path.splitext(os.path.basename(comic_url))[1]
-        return "".join([cwd, directory, self.current_image, extension])
-
-    def set(self, comic_name):
-        if comic_name = "xkcd":
-            return Comic("http://xkcd.com/1/",
-                         "//a[@rel='next']/@href",
-                         "//div[@id='comic']/img/@src")
-        else:
-            raise NotImplementedError # The comic hasn't been implemented yet
+        return "".join([cwd, directory, str(self.current_page), extension])
