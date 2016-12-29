@@ -1,5 +1,6 @@
 import requests, os
 from lxml import html
+from urllib.parse import urljoin
 
 class Comic:
     def __init__(self, start_url, next_page_selector, comic_image_selector):
@@ -24,18 +25,15 @@ class Comic:
                 print("Could not find comic image.")
             else:
                 try:
-                    image_url = self.get_url(image_element)
+                    image_url = self.urljoin(self.url,image_element)
                     self.save_image(image_url[0])
                 except requests.exceptions.HTTPError:
                     print("The image couldn't be downloaded.")
                     pass
 
             self.current_page += 1
-            self.url = get_url(next_link[0])
+            self.url = urljoin(self.url, next_link[0])
         print("Finished downloading the images.")
-
-    def get_url(self, url_fragment):
-        pass
 
     def save_image(self, image_url):
         print("Saving image {}".format(image_url))
