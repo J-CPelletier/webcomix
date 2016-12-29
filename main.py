@@ -3,6 +3,8 @@
 # TODO: Make this work for any other comic than xkcd
 import webbrowser, requests, os, urllib, bs4, pdb
 
+from comic import Comic
+
 def downloadComic(url):
     os.makedirs('finalComic')
     while not url.endswith('#'):
