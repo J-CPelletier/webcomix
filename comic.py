@@ -1,7 +1,6 @@
 import requests, os
 from lxml import html
 from urllib.parse import urljoin
-from mimetypes import guess_extension
 
 class Comic:
     def __init__(self, start_url, next_page_selector, comic_image_selector):
@@ -57,5 +56,5 @@ class Comic:
 
 
 # Testing
-# kappa = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']/img/@src")
-# kappa.download()
+# dummy = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']/img/@src")
+# dummy.download()
