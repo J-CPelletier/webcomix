@@ -29,6 +29,19 @@ while True:
         comic.download()
         break
 
+    elif user_input.upper() == "CUSTOM":
+        first_url = input("URL of the first image of the comic: ")
+        next_page_xpath = input("XPath selector giving the link to the next page: ")
+        image_xpath = input("XPath selector giving the link of the image: ")
+        comic = Comic(first_url, next_page_xpath, image_xpath)
+        confirmation = input("Are you sure you want to proceed?(y/n) ")
+        if confirmation.upper() in ["YES", "Y"]:
+            comic.download()
+        elif confirmation.upper() in ["NO", "N"]:
+            continue
+        else:
+            break
+
     elif user_input.upper() in ["QUIT", "EXIT"]:
         break
 
