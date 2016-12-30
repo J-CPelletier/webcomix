@@ -1,6 +1,7 @@
 import requests, os
 from lxml import html
 from urllib.parse import urljoin
+from mimetypes import guess_extension
 
 class Comic:
     def __init__(self, start_url, next_page_selector, comic_image_selector):
@@ -13,8 +14,8 @@ class Comic:
         os.makedirs("finalComic")
         while True:
             print("Downloading page {}".format(self.url))
-            html = requests.get(self.url)
-            parsed_html = lxml.html.fromstring(html.content)
+            response = requests.get(self.url)
+            parsed_html = html.fromstring(response.content)
 
             image_element = parsed_html.xpath(self.comic_image_selector)
             next_link = parsed_html.xpath(self.next_page_selector)
@@ -25,9 +26,9 @@ class Comic:
                 print("Could not find comic image.")
             else:
                 try:
-                    image_url = self.urljoin(self.url,image_element)
-                    self.save_image(image_url[0])
-                except requests.exceptions.HTTPError:
+                    image_url = urljoin(self.url,image_element[0])
+                    self.save_image(image_url)
+                except:
                     print("The image couldn't be downloaded.")
                     pass
 
@@ -45,7 +46,16 @@ class Comic:
             imageFile.write(res.content)
 
     def get_image_location(self, comic_url):
-        cwd = os.path.join(os.getcwd())
+        cwd = os.getcwd().rstrip("/")
         directory = "finalComic"
-        extension = os.path.splitext(os.path.basename(comic_url))[1]
-        return "".join([cwd, directory, str(self.current_page), extension])
+        if comic_url.count(".") <= 1:
+            # No file extension
+            file_name = str(self.current_page)
+        else:
+            file_name = "{}{}".format(self.current_page, comic_url[comic_url.rindex("."):])
+        return "/".join([cwd, directory, file_name])
+
+
+# Testing
+# kappa = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']/img/@src")
+# kappa.download()
