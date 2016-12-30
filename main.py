@@ -1,79 +1,36 @@
 #! python3
 
-# TODO: Make this work for any other comic than xkcd
-import webbrowser, requests, os, urllib, bs4, pdb
+import requests, os
+from lxml import html
+from urllib.parse import urljoin
 
 from comic import Comic
 
-def downloadComic(url):
-    os.makedirs('finalComic')
-    while not url.endswith('#'):
-        # Download the page
-        print("Downloading page {}".format(url))
-        html = requests.get(url)
-        html.raise_for_status() # Raises an HTTPerror if something went wrong with the request
-        parsedHTML = bs4.BeautifulSoup(html.text, 'html.parser')
-        # parsedHTML = downloadPage(url)
+supported_comics = {
+    "xkcd": ("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']//img/@src")
+}
 
-        # Find the URL of the comic page
-        comicElem = parsedHTML.select('#comic img') # The div selected must be different depending on the webPage it is taken from(TODO: make it an argument of downloadComic function)
-        nextLink = parsedHTML.find_all("a", rel="next")[0]
-        if comicElem == []:
-            print('Could not find comic image.')
-        else:
-            # Download the image
-            try:
-                comicURL = 'http:' + comicElem[0].get('src')
-                print("Downloading image {}".format(comicURL))
-                result = requests.get(comicURL)
-                result.raise_for_status()
-                # pdb.set_trace()
-                # To get the comic's name, use os.path.basename(comicURL) instead of os.path.splitext(os.path.basename(comicURL))[1] (which only gives the extension)
-
-                # Save the image to ./finalComic
-                with open(os.path.join(os.getcwd(), 'finalComic', url.strip("http://xkcd.com/") + os.path.splitext(os.path.basename(comicURL))[1]), 'wb') as imageFile:
-                    imageFile.write(result.content)
-
-            except:
-                # Skip the comic
-                url = "http://xkcd.com" + nextLink.get('href')
-                continue
-
-        # Get the "previous" button's URL
-        url = 'http://xkcd.com' + nextLink.get('href')
-    print("Done.")
-
-def getNextLink(primaryFilter, secondaryFilterType, secondaryFilterValue, number):
-    if secondaryFilterType == 'rel':
-        return find_all(primaryFilter, rel=secondaryFilterValue)[number]
-    elif secondaryFilterType == 'id':
-        return find_all(primaryFilter, id=secondaryFilterValue)[number]
-
-def downloadPage(url):
-    print("Downloading page {}".format(url))
-    html = requests.get(url)
-    html.raise_for_status() # Raises an HTTPerror if something went wrong with the request
-    return bs4.BeautifulSoup(html.text, 'html.parser')
-
-###### Note to self: making a new function for SSP downloads would be handy, as the site has some wierd HTML choices
-
-
+misc = ["quit/exit: Leaves the program", "custom: User-defined comic"]
 
 while True:
-    comic = input("Which comic do you want to download?(use 'help' to see available choices) ")
+    user_input = input("Which comic do you want to download?\n")
 
-    if comic == "help":
+    if user_input.upper() == "HELP":
         # Print all of the comics supported and gives a link to their website
-        comics = ["xkcd: http://xkcd.com/"
-        ]
+        comics_header = "\n_Comic_ \n"
+        comics_content = ["{}: {}".format(key, value[0]) for key, value in supported_comics.items()]
+        misc_header = "\n_Misc_ \n"
 
-        misc = ["quit: Leaves the program"
-        ]
+        print(comics_header + "\n".join(comics_content))
+        print(misc_header + "\n".join(misc) + "\n")
 
-        print("\n_Comics_ \n" + "\n".join(comics) + "\n \n_Misc_ \n" + "\n".join(misc))
-
-    if comic == "xkcd":
-        downloadComic('http://xkcd.com/1/')
-
-    elif comic == "quit":
+    elif user_input in list(supported_comics.keys()):
+        comic = Comic(*supported_comics[user_input])
+        comic.download()
         break
+
+    elif user_input.upper() in ["QUIT", "EXIT"]:
+        break
+
+    else:
+        print("This command does not exist. Use HELP for a list of available choices.\n")
