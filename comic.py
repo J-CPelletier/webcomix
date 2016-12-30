@@ -19,9 +19,7 @@ class Comic:
             image_element = parsed_html.xpath(self.comic_image_selector)
             next_link = parsed_html.xpath(self.next_page_selector)
 
-            if next_link == [] or self.url.endswith("#"):
-                break
-            elif image_element == []:
+            if image_element == []:
                 print("Could not find comic image.")
             else:
                 try:
@@ -32,6 +30,8 @@ class Comic:
                     pass
 
             self.current_page += 1
+            if next_link == [] or next_link[0].endswith("#"):
+                break
             self.url = urljoin(self.url, next_link[0])
         print("Finished downloading the images.")
 
@@ -56,5 +56,5 @@ class Comic:
 
 
 # Testing
-# dummy = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']/img/@src")
+# dummy = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']//img/@src")
 # dummy.download()
