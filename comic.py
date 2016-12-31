@@ -63,7 +63,7 @@ class Comic:
         for image in images:
             cbz_file.write(image)
         if cbz_file.testzip() != None:
-            print("Erreur lors du test de l'archive. L'archive pourrait être corrompue.")
+            print("Error while testing the archive; it might be corrupted.")
             cbz_file.close()
         else:
             cbz_file.close()
