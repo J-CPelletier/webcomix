@@ -12,6 +12,9 @@ supported_comics = {
 
 misc = ["quit/exit: Leaves the program", "custom: User-defined comic"]
 
+YES = ["YES", "Y"]
+NO = ["NO", "N"]
+
 while True:
     user_input = input("Which comic do you want to download?\n")
 
@@ -27,7 +30,11 @@ while True:
     elif user_input in list(supported_comics.keys()):
         comic = Comic(*supported_comics[user_input])
         comic.download()
-        break
+        cbz_confirm = input("Do you want your images to be converted in the same .cbz archive?(y/n)")
+        if cbz_confirm in YES:
+            comic.makecbz()
+        else:
+            break
 
     elif user_input.upper() == "CUSTOM":
         first_url = input("URL of the first image of the comic: ")
@@ -35,10 +42,15 @@ while True:
         image_xpath = input("XPath selector giving the link of the image: ")
         comic = Comic(first_url, next_page_xpath, image_xpath)
         confirmation = input("Are you sure you want to proceed?(y/n) ")
-        if confirmation.upper() in ["YES", "Y"]:
+        if confirmation.upper() in YES:
             comic.download()
-        elif confirmation.upper() in ["NO", "N"]:
+        elif confirmation.upper() in NO:
             continue
+        else:
+            break
+        cbz_confirm = input("Do you want your images to be converted in the same .cbz archive?(y/n)")
+        if cbz_confirm in YES:
+            comic.makecbz()
         else:
             break
 
