@@ -30,9 +30,9 @@ while True:
     elif user_input in list(supported_comics.keys()):
         comic = Comic(*supported_comics[user_input])
         comic.download()
-        cbz_confirm = input("Do you want your images to be converted in the same .cbz archive?(y/n)")
+        cbz_confirm = input("Do you want your images to be converted in the same .cbz archive?(y/n) ")
         if cbz_confirm in YES:
-            comic.makecbz()
+            comic.makecbz(supported_comics[user_input][0])
         else:
             break
 
@@ -48,9 +48,10 @@ while True:
             continue
         else:
             break
-        cbz_confirm = input("Do you want your images to be converted in the same .cbz archive?(y/n)")
+        cbz_confirm = input("Do you want your images to be converted in the same .cbz archive?(y/n) ")
         if cbz_confirm in YES:
-            comic.makecbz()
+            name = input("What will be the name of this archive? ")
+            comic.makecbz(name)
         else:
             break
 
