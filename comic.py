@@ -12,8 +12,8 @@ class Comic:
         self.comic_image_selector = comic_image_selector
         self.current_page = 1
 
-    def download(self):
-        os.makedirs("finalComic")
+    def download(self, directory_name="finalComic"):
+        os.makedirs(directory_name)
         while True:
             print("Downloading page {}".format(self.url))
             response = requests.get(self.url)
@@ -26,11 +26,10 @@ class Comic:
                 print("Could not find comic image.")
             else:
                 try:
-                    image_url = urljoin(self.url,image_element[0])
-                    self.save_image(image_url)
+                    image_url = urljoin(self.url, image_element[0])
+                    self.save_image(image_url, directory_name)
                 except:
                     print("The image couldn't be downloaded.")
-                    pass
 
             self.current_page += 1
             if next_link == [] or next_link[0].endswith("#"):
@@ -38,18 +37,16 @@ class Comic:
             self.url = urljoin(self.url, next_link[0])
         print("Finished downloading the images.")
 
-    def save_image(self, image_url):
+    def save_image(self, image_url, directory_name):
         print("Saving image {}".format(image_url))
         res = requests.get(image_url)
         res.raise_for_status()
-
-        # Save the image to ./finalComic
-        with open(self.save_image_location(image_url), 'wb') as imageFile:
+        # Save the image
+        with open(self.save_image_location(image_url, directory_name), 'wb') as imageFile:
             imageFile.write(res.content)
 
-    def save_image_location(self, url):
+    def save_image_location(self, url, directory):
         cwd = self.CWD.rstrip("/")
-        directory = "finalComic"
         if url.count(".") <= 1:
             # No file extension
             file_name = str(self.current_page)
@@ -57,13 +54,13 @@ class Comic:
             file_name = "{}{}".format(self.current_page, url[url.rindex("."):])
         return "/".join([cwd, directory, file_name])
 
-    def make_cbz(self, comic_name):
+    def make_cbz(self, comic_name, source_directory="finalComic"):
         cbz_file = ZipFile("{}/{}.cbz".format(self.CWD, comic_name), mode="w")
-        images = os.listdir(self.CWD + "/finalComic")
+        images = os.listdir(self.CWD + "/" + source_directory)
         for image in images:
-            cbz_file.write("finalComic/{}".format(image))
-            os.remove("finalComic/{}".format(image))
-        os.rmdir("finalComic")
+            cbz_file.write("{}/{}".format(source_directory ,image))
+            os.remove("{}/{}".format(source_directory, image))
+        os.rmdir(source_directory)
         if cbz_file.testzip() != None:
             print("Error while testing the archive; it might be corrupted.")
             cbz_file.close()

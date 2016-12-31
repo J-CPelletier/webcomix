@@ -90,3 +90,10 @@ ENV/
 
 # Dolphin File Manager
 *.directory
+
+# Product Files
+*.cbz
+*/*.jpg
+*/*.png
+*/*.jpeg
+*/*.bmp
