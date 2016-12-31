@@ -10,7 +10,7 @@ supported_comics = {
     "xkcd": ("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']//img/@src")
 }
 
-misc = ["quit/exit: Leaves the program", "custom: User-defined comic"]
+misc = ["quit/exit: Leaves the command prompt of the program", "custom: Downloads a comic defined url and XPath selectors"]
 
 YES = ["YES", "Y"]
 NO = ["NO", "N"]
@@ -47,7 +47,7 @@ while True:
             continue
         else:
             break
-        
+
         cbz_confirm = input("Do you want your images to be converted in the same .cbz archive?(y/n) ")
         if cbz_confirm.upper() in YES:
             name = input("What will be the name of this archive? ")
