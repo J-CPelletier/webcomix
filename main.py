@@ -31,10 +31,9 @@ while True:
         comic = Comic(*supported_comics[user_input])
         comic.download()
         cbz_confirm = input("Do you want your images to be converted in the same .cbz archive?(y/n) ")
-        if cbz_confirm in YES:
-            comic.makecbz(supported_comics[user_input][0])
-        else:
-            break
+        if cbz_confirm.upper() in YES:
+            comic.make_cbz(user_input)
+        break
 
     elif user_input.upper() == "CUSTOM":
         first_url = input("URL of the first image of the comic: ")
@@ -48,12 +47,12 @@ while True:
             continue
         else:
             break
+        
         cbz_confirm = input("Do you want your images to be converted in the same .cbz archive?(y/n) ")
-        if cbz_confirm in YES:
+        if cbz_confirm.upper() in YES:
             name = input("What will be the name of this archive? ")
-            comic.makecbz(name)
-        else:
-            break
+            comic.make_cbz(name)
+        break
 
     elif user_input.upper() in ["QUIT", "EXIT"]:
         break

@@ -59,9 +59,11 @@ class Comic:
 
     def make_cbz(self, comic_name):
         cbz_file = ZipFile("{}/{}.cbz".format(self.CWD, comic_name), mode="w")
-        images = os.listdir(os.getcwd() + "/finalComic")
+        images = os.listdir(self.CWD + "/finalComic")
         for image in images:
-            cbz_file.write(image)
+            cbz_file.write("finalComic/{}".format(image))
+            os.remove("finalComic/{}".format(image))
+        os.rmdir("finalComic")
         if cbz_file.testzip() != None:
             print("Error while testing the archive; it might be corrupted.")
             cbz_file.close()
