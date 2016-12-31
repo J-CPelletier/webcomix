@@ -1,8 +1,11 @@
 import requests, os
 from lxml import html
 from urllib.parse import urljoin
+from zipfile import ZipFile
 
 class Comic:
+
+    CWD = os.getcwd()
     def __init__(self, start_url, next_page_selector, comic_image_selector):
         self.url = start_url
         self.next_page_selector = next_page_selector
@@ -41,20 +44,32 @@ class Comic:
         res.raise_for_status()
 
         # Save the image to ./finalComic
-        with open(self.get_image_location(image_url), 'wb') as imageFile:
+        with open(self.save_image_location(image_url), 'wb') as imageFile:
             imageFile.write(res.content)
 
-    def get_image_location(self, comic_url):
-        cwd = os.getcwd().rstrip("/")
+    def save_image_location(self, url):
+        cwd = self.CWD.rstrip("/")
         directory = "finalComic"
-        if comic_url.count(".") <= 1:
+        if url.count(".") <= 1:
             # No file extension
             file_name = str(self.current_page)
         else:
-            file_name = "{}{}".format(self.current_page, comic_url[comic_url.rindex("."):])
+            file_name = "{}{}".format(self.current_page, url[url.rindex("."):])
         return "/".join([cwd, directory, file_name])
+
+    def make_cbz(self, comic_name):
+        cbz_file = ZipFile("{}/{}.cbz".format(self.CWD, comic_name), mode="w")
+        images = os.listdir(os.getcwd() + "/finalComic")
+        for image in images:
+            cbz_file.write(image)
+        if cbz_file.testzip() != None:
+            print("Erreur lors du test de l'archive. L'archive pourrait être corrompue.")
+            cbz_file.close()
+        else:
+            cbz_file.close()
 
 
 # Testing
 # dummy = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']//img/@src")
 # dummy.download()
+# dummy.makecbz("bob")
