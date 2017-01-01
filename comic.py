@@ -41,9 +41,14 @@ class Comic:
         print("Saving image {}".format(image_url))
         res = requests.get(image_url)
         res.raise_for_status()
-        # Save the image
-        with open(self.save_image_location(image_url, directory_name), 'wb') as imageFile:
-            imageFile.write(res.content)
+        image_path = self.save_image_location(image_url, directory_name)
+        if os.path.isfile(path):
+            # Image already exists
+            print("The image was already downloaded. Skipping...")
+        else:
+            # Save the image
+            with open(self.save_image_location(image_url, directory_name), 'wb') as imageFile:
+                imageFile.write(res.content)
 
     def save_image_location(self, url, directory):
         cwd = self.CWD.rstrip("/")
