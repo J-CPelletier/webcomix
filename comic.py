@@ -58,9 +58,10 @@ class Comic:
             file_name = "{}{}".format(self.current_page, url[url.rindex("."):])
         return "/".join([cwd, directory, file_name])
 
-    def make_cbz(self, comic_name, source_directory="finalComic"):
-        cbz_file = ZipFile("{}/{}.cbz".format(self.CWD, comic_name), mode="w")
-        images = os.listdir("{}/{}".format(self.CWD, source_directory))
+    @staticmethod
+    def make_cbz(comic_name, source_directory="finalComic"):
+        cbz_file = ZipFile("{}/{}.cbz".format(Comic.CWD, comic_name), mode="w")
+        images = os.listdir("{}/{}".format(Comic.CWD, source_directory))
         for image in images:
             image_location = "{}/{}".format(source_directory, image)
             cbz_file.write(image_location)

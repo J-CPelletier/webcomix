@@ -1,5 +1,6 @@
 from comic import Comic
 from urllib.parse import urljoin
+from zipfile import ZipFile
 import pytest, os, shutil
 
 def test_save_image_location():
@@ -34,3 +35,18 @@ def test_save_image_already_image(capfd):
     assert out == "Saving image http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg\n" + "The image was already downloaded. Skipping...\n"
     os.remove("test/1.jpg")
     os.rmdir("test")
+
+def test_make_cbz():
+    comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']/img/@src")
+    if os.path.isdir("test"):
+        shutil.rmtree("test")
+    os.makedirs("test")
+    for i in range(1, 6):
+        with open("test/{}.txt".format(i), "w") as image_file:
+            image_file.write("testing {}".format(i))
+    comic.make_cbz("test", "test")
+    with ZipFile("test.cbz") as cbz_file:
+        for i in range(1, 6):
+            with cbz_file.open("test/{}.txt".format(i), "r") as image_file:
+                assert str(image_file.read()).strip("b'") == "testing {}".format(i)
+    os.remove("test.cbz")
