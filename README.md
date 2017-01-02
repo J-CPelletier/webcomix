@@ -32,10 +32,10 @@ Commands:
 
 Prints information on all commands and a list of already implemented comics you can download by typing the command on the left column.
 
+### `custom`
+
+Downloads a user-defined comic. To download a specific comic, you'll need a link to the first page, an XPath expression giving out the link to the next page and an XPath expression giving out the link to the image. More info [here](http://www.w3schools.com/xml/xpath_syntax.asp).
+
 ### `exit`/ `quit`
 
 Leaves the command prompt.
-
-### `custom`
-
-Downloads a user-defined comic. To download a specific comic, you'll need a link to the first page, an XPath expression giving out the link to the next page and an XPath expression giving out the link to the image.
