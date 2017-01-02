@@ -32,7 +32,7 @@ Commands:
 
 Prints information on all commands and a list of already implemented comics you can download by typing the command on the left column.
 
-### `exit`
+### `exit`/ `quit`
 
 Leaves the command prompt.
 
