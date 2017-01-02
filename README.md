@@ -1,6 +1,8 @@
 # WebComicToCBZ
 
-## Introduction
+[![Build Status](https://travis-ci.org/J-CPelletier/WebComicToCBZ.svg?branch=master)](https://travis-ci.org/J-CPelletier/WebComicToCBZ)
+
+## Description
 
 WebComicToCBZ is a Python-based web comic downloader that can additionally create a .cbz (Comic Book ZIP) file once downloaded.
 
