@@ -7,7 +7,8 @@ from urllib.parse import urljoin
 from comic import Comic
 
 supported_comics = {
-    "xkcd": ("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']//img/@src")
+    "xkcd": ("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']//img/@src"),
+    "TheFoxSister": ("http://thefoxsister.com/?id=1", "//a[@class='comic-nav-next']/@href", "//a[@class='comic-nav-next']/img/@src")
 }
 
 misc = ["quit/exit: Leaves the command prompt of the program",
