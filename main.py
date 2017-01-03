@@ -11,7 +11,8 @@ supported_comics = {
 }
 
 misc = ["quit/exit: Leaves the command prompt of the program",
-        "custom: Downloads a comic defined url and XPath selectors"]
+        "custom: Downloads a comic defined url and XPath selectors",
+        "make cbz: Creates a .cbz file using the specified folder containing the comic's images."]
 
 YES = ["YES", "Y"]
 NO = ["NO", "N"]
@@ -54,6 +55,14 @@ while True:
             name = input("What will be the name of this archive? ")
             comic.make_cbz(name)
         break
+
+    elif user_input.upper() == "MAKE CBZ":
+        source_directory = input("What is the name of the folder this comic is in? ")
+        name = input("What will be the name of this archive? ")
+        if os.path.isdir(source_directory):
+            Comic.make_cbz(name, source_directory)
+        else:
+            print("The specified folder was not found.")
 
     elif user_input.upper() in ["QUIT", "EXIT"]:
         break
