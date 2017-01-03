@@ -1,7 +1,7 @@
 from comic import Comic
 from urllib.parse import urljoin
 from zipfile import ZipFile
-import pytest, os, shutil
+import pytest, os, shutil, requests
 
 def test_save_image_location():
     comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']/img/@src")
@@ -58,8 +58,8 @@ def test_download():
         os.remove("test.cbz")
     comic = Comic("https://j-cpelletier.github.io/WebComicToCBZ/1.html", "//a/@href", "//img/@src")
     comic.download("test")
-    for i in range(1, 4):
+    for i in range(1, 3):
         with open("test/{}.jpeg".format(i), "rb") as result:
-            with open("{}.jpeg".format(i), "rb") as expected:
-                assert expected.read() == result.read()
+            expected = requests.get("https://j-cpelletier.github.io/WebComicToCBZ/{}.jpeg".format(i))
+            assert expected.content == result.read()
     shutil.rmtree("test")
