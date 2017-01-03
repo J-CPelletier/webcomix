@@ -50,3 +50,16 @@ def test_make_cbz():
             with cbz_file.open("test/{}.txt".format(i), "r") as image_file:
                 assert str(image_file.read()).strip("b'") == "testing {}".format(i)
     os.remove("test.cbz")
+
+def test_download():
+    if os.path.isdir("test"):
+        shutil.rmtree("test")
+    if os.path.isfile("test.cbz"):
+        os.remove("test.cbz")
+    comic = Comic("https://j-cpelletier.github.io/WebComicToCBZ/1.html", "//a/@href", "//img/@src")
+    comic.download("test")
+    for i in range(1, 4):
+        with open("test/{}.jpeg".format(i), "rb") as result:
+            with open("{}.jpeg".format(i), "rb") as expected:
+                assert expected.read() == result.read()
+    shutil.rmtree("test")
