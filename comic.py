@@ -72,9 +72,3 @@ class Comic:
             cbz_file.close()
         else:
             cbz_file.close()
-
-
-# Testing
-# dummy = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']//img/@src")
-# dummy.download()
-# dummy.makecbz("bob")
