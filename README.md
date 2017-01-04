@@ -24,6 +24,8 @@ WebComicToCBZ is a Python-based web comic downloader that can additionally creat
 
 ## Usage
 
+Run main.py or use `python3 main.py` to run the script.
+
 Commands:
 
 * `help`
