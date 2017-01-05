@@ -48,7 +48,7 @@ def main():
             print_verification(validation)
 
             comic = Comic(first_url, next_page_xpath, image_xpath)
-            print("Verify the links above are correct before proceeding.")
+            print("Verify that the links above are correct before proceeding.")
             confirmation = input("Are you sure you want to proceed?(y/n) ")
             if confirmation.upper() in YES:
                 comic.download()
