@@ -6,6 +6,10 @@
 
 WebComicToCBZ is a Python-based web comic downloader that can additionally create a .cbz (Comic Book ZIP) file once downloaded.
 
+## Notice
+
+This program is for personal use only. Please be aware that by making the downloaded comics publically available without the permission of the author, you may be infringing upon various copyrights.
+
 ## Installation
 
 ### Dependencies
@@ -35,7 +39,7 @@ Commands:
 
 ### `help`
 
-Prints information on all commands and a list of already implemented comics you can download by typing the command on the left column.
+Prints information on all commands and a list of already implemented comics you can download by typing the command on the left side.
 
 ### `custom`
 
@@ -48,3 +52,10 @@ Creates a .cbz file using the specified folder containing the comic's images. No
 ### `exit`/ `quit`
 
 Leaves the command prompt.
+
+## Contribution
+
+The procedure depends on the type of contribution:
+
+* If you simply want to request the addition of a comic to the list of supported comics, make an issue with the label "Enhancement".
+* If you want to request the addition of a feature to the system or a bugfix, make an issue with the appropriate label.
