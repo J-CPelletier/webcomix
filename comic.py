@@ -50,13 +50,12 @@ class Comic:
                 image_file.write(res.content)
 
     def save_image_location(self, url, directory):
-        cwd = self.CWD.rstrip("/")
         if url.count(".") <= 1:
-            # No file extension
+            # No file extension (only dot in url is in string)
             file_name = str(self.current_page)
         else:
             file_name = "{}{}".format(self.current_page, url[url.rindex("."):])
-        return "/".join([cwd, directory, file_name])
+        return "/".join([directory, file_name])
 
     @staticmethod
     def make_cbz(comic_name, source_directory="finalComic"):

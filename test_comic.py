@@ -5,8 +5,8 @@ import pytest, os, shutil, requests
 
 def test_save_image_location():
     comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']/img/@src")
-    assert comic.save_image_location("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", "kappa") == os.getcwd() + "/kappa/1.jpg"
-    assert comic.save_image_location("", "lol") == os.getcwd() + "/lol/1"
+    assert comic.save_image_location("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", "kappa") == "kappa/1.jpg"
+    assert comic.save_image_location("", "lol") == "lol/1"
 
 def test_urljoin():
     assert urljoin("http://xkcd.com/1/", "//imgs.xkcd.com/comics/barrel_cropped_(1).jpg") == "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"
