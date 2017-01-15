@@ -20,6 +20,15 @@ This program is for personal use only. Please be aware that by making the downlo
 
 ### Process
 
+#### With the requirements.txt
+
+1. Install [Python 3](https://www.python.org/downloads/)
+2. Install [pip](https://pip.pypa.io/en/stable/installing/)
+3. Clone this repository and open a terminal in its directory.
+4. Get the required packages by running `pip install -r requirements.txt`
+
+#### Without the requirements.txt
+
 1. Install [Python 3](https://www.python.org/downloads/)
 2. Install [pip](https://pip.pypa.io/en/stable/installing/)
 3. Get lxml by running `pip install lxml` (More info [here](http://lxml.de/installation.html#where-to-get-it))
@@ -30,26 +39,26 @@ This program is for personal use only. Please be aware that by making the downlo
 
 Run main.py or use `python3 main.py` to run the script.
 
-Commands:
+### Commands
 
 * `help`
 * `custom`
 * `make cbz`
 * `exit`/ `quit`
 
-### `help`
+#### `help`
 
 Prints information on all commands and a list of already implemented comics you can download by typing the command on the left side.
 
-### `custom`
+#### `custom`
 
 Downloads a user-defined comic. To download a specific comic, you'll need a link to the first page, an XPath expression giving out the link to the next page and an XPath expression giving out the link to the image. More info [here](http://www.w3schools.com/xml/xpath_syntax.asp).
 
-### `make cbz`
+#### `make cbz`
 
 Creates a .cbz file using the specified folder containing the comic's images. Note: This folder must be in the same WebComicToCBZ folder for this command to work.
 
-### `exit`/ `quit`
+#### `exit`/ `quit`
 
 Leaves the command prompt.
 

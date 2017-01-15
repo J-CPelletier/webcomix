@@ -51,7 +51,7 @@ class Comic:
 
     def save_image_location(self, url, directory):
         if url.count(".") <= 1:
-            # No file extension (only dot in url is in string)
+            # No file extension (only dot in url is domain name)
             file_name = str(self.current_page)
         else:
             file_name = "{}{}".format(self.current_page, url[url.rindex("."):])
