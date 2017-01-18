@@ -75,6 +75,7 @@ The procedure depends on the type of contribution:
 
 * If you simply want to request the addition of a comic to the list of supported comics, make an issue with the label "Enhancement".
 * If you want to request the addition of a feature to the system or a bugfix, make an issue with the appropriate label.
+
 ### Running the tests
 
 To run the tests, you have to get pytest(with `pip install -U pytest`) and use the `pytest` command in the WebComicToCBZ folder.
