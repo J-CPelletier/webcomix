@@ -62,9 +62,20 @@ Creates a .cbz file using the specified folder containing the comic's images. No
 
 Leaves the command prompt.
 
+### Making an XPath selector
+
+Using a HTML inspector, spot a html path to the next link's `href` attribute/comic image's `src` attribute.
+
+e.g.: `//div[@class='foo']/img/@src`
+This will select the src attribute of the first image whose class is: foo
+
 ## Contribution
 
 The procedure depends on the type of contribution:
 
 * If you simply want to request the addition of a comic to the list of supported comics, make an issue with the label "Enhancement".
 * If you want to request the addition of a feature to the system or a bugfix, make an issue with the appropriate label.
+
+### Running the tests
+
+To run the tests, you have to get pytest(with `pip install -U pytest`) and use the `pytest` command in the WebComicToCBZ folder.
