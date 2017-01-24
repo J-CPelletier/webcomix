@@ -3,6 +3,7 @@
 import requests, os
 from lxml import html
 from urllib.parse import urljoin
+import click
 
 from comic import Comic
 
@@ -21,6 +22,29 @@ misc = ["quit/exit: Leaves the command prompt of the program",
 
 YES = ["YES", "Y"]
 NO = ["NO", "N"]
+
+@click.group()
+def cli():
+    pass
+
+@cli.command()
+def comics():
+    comics_header = "\n_Comic_ \n"
+    comics_content = ["{}: {}".format(key, value[0]) for key, value in supported_comics.items()]
+    misc_header = "\n_Misc_ \n"
+
+    print(comics_header + "\n".join(comics_content))
+    print(misc_header + "\n".join(misc) + "\n")
+
+@cli.command()
+@click.argument("name")
+def download(name):
+    comic = Comic(*supported_comics[name])
+    comic.download(user_input)
+    cbz_confirm = input("Do you want your images to be converted in the same .cbz archive?(y/n) ")
+    if cbz_confirm.upper() in YES:
+        comic.make_cbz(name, name)
+
 
 def main():
     while True:
@@ -98,7 +122,3 @@ def verify_xpath(url, next_page, image):
 def print_verification(validation):
     for i in range(3):
         print("Page {}: \nPage URL: {}\nImage URL: {}\n".format(i+1, validation[i][0], validation[i][1]))
-
-
-if __name__ == "__main__":
-    main()
