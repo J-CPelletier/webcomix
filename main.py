@@ -26,12 +26,16 @@ YES = ["YES", "Y"]
 NO = ["NO", "N"]
 
 @click.group()
+@click.version_option()
 def cli():
     pass
 
 
 @cli.command()
 def list():
+    """
+    Show all predefined webcomics
+    """
     comics_header = "\n_Comic_ \n"
     comics_content = ["{}: {}".format(key, value[0]) for key, value in supported_comics.items()]
     misc_header = "\n_Misc_ \n"
@@ -40,10 +44,13 @@ def list():
     print(misc_header + "\n".join(misc) + "\n")
 
 @cli.command()
-@click.argument("name")
+@click.argument("name", required=True)
 @click.option("--make_cbz", is_flag=True)
 @click.option("--custom", is_flag=True)
 def download(name, custom, make_cbz):
+    """
+    Download a predefined webcomic
+    """
     if name in list(supported_comics.keys()):
         comic = Comic(*supported_comics[name])
         comic.download(user_input)
