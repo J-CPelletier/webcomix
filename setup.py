@@ -1,14 +1,18 @@
 from setuptools import setup
+from main import __version__
 
 setup(
-    name='yourscript',
-    version='0.1',
-    py_modules=['yourscript'],
+    name='WebComicToCBZ',
+    version=__version__,
+    py_modules=['WebComicToCBZ',
+    'comic'],
     install_requires=[
         'Click',
+        'lxml',
+        'requests'
     ],
     entry_points='''
         [console_scripts]
-        yourscript=main:cli
+        WebComicToCBZ=main:cli
     ''',
 )
