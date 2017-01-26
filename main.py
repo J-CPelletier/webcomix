@@ -32,7 +32,7 @@ def cli():
 
 
 @cli.command()
-def list():
+def comics():
     """
     Show all predefined webcomics
     """
@@ -43,41 +43,33 @@ def list():
     print(comics_header + "\n".join(comics_content))
     print(misc_header + "\n".join(misc) + "\n")
 
-@cli.command()
-@click.argument("name", required=True)
-@click.option("--make_cbz", is_flag=True)
-@click.option("--custom", is_flag=True)
-def download(name, custom, make_cbz):
+@cli.group()
+@click.argument("name", required=True, type=click.STRING)
+@click.option("--make_cbz", default=False, is_flag=True)
+def download(name,  make_cbz):
     """
-    Download a predefined webcomic
+    Download a predefined webcomic from the list of supported comics
     """
     if name in list(supported_comics.keys()):
         comic = Comic(*supported_comics[name])
-        comic.download(user_input)
-        cbz_confirm = input("Do you want your images to be converted in the same .cbz archive?(y/n) ")
-        if cbz_confirm.upper() in YES:
-            comic.make_cbz(name, name)
-    elif custom:
-        first_url = input("URL of the first image of the comic: ")
-        next_page_xpath = input("XPath selector giving the link to the next page: ")
-        image_xpath = input("XPath selector giving the link of the image: ")
-
-        validation = verify_xpath(first_url, next_page_xpath, image_xpath)
-        print_verification(validation)
-
-        comic = Comic(first_url, next_page_xpath, image_xpath)
-        print("Verify that the links above are correct before proceeding.")
-        confirmation = input("Are you sure you want to proceed?(y/n) ")
-        if confirmation.upper() in YES:
-            comic.download()
+        comic.download(name)
     if make_cbz:
-        source_directory = input("What is the name of the folder this comic is in? ")
-        name = input("What will be the name of this archive? ")
-        if os.path.isdir(source_directory):
-            Comic.make_cbz(name, source_directory)
-        else:
-            print("The specified folder was not found.")
+        comic.make_cbz(name, name)
 
+@download.command()
+def custom():
+    first_url = input("URL of the first image of the comic: ")
+    next_page_xpath = input("XPath selector giving the link to the next page: ")
+    image_xpath = input("XPath selector giving the link of the image: ")
+
+    validation = verify_xpath(first_url, next_page_xpath, image_xpath)
+    print_verification(validation)
+
+    comic = Comic(first_url, next_page_xpath, image_xpath)
+    print("Verify that the links above are correct before proceeding.")
+    confirmation = input("Are you sure you want to proceed?(y/n) ")
+    if confirmation.upper() in YES:
+        comic.download()
 
 def verify_xpath(url, next_page, image):
     verification = []
