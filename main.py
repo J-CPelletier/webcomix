@@ -44,7 +44,7 @@ def comics():
     print(misc_header + "\n".join(misc) + "\n")
 
 @cli.group()
-@click.argument("name", type=click.STRING)
+@click.argument("name", default="foo", type=click.STRING)
 @click.option("--make_cbz", default=False, is_flag=True)
 def download(name,  make_cbz):
     """
@@ -56,19 +56,25 @@ def download(name,  make_cbz):
     if make_cbz:
         comic.make_cbz(name, name)
 
-@download.command()
+@cli.command()
+@click.option("--comic_name", prompt=True, type=click.STRING)
 @click.option("--first_page_url", prompt=True, type=click.STRING)
 @click.option("--next_page_xpath", prompt=True, type=click.STRING)
 @click.option("--image_xpath", prompt=True, type=click.STRING)
-def custom(first_page_url, next_page_xpath, image_xpath):
-
+@click.option("--make_cbz", default=False, is_flag=True)
+def custom(comic_name, first_page_url, next_page_xpath, image_xpath, make_cbz):
+    """
+    Download a user-defined webcomic
+    """
     validation = verify_xpath(first_page_url, next_page_xpath, image_xpath)
     print_verification(validation)
 
     comic = Comic(first_page_url, next_page_xpath, image_xpath)
     click.echo("Verify that the links above are correct before proceeding.")
     if click.confirm("Are you sure you want to proceed?"):
-        comic.download(name)
+        comic.download(comic_name)
+    if make_cbz:
+        comic.make_cbz(comic_name)
 
 def verify_xpath(url, next_page, image):
     verification = []
@@ -86,3 +92,6 @@ def verify_xpath(url, next_page, image):
 def print_verification(validation):
     for i in range(3):
         print("Page {}: \nPage URL: {}\nImage URL: {}\n".format(i+1, validation[i][0], validation[i][1]))
+
+if __name__ == '__main__':
+    cli(obj={})
