@@ -18,13 +18,6 @@ supported_comics = {
     "Blindsprings": ("http://www.blindsprings.com/comic/blindsprings-cover-book-one", "//a[@class='next']/@href", "//img[@id='cc-comic']/@src")
 }
 
-misc = ["quit/exit: Leaves the command prompt of the program",
-        "custom: Downloads a comic defined url and XPath selectors",
-        "make cbz: Creates a .cbz file using the specified folder containing the comic's images."]
-
-YES = ["YES", "Y"]
-NO = ["NO", "N"]
-
 @click.group()
 @click.version_option()
 def cli():
@@ -36,15 +29,12 @@ def comics():
     """
     Show all predefined webcomics
     """
-    comics_header = "\n_Comic_ \n"
     comics_content = ["{}: {}".format(key, value[0]) for key, value in supported_comics.items()]
-    misc_header = "\n_Misc_ \n"
 
-    print(comics_header + "\n".join(comics_content))
-    print(misc_header + "\n".join(misc) + "\n")
+    click.echo("\n".join(comics_content))
 
 @cli.group()
-@click.argument("name", default="foo", type=click.STRING)
+@click.argument("name",  type=click.STRING)
 @click.option("--make_cbz", default=False, is_flag=True)
 def download(name,  make_cbz):
     """
@@ -92,6 +82,3 @@ def verify_xpath(url, next_page, image):
 def print_verification(validation):
     for i in range(3):
         print("Page {}: \nPage URL: {}\nImage URL: {}\n".format(i+1, validation[i][0], validation[i][1]))
-
-if __name__ == '__main__':
-    cli(obj={})
