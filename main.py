@@ -33,7 +33,7 @@ def comics():
 
     click.echo("\n".join(comics_content))
 
-@cli.group()
+@cli.command()
 @click.argument("name",  type=click.STRING)
 @click.option("--make_cbz", default=False, is_flag=True)
 def download(name,  make_cbz):
@@ -64,7 +64,7 @@ def custom(comic_name, first_page_url, next_page_xpath, image_xpath, make_cbz):
     if click.confirm("Are you sure you want to proceed?"):
         comic.download(comic_name)
     if make_cbz:
-        comic.make_cbz(comic_name)
+        comic.make_cbz(comic_name, comic_name)
 
 def verify_xpath(url, next_page, image):
     verification = []
