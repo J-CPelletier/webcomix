@@ -7,8 +7,6 @@ import click
 
 from comic import Comic
 
-__version__ = 0.1
-
 supported_comics = {
     "xkcd": ("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']//img/@src"),
     "TheFoxSister": ("http://thefoxsister.com/?id=1", "//a[@class='comic-nav-next']/@href", "//img[@id='comicimg']/@src"),
