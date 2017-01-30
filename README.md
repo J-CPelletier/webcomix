@@ -8,7 +8,7 @@ WebComicToCBZ is a Python-based web comic downloader that can additionally creat
 
 ## Notice
 
-This program is for personal use only. Please be aware that by making the downloaded comics publically available without the permission of the author, you may be infringing upon various copyrights.
+This program is for personal use only. Please be aware that by making the downloaded comics publicly available without the permission of the author, you may be infringing upon various copyrights.
 
 ## Installation
 
@@ -61,7 +61,7 @@ Shows all predefined comics which can be used with the `download` command.
 
 #### download
 
-Downloads a predefined comics. Supports the `--make_cbz` flag, which creates a .cbz archive of the downloaded comic.
+Downloads a predefined comic. Supports the `--make_cbz` flag, which creates a .cbz archive of the downloaded comic.
 
 #### custom
 
@@ -69,7 +69,7 @@ Downloads a user-defined comic. To download a specific comic, you'll need a link
 
 ### Making an XPath selector
 
-Using a HTML inspector, spot a html path to the next link's `href` attribute/comic image's `src` attribute.
+Using an HTML inspector, spot a html path to the next link's `href` attribute/comic image's `src` attribute.
 
 e.g.: `//div[@class='foo']/img/@src`
 This will select the src attribute of the first image whose class is: foo
@@ -79,7 +79,7 @@ This will select the src attribute of the first image whose class is: foo
 The procedure depends on the type of contribution:
 
 * If you simply want to request the addition of a comic to the list of supported comics, make an issue with the label "Enhancement".
-* If you want to request the addition of a feature to the system or a bugfix, make an issue with the appropriate label.
+* If you want to request the addition of a feature to the system or a bug fix, make an issue with the appropriate label.
 
 ### Running the tests
 
