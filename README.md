@@ -17,6 +17,7 @@ This program is for personal use only. Please be aware that by making the downlo
 * Python3
 * lxml
 * requests
+* click
 
 ### Process
 
@@ -34,6 +35,7 @@ This program is for personal use only. Please be aware that by making the downlo
 2. Install [pip](https://pip.pypa.io/en/stable/installing/)
 3. Get lxml by running `pip install lxml` (More info [here](http://lxml.de/installation.html#where-to-get-it))
 4. Get requests by running `pip install requests` (More info [here](http://docs.python-requests.org/en/master/user/install/))
+5. Get click by running `pip install click` (More info [here](http://click.pocoo.org/5/quickstart/)
 5. Clone this repository or download its ZIP.
 6. Install the command line interface tool with `pip install --editable .`
 
@@ -59,7 +61,7 @@ Shows all predefined comics which can be used with the `download` command.
 
 #### download
 
-Downloads a predefined comics.
+Downloads a predefined comics. Supports the `--make_cbz` flag, which creates a .cbz archive of the downloaded comic.
 
 #### custom
 
