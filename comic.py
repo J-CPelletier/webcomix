@@ -5,7 +5,6 @@ from zipfile import ZipFile
 
 class Comic:
 
-    CWD = os.getcwd()
     def __init__(self, start_url, next_page_selector, comic_image_selector):
         self.url = start_url
         self.next_page_selector = next_page_selector
@@ -59,8 +58,8 @@ class Comic:
 
     @staticmethod
     def make_cbz(comic_name, source_directory="finalComic"):
-        cbz_file = ZipFile("{}/{}.cbz".format(Comic.CWD, comic_name), mode="w")
-        images = os.listdir("{}/{}".format(Comic.CWD, source_directory))
+        cbz_file = ZipFile("{}.cbz".format(comic_name), mode="w")
+        images = os.listdir("{}".format(source_directory))
         for image in images:
             image_location = "{}/{}".format(source_directory, image)
             cbz_file.write(image_location)
