@@ -19,3 +19,8 @@ def test_download():
     runner = CliRunner()
     result = runner.invoke(main.download, ["foo"])
     assert result.exit_code == 0
+
+def test_supported_comics():
+    for comic_name, comic_info in main.supported_comics.items():
+        first_pages = main.verify_xpath(*comic_info)
+        assert len(set(first_pages)) == 3
