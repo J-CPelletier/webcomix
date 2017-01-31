@@ -1,9 +1,8 @@
 from setuptools import setup
-from main import __version__
 
 setup(
     name='WebComicToCBZ',
-    version=__version__,
+    version=0.1,
     py_modules=['WebComicToCBZ',
     'comic'],
     install_requires=[
