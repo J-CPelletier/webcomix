@@ -33,7 +33,7 @@ def comics():
 
 @cli.command()
 @click.argument("name",  type=click.STRING)
-@click.option("--make_cbz", default=False, is_flag=True)
+@click.option("--make_cbz", default=False, is_flag=True, help="Output the comic as a cbz file")
 def download(name,  make_cbz):
     """
     Download a webcomic from the list of supported comics
