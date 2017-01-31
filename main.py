@@ -9,9 +9,9 @@ from comic import Comic
 
 supported_comics = {
     "xkcd": ("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']//img/@src"),
-    "TheFoxSister": ("http://thefoxsister.com/?id=1", "//a[@class='comic-nav-next']/@href", "//img[@id='comicimg']/@src"),
+    # "TheFoxSister": ("http://thefoxsister.com/?id=1", "//a[@class='comic-nav-next']/@href", "//img[@id='comicimg']/@src"),
     "Nedroid": ("http://nedroid.com/2005/09/2210-whee/", "//div[@class='nav-next']/a/@href", "//div[@id='comic']/img/@src"),
-    "JL8": ("http://jl8comic.tumblr.com/post/13372482444/jl8-1-by-yale-stewart-based-on-characters-in-dc", "//a[@class='next-button']/@href", "//figure[@class='photo-hires-item']//img/@src"),
+    "JL8": ("http://limbero.org/jl8/1", "//b[2]/a/@href", "//img/@src"),
     "SMBC": ("http://www.smbc-comics.com/comic/2002-09-05", "//a[@class='next']/@href", "//img[@id='cc-comic']/@src"),
     "Blindsprings": ("http://www.blindsprings.com/comic/blindsprings-cover-book-one", "//a[@class='next']/@href", "//img[@id='cc-comic']/@src")
 }
