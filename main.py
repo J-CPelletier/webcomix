@@ -9,7 +9,6 @@ from comic import Comic
 
 supported_comics = {
     "xkcd": ("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']//img/@src"),
-    # "TheFoxSister": ("http://thefoxsister.com/?id=1", "//a[@class='comic-nav-next']/@href", "//img[@id='comicimg']/@src"),
     "Nedroid": ("http://nedroid.com/2005/09/2210-whee/", "//div[@class='nav-next']/a/@href", "//div[@id='comic']/img/@src"),
     "JL8": ("http://limbero.org/jl8/1", "//b[2]/a/@href", "//img/@src"),
     "SMBC": ("http://www.smbc-comics.com/comic/2002-09-05", "//a[@class='next']/@href", "//img[@id='cc-comic']/@src"),
