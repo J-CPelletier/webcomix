@@ -2,6 +2,7 @@ import requests, os
 from lxml import html
 from urllib.parse import urljoin
 from zipfile import ZipFile
+import click
 
 class Comic:
 
@@ -14,7 +15,7 @@ class Comic:
     def download(self, directory_name="finalComic"):
         os.makedirs(directory_name)
         while True:
-            print("Downloading page {}".format(self.url))
+            click.echo("Downloading page {}".format(self.url))
             response = requests.get(self.url)
             parsed_html = html.fromstring(response.content)
 
@@ -22,27 +23,27 @@ class Comic:
             next_link = parsed_html.xpath(self.next_page_selector)
 
             if image_element == []:
-                print("Could not find comic image.")
+                click.echo("Could not find comic image.")
             else:
                 try:
                     image_url = urljoin(self.url, image_element[0])
                     self.save_image(image_url, directory_name)
                 except:
-                    print("The image couldn't be downloaded.")
+                    click.echo("The image couldn't be downloaded.")
 
             self.current_page += 1
             if next_link == [] or next_link[0].endswith("#"):
                 break
             self.url = urljoin(self.url, next_link[0])
-        print("Finished downloading the images.")
+        click.echo("Finished downloading the images.")
 
     def save_image(self, image_url, directory_name):
-        print("Saving image {}".format(image_url))
+        click.echo("Saving image {}".format(image_url))
         res = requests.get(image_url)
         res.raise_for_status()
         image_path = self.save_image_location(image_url, directory_name)
         if os.path.isfile(image_path):
-            print("The image was already downloaded. Skipping...")
+            click.echo("The image was already downloaded. Skipping...")
         else:
             # Save the image
             with open(image_path, 'wb') as image_file:
@@ -66,7 +67,7 @@ class Comic:
             os.remove(image_location)
         os.rmdir(source_directory)
         if cbz_file.testzip() != None:
-            print("Error while testing the archive; it might be corrupted.")
+            click.echo("Error while testing the archive; it might be corrupted.")
             cbz_file.close()
         else:
             cbz_file.close()

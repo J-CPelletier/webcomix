@@ -79,4 +79,4 @@ def verify_xpath(url, next_page, image):
 
 def print_verification(validation):
     for i in range(3):
-        print("Page {}: \nPage URL: {}\nImage URL: {}\n".format(i+1, validation[i][0], validation[i][1]))
+        click.echo("Page {}: \nPage URL: {}\nImage URL: {}\n".format(i+1, validation[i][0], validation[i][1]))
