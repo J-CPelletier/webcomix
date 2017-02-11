@@ -67,6 +67,12 @@ Downloads a predefined comic. Supports the `--make_cbz` flag, which creates a .c
 
 Downloads a user-defined comic. To download a specific comic, you'll need a link to the first page, an XPath expression giving out the link to the next page and an XPath expression giving out the link to the image. More info [here](http://www.w3schools.com/xml/xpath_syntax.asp). Supports the `--make_cbz` flag, which creates a .cbz archive of the downloaded comic.
 
+### Examples
+
+* `WebComicToCBZ download xkcd`
+* `WebComicToCBZ custom --make_cbz` (You will be prompted about other needed arguments)
+* `WebComicToCBZ custom --comic_name=xkcd --first_page_url=http://xkcd.com/1/ --next_page_xpath="//a[@rel='next']/@href" --image_xpath="//div[@id='comic']//img/@src" --make_cbz` (Same as before, but with all arguments declared beforehand)
+
 ### Making an XPath selector
 
 Using an HTML inspector, spot a html path to the next link's `href` attribute/comic image's `src` attribute.
