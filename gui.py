@@ -26,13 +26,13 @@ class Example(QWidget):
         for name in list(supported_comics.keys()):
             comic_list.addItem(name)
 
+        self.make_cbz_checkbox = QCheckBox("Make a .cbz file", self)
+
         download_button = QPushButton("Download", self)
-        download_button.clicked.connect(lambda: self.download(str(comic_list.currentText())))
+        download_button.clicked.connect(lambda: self.download(str(comic_list.currentText()), self.make_cbz_checkbox.isChecked()))
 
         self.dialog_box = QTextEdit(self)
-        # self.dialog_box.setDisabled(True)
-
-        self.make_cbz_checkbox = QCheckBox("Make a .cbz file", self)
+        self.dialog_box.setReadOnly(True)
 
         comic_list.move(50, 50)
         download_button.move(50, 80)
@@ -52,16 +52,16 @@ class Example(QWidget):
         self.lbl.setText(text)
         self.lbl.adjustSize()
 
-    def download(self, name):
+    def download(self, name, make_cbz):
         comic = Comic(*supported_comics[name])
         comic.download(name)
-        self.dialog_box.insertPlainText("Finished!")
 
 def show_on_console(message):
     """
     Displays usual message on GUI instead of console
     """
-    ex.dialog_box.insertPlainText(str(message))
+    ex.dialog_box.append(str(message) + "n")
+    QApplication.processEvents()
 
 click.echo = show_on_console
 
