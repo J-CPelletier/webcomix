@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import (QWidget, QLabel,
 
 import click
 
-class Example(QWidget):
+class GUI(QWidget):
 
     def __init__(self):
         super().__init__()
@@ -65,14 +65,14 @@ class Example(QWidget):
 
         custom_button.move(475, 170)
 
-        comic_list.activated[str].connect(self.onActivated)
+        comic_list.activated[str].connect(self.change_url_text)
 
         self.setFixedSize(700, 400)
         self.setWindowTitle('WebComicToCBZ')
         self.show()
 
 
-    def onActivated(self, text):
+    def change_url_text(self, text):
         text = supported_comics[text][0]
         self.url_defined_comic.setText(text)
         self.url_defined_comic.adjustSize()
@@ -105,7 +105,7 @@ def show_on_console(message):
     """
     Displays usual message on GUI instead of console
     """
-    ex.dialog_box.append(str(message) + "n")
+    gui.dialog_box.append(str(message))
     QApplication.processEvents()
 
 click.echo = show_on_console
@@ -113,5 +113,5 @@ click.echo = show_on_console
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)
-    ex = Example()
+    gui = GUI()
     sys.exit(app.exec_())
