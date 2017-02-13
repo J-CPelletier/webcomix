@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from main import supported_comics
+from main import supported_comics, verify_xpath
 from comic import Comic
-from PyQt5.QtWidgets import (QWidget, QLabel, 
+from PyQt5.QtWidgets import (QWidget, QLabel,
                              QComboBox, QApplication,
                              QPushButton, QTextEdit,
-                             QCheckBox, QLineEdit)
+                             QCheckBox, QLineEdit,
+                             QMessageBox)
 
 import click
 
@@ -47,7 +48,11 @@ class Example(QWidget):
         download_button.move(50, 80)
         self.url_defined_comic.move(50, 150)
         self.dialog_box.move(50, 180)
-        self.make_cbz_checkbox.move(50, 110)
+        self.make_cbz_checkbox.move(275, 20)
+
+
+        custom_button = QPushButton("Download", self)
+        custom_button.clicked.connect(lambda: self.custom(self.name.text(), self.url.text(), self.next_page_xpath.text(), self.image_xpath.text(), self.make_cbz_checkbox.isChecked()))
 
         self.name_label.move(350, 50)
         self.name.move(475, 45)
@@ -58,8 +63,7 @@ class Example(QWidget):
         self.image_xpath_label.move(350, 140)
         self.image_xpath.move(475, 135)
 
-        custom_button = QPushButton("Download", self)
-        custom_button.clicked.connect(lambda: self.custom)
+        custom_button.move(475, 170)
 
         comic_list.activated[str].connect(self.onActivated)
 
@@ -79,8 +83,23 @@ class Example(QWidget):
         if make_cbz:
             Comic.make_cbz(name, name)
 
-    def custom:
-        pass
+    def custom(self, comic_name, first_page_url, next_page_xpath, image_xpath, make_cbz):
+        validation = verify_xpath(first_page_url, next_page_xpath, image_xpath)
+
+        confirmation = QMessageBox()
+        message = "".join(["Page {}: \nPage URL: {}\nImage URL: {}\n".format(i+1, validation[i][0], validation[i][1]) for i in range(3)])
+        confirmation.setText(message)
+        confirmation.setInformativeText("Verify that the links above are correct before proceeding.")
+        confirmation.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        confirmation.buttonClicked.connect(lambda: self.custom_download(comic_name, first_page_url, next_page_xpath, image_xpath, make_cbz))
+        confirmation.setWindowTitle("Confirmation")
+        confirmation.exec_()
+
+    def custom_download(self, comic_name, first_page_url, next_page_xpath, image_xpath, make_cbz):
+        comic = Comic(first_page_url, next_page_xpath, image_xpath)
+        comic.download(comic_name)
+        if make_cbz:
+            Comic.make_cbz(comic_name, comic_name)
 
 def show_on_console(message):
     """
