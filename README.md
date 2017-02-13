@@ -18,6 +18,7 @@ This program is for personal use only. Please be aware that by making the downlo
 * lxml
 * requests
 * click
+* PyQt5 (If you're using the Graphical User Interface version of this tool)
 
 ### Process
 
