@@ -41,8 +41,8 @@ def download(name,  make_cbz):
     if name in list(supported_comics.keys()):
         comic = Comic(*supported_comics[name])
         comic.download(name)
-    if make_cbz:
-        comic.make_cbz(name, name)
+        if make_cbz:
+            comic.make_cbz(name, name)
 
 @cli.command()
 @click.option("--comic_name", prompt=True, type=click.STRING)
@@ -61,8 +61,8 @@ def custom(comic_name, first_page_url, next_page_xpath, image_xpath, make_cbz):
     click.echo("Verify that the links above are correct before proceeding.")
     if click.confirm("Are you sure you want to proceed?"):
         comic.download(comic_name)
-    if make_cbz:
-        comic.make_cbz(comic_name, comic_name)
+        if make_cbz:
+            comic.make_cbz(comic_name, comic_name)
 
 def verify_xpath(url, next_page, image):
     verification = []
