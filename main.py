@@ -14,7 +14,6 @@ from supported_comics import supported_comics
 def cli():
     pass
 
-
 @cli.command()
 def comics():
     """
@@ -29,7 +28,7 @@ def comics():
 @click.option("--make_cbz", default=False, is_flag=True, help="Output the comic as a cbz file")
 def download(name, make_cbz):
     """
-    Download a webcomic from the list of supported comics
+    Download a webcomic from the list of supported comics by name
     """
     if name in list(supported_comics.keys()):
         comic = Comic(*supported_comics[name])
@@ -38,11 +37,11 @@ def download(name, make_cbz):
             comic.make_cbz(name, name)
 
 @cli.command()
-@click.option("--comic_name", prompt=True, type=click.STRING)
-@click.option("--first_page_url", prompt=True, type=click.STRING)
-@click.option("--next_page_xpath", prompt=True, type=click.STRING)
-@click.option("--image_xpath", prompt=True, type=click.STRING)
-@click.option("--make_cbz", default=False, is_flag=True)
+@click.option("--comic_name", prompt=True, type=click.STRING, help="Name of the user-defined comic")
+@click.option("--first_page_url", prompt=True, type=click.STRING, help="URL of the comic's first page")
+@click.option("--next_page_xpath", prompt=True, type=click.STRING, help="XPath expression giving the url to the next page")
+@click.option("--image_xpath", prompt=True, type=click.STRING, help="XPath expression giving the url to the image")
+@click.option("--make_cbz", default=False, is_flag=True, help="Output the comic as a cbz file")
 def custom(comic_name, first_page_url, next_page_xpath, image_xpath, make_cbz):
     """
     Download a user-defined webcomic
