@@ -1,6 +1,7 @@
 #! python3
 
-import requests, os
+import os
+import requests
 from lxml import html
 from urllib.parse import urljoin
 import click
@@ -24,9 +25,9 @@ def comics():
     click.echo("\n".join(comics_content))
 
 @cli.command()
-@click.argument("name",  type=click.STRING)
+@click.argument("name", type=click.STRING)
 @click.option("--make_cbz", default=False, is_flag=True, help="Output the comic as a cbz file")
-def download(name,  make_cbz):
+def download(name, make_cbz):
     """
     Download a webcomic from the list of supported comics
     """
@@ -57,8 +58,13 @@ def custom(comic_name, first_page_url, next_page_xpath, image_xpath, make_cbz):
             comic.make_cbz(comic_name, comic_name)
 
 def verify_xpath(url, next_page, image):
+    """
+    Takes a url and the XPath expressions for the next_page and image to go three pages
+    into the comic. It returns a tuple containing the url of each page and their respective
+    image urls.
+    """
     verification = []
-    for i in range(3):
+    for _ in range(3):
         response = requests.get(url)
         parsed_html = html.fromstring(response.content)
 
@@ -70,5 +76,8 @@ def verify_xpath(url, next_page, image):
     return verification
 
 def print_verification(validation):
+    """
+    Prints the verification given by the verify_xpath function
+    """
     for i in range(3):
         click.echo("Page {}: \nPage URL: {}\nImage URL: {}\n".format(i+1, validation[i][0], validation[i][1]))
