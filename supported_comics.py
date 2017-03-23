@@ -7,5 +7,6 @@ supported_comics = {
     "TheAbominableCharlesChristopher": ("http://abominable.cc/post/44164796353/episode-one", "//span[@class='next_post']//@href", "//div[@class='photo']//img/@src"),
     "GuildedAge": ("http://guildedage.net/comic/chapter-1-cover/", "//a[@class='navi comic-nav-next navi-next']/@href", "//div[@id='comic']//img/@src"),
     "TalesOfElysium": ("http://ssp-comics.com/comics/toe/?page=1", "//a[button/@id='nextButton']/@href", "//div[@id='ImageComicContainer']//img/@src"),
-    "AmazingSuperPowers": ("http://www.amazingsuperpowers.com/2007/09/heredity/", "//a[@class='navi navi-next']/@href", "//div[@class='comicpane']/img/@src")
+    "AmazingSuperPowers": ("http://www.amazingsuperpowers.com/2007/09/heredity/", "//a[@class='navi navi-next']/@href", "//div[@class='comicpane']/img/@src"),
+    "Gunshow": ("http://gunshowcomic.com/1", "(//span[@class='snavb'])[4]/a/@href", "//img[@class='strip']/@src")
 }
