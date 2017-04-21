@@ -19,7 +19,7 @@ def comics():
     """
     Show all predefined webcomics
     """
-    comics_content = ["{}: {}".format(key, value[0]) for key, value in supported_comics.items()]
+    comics_content = ["{}: {}".format(key, value[0]) for key, value in sorted(supported_comics.items())]
 
     click.echo("\n".join(comics_content))
 
