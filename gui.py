@@ -24,7 +24,7 @@ class GUI(QWidget):
         self.url_defined_comic = QLabel("WebComicToCBZ", self)
 
         comic_list = QComboBox(self)
-        for name in list(supported_comics.keys()):
+        for name in sorted(supported_comics):
             comic_list.addItem(name)
 
         self.make_cbz_checkbox = QCheckBox("Make a .cbz file", self)
