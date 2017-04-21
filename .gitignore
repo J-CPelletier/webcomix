@@ -91,9 +91,10 @@ ENV/
 # Dolphin File Manager
 *.directory
 
-# Product Files
+# Files produced by WebComicToCBZ
 *.cbz
 */*.jpg
 */*.png
 */*.jpeg
 */*.bmp
+*/*.gif
