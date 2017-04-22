@@ -101,6 +101,9 @@ class GUI(QWidget):
         if make_cbz:
             Comic.make_cbz(comic_name, comic_name)
 
+    def closeEvent(self, event):
+        sys.exit(0)
+
 def show_on_console(message):
     """
     Displays usual message on GUI instead of console
@@ -114,4 +117,4 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
     gui = GUI()
-    sys.exit(app.exec_())
+    app.exec_()
