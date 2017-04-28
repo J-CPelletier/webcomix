@@ -13,6 +13,10 @@ class Comic:
         self.current_page = 1
 
     def download(self, directory_name="finalComic"):
+        """
+        Downloads an entire Webcomic page by page starting from the first one
+        and saves them in the directory_name created in the current working directory
+        """
         os.makedirs(directory_name)
         while True:
             click.echo("Downloading page {}".format(self.url))
@@ -38,6 +42,9 @@ class Comic:
         click.echo("Finished downloading the images.")
 
     def save_image(self, image_url, directory_name):
+        """
+        Gets the image from the image_url and saves it in the directory_name
+        """
         click.echo("Saving image {}".format(image_url))
         res = requests.get(image_url)
         res.raise_for_status()
@@ -50,6 +57,9 @@ class Comic:
                 image_file.write(res.content)
 
     def save_image_location(self, url, directory):
+        """
+        Returns the location in the filesystem under which the webcomic will be saved
+        """
         if url.count(".") <= 1:
             # No file extension (only dot in url is domain name)
             file_name = str(self.current_page)
@@ -59,6 +69,10 @@ class Comic:
 
     @staticmethod
     def make_cbz(comic_name, source_directory="finalComic"):
+        """
+        Takes all of the previously downloaded pages and compresses them in
+        a .cbz file, erasing them afterwards.
+        """
         cbz_file = ZipFile("{}.cbz".format(comic_name), mode="w")
         images = os.listdir("{}".format(source_directory))
         for image in images:
