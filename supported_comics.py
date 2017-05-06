@@ -9,5 +9,6 @@ supported_comics = {
     "TalesOfElysium": ("http://ssp-comics.com/comics/toe/?page=1", "//a[button/@id='nextButton']/@href", "//div[@id='ImageComicContainer']//img/@src"),
     "AmazingSuperPowers": ("http://www.amazingsuperpowers.com/2007/09/heredity/", "//a[@class='navi navi-next']/@href", "//div[@class='comicpane']/img/@src"),
     "Gunshow": ("http://gunshowcomic.com/1", "(//span[@class='snavb'])[4]/a/@href", "//img[@class='strip']/@src"),
-    "Lackadaisy": ("http://www.lackadaisycats.com/comic.php?comicid=1", "//div[@class='next']/a/@href", "//div[@id='content']/img/@src")
+    "Lackadaisy": ("http://www.lackadaisycats.com/comic.php?comicid=1", "//div[@class='next']/a/@href", "//div[@id='content']/img/@src"),
+    "WildeLife": ("http://www.wildelifecomic.com/comic/1", "//div[@class='nav']/a[@class='next']/@href", "//img[@id='cc-comic']/@src")
 }
