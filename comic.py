@@ -85,3 +85,21 @@ class Comic:
             cbz_file.close()
         else:
             cbz_file.close()
+    @staticmethod
+    def verify_xpath(url, next_page, image):
+        """
+        Takes a url and the XPath expressions for the next_page and image to go three pages
+        into the comic. It returns a tuple containing the url of each page and their respective
+        image urls.
+        """
+        verification = []
+        for _ in range(3):
+            response = requests.get(url)
+            parsed_html = html.fromstring(response.content)
+
+            image_element = parsed_html.xpath(image)[0]
+            image_url = urljoin(url, image_element)
+            next_link = parsed_html.xpath(next_page)[0]
+            verification.append((url, image_url))
+            url = urljoin(url, next_link)
+        return verification

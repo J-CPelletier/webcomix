@@ -2,11 +2,12 @@ from comic import Comic
 from urllib.parse import urljoin
 from zipfile import ZipFile
 import pytest, os, shutil, requests
+from supported_comics import supported_comics
 
 def test_save_image_location():
-    comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']/img/@src")
-    assert comic.save_image_location("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", "kappa") == "kappa/1.jpg"
-    assert comic.save_image_location("", "lol") == "lol/1"
+    comic = Comic(*supported_comics["xkcd"])
+    assert comic.save_image_location("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", "foo") == "foo/1.jpg"
+    assert comic.save_image_location("", "bar") == "bar/1"
 
 def test_urljoin():
     assert urljoin("http://xkcd.com/1/", "//imgs.xkcd.com/comics/barrel_cropped_(1).jpg") == "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"
@@ -63,3 +64,6 @@ def test_download():
             expected = requests.get("https://j-cpelletier.github.io/WebComicToCBZ/{}.jpeg".format(i))
             assert expected.content == result.read()
     shutil.rmtree("test")
+
+def test_verify_xpath():
+    assert Comic.verify_xpath(*supported_comics["xkcd"]) == [('http://xkcd.com/1/', 'http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg'), ('http://xkcd.com/2/', 'http://imgs.xkcd.com/comics/tree_cropped_(1).jpg'), ('http://xkcd.com/3/', 'http://imgs.xkcd.com/comics/island_color.jpg')]
