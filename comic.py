@@ -5,7 +5,6 @@ from zipfile import ZipFile
 import click
 
 class Comic:
-
     def __init__(self, start_url, next_page_selector, comic_image_selector):
         self.url = start_url
         self.next_page_selector = next_page_selector
