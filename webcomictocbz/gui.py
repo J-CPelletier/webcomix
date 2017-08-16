@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from supported_comics import supported_comics
-from comic import Comic
+from .supported_comics import supported_comics
+from .comic import Comic
 from PyQt5.QtWidgets import (QWidget, QLabel,
                              QComboBox, QApplication,
                              QPushButton, QTextEdit,
@@ -11,8 +11,8 @@ from PyQt5.QtWidgets import (QWidget, QLabel,
                              QMessageBox)
 
 import click
-from supported_download import SupportedDownload
-from custom_download import CustomDownload
+from .supported_download import SupportedDownload
+from .custom_download import CustomDownload
 
 class GUI(QWidget):
 

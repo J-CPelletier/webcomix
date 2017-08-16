@@ -1,8 +1,8 @@
-from comic import Comic
+from webcomictocbz.comic import Comic
 from urllib.parse import urljoin
 from zipfile import ZipFile
 import pytest, os, shutil, requests
-from supported_comics import supported_comics
+from webcomictocbz.supported_comics import supported_comics
 
 def test_save_image_location():
     comic = Comic(*supported_comics["xkcd"])

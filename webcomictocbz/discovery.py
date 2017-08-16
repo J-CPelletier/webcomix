@@ -3,7 +3,7 @@ import click
 from lxml import html
 from urllib.parse import urljoin
 from zipfile import ZipFile
-from comic import Comic
+from .comic import Comic
 
 possible_next_page_xpath = ["next", "Next"]
 possible_image_xpath = ["comic", "Comic"]

@@ -6,9 +6,9 @@ from lxml import html
 from urllib.parse import urljoin
 import click
 
-from discovery import discovery
-from comic import Comic
-from supported_comics import supported_comics
+from .discovery import discovery
+from .comic import Comic
+from .supported_comics import supported_comics
 
 @click.group()
 @click.version_option()

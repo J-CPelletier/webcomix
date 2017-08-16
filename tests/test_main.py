@@ -1,10 +1,10 @@
-import main
+from webcomictocbz import main
 import click
 from click.testing import CliRunner
 from urllib.parse import urljoin
 from zipfile import ZipFile
 import pytest, os, shutil, requests
-from comic import Comic
+from webcomictocbz.comic import Comic
 
 def test_print_verification(capfd):
     verification = Comic.verify_xpath(*main.supported_comics["xkcd"])

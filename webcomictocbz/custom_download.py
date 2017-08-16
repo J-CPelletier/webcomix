@@ -3,8 +3,8 @@ from PyQt5.QtWidgets import (QWidget, QLabel,
                              QPushButton, QTextEdit,
                              QCheckBox, QLineEdit,
                              QMessageBox)
-from discovery import discovery
-from comic import Comic
+from .discovery import discovery
+from .comic import Comic
 
 class CustomDownload:
     def __init__(self, parent):

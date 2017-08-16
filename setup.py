@@ -2,9 +2,10 @@ from setuptools import setup
 
 setup(
     name='WebComicToCBZ',
-    version=0.1,
-    py_modules=['WebComicToCBZ',
-    'comic'],
+    version=1.0,
+    packages=[
+        "webcomictocbz"
+    ],
     install_requires=[
         'Click',
         'lxml',
@@ -12,6 +13,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        WebComicToCBZ=main:cli
+        WebComicToCBZ=webcomictocbz.main:cli
     ''',
 )
