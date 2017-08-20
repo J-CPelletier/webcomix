@@ -47,10 +47,8 @@ def show_on_console(message):
     gui.dialog_box.append(str(message))
     QApplication.processEvents()
 
-click.echo = show_on_console
-
 if __name__ == '__main__':
-
+    click.echo = show_on_console
     app = QApplication(sys.argv)
     gui = GUI()
     app.exec_()
