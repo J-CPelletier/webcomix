@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (QWidget, QLabel,
                              QPushButton, QTextEdit,
                              QCheckBox, QLineEdit,
                              QMessageBox)
-from .discovery import discovery
+from .search import search
 from .comic import Comic
 
 class CustomDownload:

@@ -8,7 +8,7 @@ from .comic import Comic
 possible_next_page_xpath = ["next", "Next"]
 possible_image_xpath = ["comic", "Comic"]
 
-def discovery(url):
+def search(url):
     click.echo("Looking for a path to the whole comic...")
     for next_page in possible_next_page_xpath:
         for image in possible_image_xpath:
@@ -20,5 +20,5 @@ def discovery(url):
                 return Comic(url, next_page_xpath, image_xpath)
             except:
                 continue
-    click.echo("Self-discovery has failed.")
+    click.echo("Search has failed.")
     return None
