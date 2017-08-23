@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (QWidget, QLabel,
                              QPushButton, QTextEdit,
                              QCheckBox, QLineEdit,
                              QMessageBox)
-from .supported_comics import supported_comics
+from webcomictocbz.supported_comics import supported_comics
 
 class SupportedDownload:
     def __init__(self, parent):
