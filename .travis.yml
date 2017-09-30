@@ -3,10 +3,14 @@ python:
 - '3.5'
 install:
 - pip install -r requirements.txt
+- pip install pytest-cov
+- pip install coveralls
 script:
 - py.test
+after_success:
 - zip -r WebComicToCBZ_Mac_Linux.zip webcomictocbz requirements.txt setup.py LICENCE
   README.md
+- coveralls
 deploy:
   provider: releases
   skip_cleanup: true
