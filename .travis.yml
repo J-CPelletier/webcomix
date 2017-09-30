@@ -7,4 +7,11 @@ install:
 
 script:
   - py.test
+  - zip -r WebComicToCBZ_Mac_Linux.zip webcomictocbz requirements.txt setup.py LICENCE README.md
  
+deploy:
+  provider: releases
+  api_key: GITHUB_0AUTH_TOKEN
+  skip_cleanup: true
+  draft: true
+  file: WebComicToCBZ_Mac_Linux.zip
