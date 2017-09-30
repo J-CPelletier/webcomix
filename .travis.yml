@@ -6,7 +6,7 @@ install:
 - pip install pytest-cov
 - pip install coveralls
 script:
-- py.test
+- py.test --cov=webcomictocbz webcomictocbz/tests
 after_success:
 - zip -r WebComicToCBZ_Mac_Linux.zip webcomictocbz requirements.txt setup.py LICENCE
   README.md

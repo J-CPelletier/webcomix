@@ -36,8 +36,8 @@ This program is for personal use only. Please be aware that by making the downlo
 2. Install [pip](https://pip.pypa.io/en/stable/installing/)
 3. Get lxml by running `pip install lxml` (More info [here](http://lxml.de/installation.html#where-to-get-it))
 4. Get requests by running `pip install requests` (More info [here](http://docs.python-requests.org/en/master/user/install/))
-5. Get click by running `pip install click` (More info [here](http://click.pocoo.org/5/quickstart/)
-5. Clone this repository or download its ZIP.
+5. Get click by running `pip install click` (More info [here](http://click.pocoo.org/5/quickstart/))
+5. Clone this repository or download its ZIP and open a terminal in its directory.
 6. Install the command line interface tool with `pip install --editable .`
 
 ## Usage
