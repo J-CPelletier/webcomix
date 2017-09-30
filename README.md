@@ -1,6 +1,6 @@
 # WebComicToCBZ
 
-[![Build Status](https://travis-ci.org/J-CPelletier/WebComicToCBZ.svg?branch=master)](https://travis-ci.org/J-CPelletier/WebComicToCBZ)
+[![Build Status](https://travis-ci.org/J-CPelletier/WebComicToCBZ.svg?branch=master)](https://travis-ci.org/J-CPelletier/WebComicToCBZ)[![Coverage Status](https://coveralls.io/repos/github/J-CPelletier/WebComicToCBZ/badge.svg?branch=master)](https://coveralls.io/github/J-CPelletier/WebComicToCBZ?branch=master)
 
 ## Description
 
