@@ -1,17 +1,17 @@
 language: python
 python:
-  - "3.5"
-
+- '3.5'
 install:
- - pip install -r requirements.txt
-
+- pip install -r requirements.txt
 script:
-  - py.test
-  - zip -r WebComicToCBZ_Mac_Linux.zip webcomictocbz requirements.txt setup.py LICENCE README.md
- 
+- py.test
+- zip -r WebComicToCBZ_Mac_Linux.zip webcomictocbz requirements.txt setup.py LICENCE
+  README.md
 deploy:
   provider: releases
   api_key: GITHUB_0AUTH_TOKEN
   skip_cleanup: true
   draft: true
   file: WebComicToCBZ_Mac_Linux.zip
+  api-key:
+    secure: pJ5XR+CjYknVub00dHkI9di7ve1xcgejmUyCt4rXMfNqE45ShVyjyM5RueGSvLU94erw/Fxgl6e7B6Rt1bX3QbJu3iKmnn8Yjn0zT+eHjz/QAtENRab1JvgyuZv/EY0rRZzhPntY/9yw1xF+97BjqXDZ5P5ltDehjXLyco6mD4IYiZQ2+A0mTE+0DQ7Ju8MF+wks6JmVbvs174r8rndwO5iPwW9vIWYN8N//x1mQwILFM168JALTrxn7KxgfQDJeS2AXt5g23vqa4vbe5YKWDr8vxQ3lfFX3D71XZ/fbXseOUvd3bA3BpqoymPXbNsPnze234X0rnXir7dc5/F7vCbXCns+z3igK8vEN8yK+4mqLIw33T6IyIHcaf7014FsOWa+1fz3xPnsdtv1oHDOCIx7v16vcjMkWYar4ZL5thWFvLKQ7MqDgeGn/dBwv8HtBbTIa2L9EYjWDE3w8BW7Z65s6z1Gxh7FZNWLcZ34FD2QtHXlCasLn6fixj9Qo+BBRTJttWa/oNN3BBjLDM3asAP2MwT6gJQbNORxsuu79CB5yJkf2p9O5zrkCrGdlfO1sANLUQZq0Jg8KeLe0QTsd7dGTq71rjzSgFqYb6Up+uwRWaZV0BZFmPlDcC0WPVyholLvShrwxqTiP8/skHRcPo1Ih2vcTuH5TmtXddLJN6wA=
