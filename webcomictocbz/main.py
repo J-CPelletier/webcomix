@@ -42,6 +42,9 @@ def download(name, make_cbz):
 @click.option("--first_page_url", prompt=True, type=click.STRING, help="URL of the comic's first page")
 @click.option("--make_cbz", default=False, is_flag=True, help="Output the comic as a cbz file")
 def search(name, first_page_url, make_cbz):
+    """
+    Downloads a webcomic using a general XPath
+    """
     comic = discovery(first_page_url)
     if comic is not None:
         validation = Comic.verify_xpath(comic.url, comic.next_page_selector, comic.comic_image_selector)
