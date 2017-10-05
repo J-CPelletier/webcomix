@@ -1,5 +1,6 @@
-from webcomictocbz.search import search
 from webcomictocbz.comic import Comic
+from webcomictocbz.search import search
+
 
 def test_search_searchable_website():
     searchable_website = search("https://xkcd.com/1/")
@@ -10,4 +11,3 @@ def test_search_searchable_website():
 def test_search_unsearchable_website():
     unsearchable_website = search("https://j-cpelletier.github.io/WebComicToCBZ/1.html")
     assert unsearchable_website == None
-

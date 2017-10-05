@@ -1,14 +1,16 @@
 #! python3
 
 import os
+from urllib.parse import urljoin
+
+import click
 import requests
 from lxml import html
-from urllib.parse import urljoin
-import click
 
-from webcomictocbz.search import search
 from webcomictocbz.comic import Comic
+from webcomictocbz.search import search
 from webcomictocbz.supported_comics import supported_comics
+
 
 @click.group()
 @click.version_option()

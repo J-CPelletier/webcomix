@@ -1,6 +1,8 @@
+import pytest
+
 from webcomictocbz.comic import Comic
 from webcomictocbz.supported_comics import supported_comics
-import pytest
+
 
 def test_supported_comics():
     for comic_name, comic_info in supported_comics.items():

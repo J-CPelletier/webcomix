@@ -1,9 +1,9 @@
-from PyQt5.QtWidgets import (QWidget, QLabel,
-                             QComboBox, QApplication,
-                             QPushButton, QTextEdit,
-                             QCheckBox, QLineEdit,
-                             QMessageBox)
+from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QLabel,
+                             QLineEdit, QMessageBox, QPushButton, QTextEdit,
+                             QWidget)
+
 from webcomictocbz.supported_comics import supported_comics
+
 
 class SupportedDownload:
     def __init__(self, parent):

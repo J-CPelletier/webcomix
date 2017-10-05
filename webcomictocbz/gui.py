@@ -2,17 +2,17 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from webcomictocbz.supported_comics import supported_comics
-from webcomictocbz.comic import Comic
-from PyQt5.QtWidgets import (QWidget, QLabel,
-                             QComboBox, QApplication,
-                             QPushButton, QTextEdit,
-                             QCheckBox, QLineEdit,
-                             QMessageBox)
 
 import click
-from webcomictocbz.supported_download import SupportedDownload
+from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QLabel,
+                             QLineEdit, QMessageBox, QPushButton, QTextEdit,
+                             QWidget)
+
+from webcomictocbz.comic import Comic
 from webcomictocbz.custom_download import CustomDownload
+from webcomictocbz.supported_comics import supported_comics
+from webcomictocbz.supported_download import SupportedDownload
+
 
 class GUI(QWidget):
 

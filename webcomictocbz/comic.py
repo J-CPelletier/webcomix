@@ -1,8 +1,11 @@
-import requests, os
-from lxml import html
+import os
 from urllib.parse import urljoin
 from zipfile import ZipFile
+
 import click
+import requests
+from lxml import html
+
 
 class Comic:
     def __init__(self, start_url, next_page_selector, comic_image_selector):

@@ -1,8 +1,11 @@
-import requests, os
-import click
-from lxml import html
+import os
 from urllib.parse import urljoin
 from zipfile import ZipFile
+
+import click
+import requests
+from lxml import html
+
 from webcomictocbz.comic import Comic
 
 possible_next_page_xpath = ["next", "Next"]

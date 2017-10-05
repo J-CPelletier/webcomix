@@ -1,10 +1,15 @@
+import os
+import shutil
+
 import click
+import pytest
+import requests
 from click.testing import CliRunner
-import pytest, os, shutil, requests
+
+from webcomictocbz import main, search
 from webcomictocbz.comic import Comic
-from webcomictocbz import search
 from webcomictocbz.supported_comics import supported_comics
-from webcomictocbz import main
+
 
 def test_print_verification(capfd):
     verification = Comic.verify_xpath(*supported_comics["xkcd"])
@@ -95,4 +100,3 @@ def test_search(monkeypatch):
     result = runner.invoke(main.search, ["foo", "--first_page_url=good"], "yes")
     assert result.exit_code == 0
     assert result.output.strip() == "\n".join(["Verified", "Printed", "Verify that the links above are correct before proceeding.", "Are you sure you want to proceed? [y/N]: yes", "foo"])
-
