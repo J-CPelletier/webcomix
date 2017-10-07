@@ -54,7 +54,6 @@ class Comic:
         if os.path.isfile(image_path):
             click.echo("The image was already downloaded. Skipping...")
         else:
-            # Save the image
             with open(image_path, 'wb') as image_file:
                 image_file.write(res.content)
 
@@ -84,9 +83,8 @@ class Comic:
         os.rmdir(source_directory)
         if cbz_file.testzip() != None:
             click.echo("Error while testing the archive; it might be corrupted.")
-            cbz_file.close()
-        else:
-            cbz_file.close()
+        cbz_file.close()
+
     @staticmethod
     def verify_xpath(url, next_page, image):
         """
