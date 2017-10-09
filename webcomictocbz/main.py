@@ -8,7 +8,7 @@ import requests
 from lxml import html
 
 from webcomictocbz.comic import Comic
-from webcomictocbz.search import search
+from webcomictocbz.search import discovery
 from webcomictocbz.supported_comics import supported_comics
 
 
@@ -49,7 +49,7 @@ def search(name, first_page_url, make_cbz):
     """
     comic = discovery(first_page_url)
     if comic is not None:
-        validation = Comic.verify_xpath(comic.url, comic.next_page_selector, comic.comic_image_selector)
+        validation = Comic.verify_xpath(comic.start_url, comic.next_page_selector, comic.comic_image_selector)
         print_verification(validation)
         click.echo("Verify that the links above are correct before proceeding.")
         if click.confirm("Are you sure you want to proceed?"):
@@ -68,7 +68,7 @@ def custom(comic_name, first_page_url, next_page_xpath, image_xpath, make_cbz):
     Download a user-defined webcomic
     """
     comic = Comic(first_page_url, next_page_xpath, image_xpath)
-    validation = Comic.verify_xpath(comic.url, comic.next_page_selector, comic.comic_image_selector)
+    validation = Comic.verify_xpath(comic.start_url, comic.next_page_selector, comic.comic_image_selector)
     print_verification(validation)
     click.echo("Verify that the links above are correct before proceeding.")
     if click.confirm("Are you sure you want to proceed?"):

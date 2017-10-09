@@ -11,9 +11,8 @@ from webcomictocbz.supported_comics import supported_comics
 
 
 def test_save_image_location():
-    comic = Comic(*supported_comics["xkcd"])
-    assert comic.save_image_location("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", "foo") == "foo/1.jpg"
-    assert comic.save_image_location("", "bar") == "bar/1"
+    assert Comic.save_image_location("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", "foo", 1) == "foo/1.jpg"
+    assert Comic.save_image_location("", "bar", 1) == "bar/1"
 
 def test_urljoin():
     assert urljoin("http://xkcd.com/1/", "//imgs.xkcd.com/comics/barrel_cropped_(1).jpg") == "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"
@@ -25,7 +24,7 @@ def test_save_image_no_image():
     if os.path.isdir("test"):
         shutil.rmtree("test")
     os.makedirs("test")
-    comic.save_image("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", "test")
+    comic.save_image("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", "test", 1)
     assert os.path.isfile("test/1.jpg")
     os.remove("test/1.jpg")
     os.rmdir("test")
@@ -37,7 +36,7 @@ def test_save_image_already_image(capfd):
     os.makedirs("test")
     with open("test/1.jpg", "w") as image_file:
         image_file.write("1")
-    comic.save_image("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", "test")
+    comic.save_image("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", "test", 1)
     out, err = capfd.readouterr()
     assert out == "Saving image http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg\n" + "The image was already downloaded. Skipping...\n"
     os.remove("test/1.jpg")
