@@ -77,7 +77,7 @@ Downloads a user-defined comic. To download a specific comic, you'll need a link
 * `webcomix download xkcd`
 * `webcomix search xkcd --first_page_url=http://xkcd.com/1/`
 * `webcomix custom --cbz` (You will be prompted about other needed arguments)
-* `webcomix custom --comic_name=xkcd --first_page_url=http://xkcd.com/1/ --next_page_xpath="//a[@rel='next']/@href" --image_xpath="//div[@id='comic']//img/@src" --cbz` (Same as before, but with all arguments declared beforehand)
+* `webcomix custom --comic_name=xkcd --start_url=http://xkcd.com/1/ --next_page_xpath="//a[@rel='next']/@href" --image_xpath="//div[@id='comic']//img/@src" --cbz` (Same as before, but with all arguments declared beforehand)
 
 ### Making an XPath selector
 
