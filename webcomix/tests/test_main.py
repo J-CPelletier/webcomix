@@ -50,7 +50,7 @@ def test_good_download_makecbz(monkeypatch):
     runner = CliRunner()
     monkeypatch.setattr(Comic, "download", mock_download)
     monkeypatch.setattr(Comic, "make_cbz", mock_make_cbz)
-    result = runner.invoke(main.download, [first_comic, "--make_cbz"])
+    result = runner.invoke(main.download, [first_comic, "--cbz"])
     assert result.exit_code == 0
     assert result.output.strip() == "\n".join([first_comic, ".cbz created"])
 
@@ -58,7 +58,7 @@ def test_bad_download_make_cbz(monkeypatch):
     runner = CliRunner()
     monkeypatch.setattr(Comic, "download", mock_download)
     monkeypatch.setattr(Comic, "make_cbz", mock_make_cbz)
-    result = runner.invoke(main.download, ["foo", "--make_cbz"])
+    result = runner.invoke(main.download, ["foo", "--cbz"])
     assert result.exit_code == 0
     assert result.output == ""
 
@@ -74,7 +74,7 @@ def test_custom(monkeypatch):
     monkeypatch.setattr(Comic, "verify_xpath", mock_verify_xpath)
     monkeypatch.setattr(main, "print_verification", mock_print_verification)
     comic_url = supported_comics["xkcd"][0]
-    result = runner.invoke(main.custom, ["--comic_name=foo", "--first_page_url=url", "--next_page_xpath=next_page", "--image_xpath=image"], "yes")
+    result = runner.invoke(main.custom, ["--comic_name=foo", "--start_url=url", "--next_page_xpath=next_page", "--image_xpath=image"], "yes")
     assert result.exit_code == 0
     assert result.output.strip() == "\n".join(["Verified", "Printed", "Verify that the links above are correct before proceeding.", "Are you sure you want to proceed? [y/N]: yes", "foo"])
 
@@ -84,9 +84,9 @@ def test_custom_make_cbz(monkeypatch):
     monkeypatch.setattr(Comic, "verify_xpath", mock_verify_xpath)
     monkeypatch.setattr(main, "print_verification", mock_print_verification)
     monkeypatch.setattr(Comic, "make_cbz", mock_make_cbz)
-    result = runner.invoke(main.custom, ["--comic_name=foo", "--first_page_url=url", "--next_page_xpath=next_page", "--image_xpath=image", "--make_cbz"], "yes")
+    result = runner.invoke(main.custom, ["--comic_name=foo", "--start_url=url", "--next_page_xpath=next_page", "--image_xpath=image", "--cbz"], "y")
     assert result.exit_code == 0
-    assert result.output.strip() == "\n".join(["Verified", "Printed", "Verify that the links above are correct before proceeding.", "Are you sure you want to proceed? [y/N]: yes", "foo", ".cbz created"])
+    assert result.output.strip() == "\n".join(["Verified", "Printed", "Verify that the links above are correct before proceeding.", "Are you sure you want to proceed? [y/N]: y", "foo", ".cbz created"])
 
 def mock_discovery(url):
     return Comic("url", "next_page", "comic_image")
@@ -97,6 +97,6 @@ def test_search(monkeypatch):
     monkeypatch.setattr(Comic, "download", mock_download)
     monkeypatch.setattr(Comic, "verify_xpath", mock_verify_xpath)
     monkeypatch.setattr(main, "print_verification", mock_print_verification)
-    result = runner.invoke(main.search, ["foo", "--first_page_url=good"], "yes")
+    result = runner.invoke(main.search, ["foo", "--start_url=good"], "y")
     assert result.exit_code == 0
-    assert result.output.strip() == "\n".join(["Verified", "Printed", "Verify that the links above are correct before proceeding.", "Are you sure you want to proceed? [y/N]: yes", "foo"])
+    assert result.output.strip() == "\n".join(["Verified", "Printed", "Verify that the links above are correct before proceeding.", "Are you sure you want to proceed? [y/N]: y", "foo"])
