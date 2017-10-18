@@ -7,9 +7,9 @@ import click
 import requests
 from lxml import html
 
-from webcomictocbz.comic import Comic
-from webcomictocbz.search import discovery
-from webcomictocbz.supported_comics import supported_comics
+from webcomix.comic import Comic
+from webcomix.search import discovery
+from webcomix.supported_comics import supported_comics
 
 
 @click.group()
@@ -20,7 +20,7 @@ def cli():
 @cli.command()
 def comics():
     """
-    Show all predefined webcomics
+    Shows all predefined webcomics
     """
     comics_content = ["{}: {}".format(key, value[0]) for key, value in sorted(supported_comics.items())]
 
@@ -31,7 +31,7 @@ def comics():
 @click.option("--make_cbz", default=False, is_flag=True, help="Output the comic as a cbz file")
 def download(name, make_cbz):
     """
-    Download a webcomic from the list of supported comics by name
+    Downloads a predefined webcomic by name
     """
     if name in list(supported_comics.keys()):
         comic = Comic(*supported_comics[name])
@@ -65,7 +65,7 @@ def search(name, first_page_url, make_cbz):
 @click.option("--make_cbz", default=False, is_flag=True, help="Output the comic as a cbz file")
 def custom(comic_name, first_page_url, next_page_xpath, image_xpath, make_cbz):
     """
-    Download a user-defined webcomic
+    Downloads a user-defined webcomic
     """
     comic = Comic(first_page_url, next_page_xpath, image_xpath)
     validation = Comic.verify_xpath(comic.start_url, comic.next_page_selector, comic.comic_image_selector)

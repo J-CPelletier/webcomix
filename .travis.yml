@@ -6,9 +6,9 @@ install:
 - pip install pytest-cov
 - pip install coveralls
 script:
-- py.test --cov=webcomictocbz webcomictocbz/tests
+- py.test --cov=webcomix webcomix/tests
 after_success:
-- zip -r WebComicToCBZ_Mac_Linux.zip webcomictocbz requirements.txt setup.py LICENCE
+- zip -r webcomix_Mac_Linux.zip webcomix requirements.txt setup.py LICENCE
   README.md
 - coveralls
 deploy:
@@ -16,7 +16,7 @@ deploy:
   skip_cleanup: true
   api_key:
     secure: ucJXZbo9yUhloZrqP0uHWFs4Cw1wQOS0Lh97GuhTV1XXjNxFo/E3/TRNu+x+tdHntHlxBdrG97ONvlYle6NtNnDLMyZHD50eLEWEG99WLhR92Dy6ONEm8U2nV+YPYLD3U64LqMScuoXFBmwh6r/03ORjqddntlxRoJ9zf95PzkHxxNYdMf5BOVsR/d3IZVIIJG2lJzbFl2BXAuIiOPwc6UstEt1/A6I0Z6X3J3JHBwLdwW8sDPxTWK91+auzn+D4ApOpU6hLG1DVKqqTgbeFsBVBSvtRzLwFDpR0LteuUADsx1AHVGJjfI2chtd9aB6GGFOUI3syG4zsHtlTtddGmSVzWCGD4DU7pCBq+0cAU1OTJ9OS337W0tQtmipqSPrn0FSQXQAK1k2QnNwPK+xKH5ax8ssSNFl70ccCEsVcv7oWQEgAOsAx0yzsNbR6rGL2mDKGRluJLQ4OIogoVNDgJ351YTDxu3mhwIT5LumOQEIA0ROFu9zUSmKMnqMx1tywAMp2Es4rn5BKNGZB9+qmGAyB7mYBjJabbzv0zLSei+j9aFsakJopB9wAdyd0Q6GyP5wH1jX/URkqeLELCwnghbSJdanG0lfiUtbMblXP2vYnkVNS8cuE6fh/X3tjcKsEHqY7zFs6LX5rKh3VeUZydX2fmwwjJQh2JAPSsL9p9AM=
-  file: WebComicToCBZ_Mac_Linux.zip
+  file: webcomix_Mac_Linux.zip
   draft: true
   on:
-    repo: J-CPelletier/WebComicToCBZ
+    repo: J-CPelletier/webcomix

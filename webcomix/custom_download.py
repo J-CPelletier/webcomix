@@ -2,8 +2,8 @@ from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QLabel,
                              QLineEdit, QMessageBox, QPushButton, QTextEdit,
                              QWidget)
 
-from webcomictocbz.comic import Comic
-from webcomictocbz.search import search
+from webcomix.comic import Comic
+from webcomix.search import search
 
 
 class CustomDownload:

@@ -2,12 +2,12 @@ from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QLabel,
                              QLineEdit, QMessageBox, QPushButton, QTextEdit,
                              QWidget)
 
-from webcomictocbz.supported_comics import supported_comics
+from webcomix.supported_comics import supported_comics
 
 
 class SupportedDownload:
     def __init__(self, parent):
-        self.url_defined_comic = QLabel("WebComicToCBZ", parent)
+        self.url_defined_comic = QLabel("webcomix", parent)
 
         comic_list = QComboBox(parent)
         for name in sorted(supported_comics):

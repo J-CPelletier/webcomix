@@ -1,10 +1,10 @@
-# WebComicToCBZ
+# webcomix
 
-[![Build Status](https://travis-ci.org/J-CPelletier/WebComicToCBZ.svg?branch=master)](https://travis-ci.org/J-CPelletier/WebComicToCBZ)[![Coverage Status](https://coveralls.io/repos/github/J-CPelletier/WebComicToCBZ/badge.svg?branch=master)](https://coveralls.io/github/J-CPelletier/WebComicToCBZ?branch=master)
+[![Build Status](https://travis-ci.org/J-CPelletier/webcomix.svg?branch=master)](https://travis-ci.org/J-CPelletier/webcomix)[![Coverage Status](https://coveralls.io/repos/github/J-CPelletier/webcomix/badge.svg?branch=master)](https://coveralls.io/github/J-CPelletier/webcomix?branch=master)
 
 ## Description
 
-WebComicToCBZ is a Python-based web comic downloader that can additionally create a .cbz (Comic Book ZIP) file once downloaded.
+webcomix is a Python-based web comic downloader that can additionally create a .cbz (Comic Book ZIP) file once downloaded.
 
 ## Notice
 
@@ -42,7 +42,7 @@ This program is for personal use only. Please be aware that by making the downlo
 
 ## Usage
 
-`WebComicToCBZ [OPTIONS] COMMAND [ARGS]`
+`webcomix [OPTIONS] COMMAND [ARGS]`
 
 ### Global Flags
 
@@ -74,10 +74,10 @@ Downloads a user-defined comic. To download a specific comic, you'll need a link
 
 ### Examples
 
-* `WebComicToCBZ download xkcd`
-* `WebComicToCBZ search xkcd --first_page_url=http://xkcd.com/1/`
-* `WebComicToCBZ custom --make_cbz` (You will be prompted about other needed arguments)
-* `WebComicToCBZ custom --comic_name=xkcd --first_page_url=http://xkcd.com/1/ --next_page_xpath="//a[@rel='next']/@href" --image_xpath="//div[@id='comic']//img/@src" --make_cbz` (Same as before, but with all arguments declared beforehand)
+* `webcomix download xkcd`
+* `webcomix search xkcd --first_page_url=http://xkcd.com/1/`
+* `webcomix custom --make_cbz` (You will be prompted about other needed arguments)
+* `webcomix custom --comic_name=xkcd --first_page_url=http://xkcd.com/1/ --next_page_xpath="//a[@rel='next']/@href" --image_xpath="//div[@id='comic']//img/@src" --make_cbz` (Same as before, but with all arguments declared beforehand)
 
 ### Making an XPath selector
 
@@ -95,4 +95,4 @@ The procedure depends on the type of contribution:
 
 ### Running the tests
 
-To run the tests, you have to get pytest(with `pip install -U pytest`) and use the `pytest` command in the WebComicToCBZ folder.
+To run the tests, you have to get pytest(with `pip install -U pytest`) and use the `pytest` command in the webcomix folder.

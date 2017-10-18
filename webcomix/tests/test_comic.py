@@ -6,8 +6,8 @@ from zipfile import ZipFile
 import pytest
 import requests
 
-from webcomictocbz.comic import Comic
-from webcomictocbz.supported_comics import supported_comics
+from webcomix.comic import Comic
+from webcomix.supported_comics import supported_comics
 
 
 def test_save_image_location():
@@ -62,11 +62,11 @@ def test_download():
         shutil.rmtree("test")
     if os.path.isfile("test.cbz"):
         os.remove("test.cbz")
-    comic = Comic("https://j-cpelletier.github.io/WebComicToCBZ/1.html", "//a/@href", "//img/@src")
+    comic = Comic("https://j-cpelletier.github.io/webcomix/1.html", "//a/@href", "//img/@src")
     comic.download("test")
     for i in range(1, 3):
         with open("test/{}.jpeg".format(i), "rb") as result:
-            expected = requests.get("https://j-cpelletier.github.io/WebComicToCBZ/{}.jpeg".format(i))
+            expected = requests.get("https://j-cpelletier.github.io/webcomix/{}.jpeg".format(i))
             assert expected.content == result.read()
     shutil.rmtree("test")
 

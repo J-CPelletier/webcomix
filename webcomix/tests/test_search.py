@@ -1,5 +1,5 @@
-from webcomictocbz.comic import Comic
-from webcomictocbz.search import discovery
+from webcomix.comic import Comic
+from webcomix.search import discovery
 
 
 def test_search_searchable_website():
@@ -9,5 +9,5 @@ def test_search_searchable_website():
     assert searchable_website.comic_image_selector == "//*[@*[contains(., '{}')]]//@src".format("comic")
 
 def test_search_unsearchable_website():
-    unsearchable_website = discovery("https://j-cpelletier.github.io/WebComicToCBZ/1.html")
+    unsearchable_website = discovery("https://j-cpelletier.github.io/webcomix/1.html")
     assert unsearchable_website == None

@@ -6,9 +6,9 @@ import pytest
 import requests
 from click.testing import CliRunner
 
-from webcomictocbz import main, search
-from webcomictocbz.comic import Comic
-from webcomictocbz.supported_comics import supported_comics
+from webcomix import main, search
+from webcomix.comic import Comic
+from webcomix.supported_comics import supported_comics
 
 
 def test_print_verification(capfd):

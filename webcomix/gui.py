@@ -8,10 +8,10 @@ from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QLabel,
                              QLineEdit, QMessageBox, QPushButton, QTextEdit,
                              QWidget)
 
-from webcomictocbz.comic import Comic
-from webcomictocbz.custom_download import CustomDownload
-from webcomictocbz.supported_comics import supported_comics
-from webcomictocbz.supported_download import SupportedDownload
+from webcomix.comic import Comic
+from webcomix.custom_download import CustomDownload
+from webcomix.supported_comics import supported_comics
+from webcomix.supported_download import SupportedDownload
 
 
 class GUI(QWidget):
@@ -34,7 +34,7 @@ class GUI(QWidget):
         self.make_cbz_checkbox.move(275, 20)
 
         self.setFixedSize(700, 400)
-        self.setWindowTitle('WebComicToCBZ')
+        self.setWindowTitle('webcomix')
         self.show()
 
     def closeEvent(self, event):

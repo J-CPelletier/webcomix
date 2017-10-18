@@ -6,7 +6,7 @@ import click
 import requests
 from lxml import html
 
-from webcomictocbz.comic import Comic
+from webcomix.comic import Comic
 
 possible_next_page_xpath = ["next", "Next"]
 possible_image_xpath = ["comic", "Comic"]
