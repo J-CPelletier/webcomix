@@ -3,11 +3,26 @@ from webcomix.search import discovery
 
 
 def test_search_searchable_website():
-    searchable_website = discovery("https://xkcd.com/1/")
-    assert searchable_website.start_url == "https://xkcd.com/1/"
-    assert searchable_website.next_page_selector == "//*[@*[contains(., '{}')]]//@href".format("next")
-    assert searchable_website.comic_image_selector == "//*[@*[contains(., '{}')]]//@src".format("comic")
+    expected = Comic("http://xkcd.com/1/",
+                     "//*[@*[contains(., 'next')]]//@href",
+                     "//*[@*[contains(., 'comic')]]//@src")
+    result = discovery("http://xkcd.com/1/")
+    assert Comic.verify_xpath(
+        expected.start_url, expected.next_page_selector,
+        expected.comic_image_selector) == [
+            ('http://xkcd.com/1/',
+             'http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg'),
+            ('http://xkcd.com/2/',
+             'http://imgs.xkcd.com/comics/tree_cropped_(1).jpg'),
+            ('http://xkcd.com/3/',
+             'http://imgs.xkcd.com/comics/island_color.jpg')
+        ]
+
+    assert result.start_url == expected.start_url
+    assert result.next_page_selector == expected.next_page_selector
+    assert result.comic_image_selector == expected.comic_image_selector
+
 
 def test_search_unsearchable_website():
-    unsearchable_website = discovery("https://j-cpelletier.github.io/webcomix/1.html")
-    assert unsearchable_website == None
+    result = discovery("https://j-cpelletier.github.io/webcomix/1.html")
+    assert result is None
