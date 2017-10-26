@@ -1,11 +1,6 @@
 #! python3
 
-import os
-from urllib.parse import urljoin
-
 import click
-import requests
-from lxml import html
 
 from webcomix.comic import Comic
 from webcomix.search import discovery

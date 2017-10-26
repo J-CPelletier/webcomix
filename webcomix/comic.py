@@ -1,5 +1,4 @@
 import os
-import typing
 from urllib.parse import urljoin
 from zipfile import ZipFile
 
@@ -9,7 +8,8 @@ from lxml import html
 
 
 class Comic:
-    def __init__(self, start_url: str, next_page_selector: str, comic_image_selector: str):
+    def __init__(self, start_url: str, next_page_selector: str,
+                 comic_image_selector: str):
         self.start_url = start_url
         self.next_page_selector = next_page_selector
         self.comic_image_selector = comic_image_selector
@@ -17,7 +17,8 @@ class Comic:
     def download(self, directory_name: str = "finalComic"):
         """
         Downloads an entire Webcomic page by page starting from the first one
-        and saves them in the directory_name created in the current working directory
+        and saves them in the directory_name created in the current working
+        directory
         """
         os.makedirs(directory_name)
         url = self.start_url
@@ -62,7 +63,8 @@ class Comic:
     @staticmethod
     def save_image_location(url: str, directory: str, page: int):
         """
-        Returns the location in the filesystem under which the webcomic will be saved
+        Returns the location in the filesystem under which the webcomic will
+        be saved
         """
         if url.count(".") <= 1:
             # No file extension (only dot in url is domain name)
@@ -84,16 +86,17 @@ class Comic:
             cbz_file.write(image_location)
             os.remove(image_location)
         os.rmdir(source_directory)
-        if cbz_file.testzip() != None:
-            click.echo("Error while testing the archive; it might be corrupted.")
+        if cbz_file.testzip() is not None:
+            click.echo(
+                "Error while testing the archive; it might be corrupted.")
         cbz_file.close()
 
     @staticmethod
     def verify_xpath(url: str, next_page: str, image: str):
         """
-        Takes a url and the XPath expressions for the next_page and image to go three pages
-        into the comic. It returns a tuple containing the url of each page and their respective
-        image urls.
+        Takes a url and the XPath expressions for the next_page and image to
+        go three pages into the comic. It returns a tuple containing the url
+        of each page and their respective image urls.
         """
         verification = []
         for _ in range(3):
