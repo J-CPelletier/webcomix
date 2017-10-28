@@ -1,5 +1,3 @@
-import pytest
-
 from webcomix.comic import Comic
 from webcomix.supported_comics import supported_comics
 

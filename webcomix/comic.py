@@ -20,7 +20,9 @@ class Comic:
         and saves them in the directory_name created in the current working
         directory
         """
-        os.makedirs(directory_name)
+        if not os.path.isdir(directory_name):
+            os.makedirs(directory_name)
+
         url = self.start_url
         page = 1
         while True:
