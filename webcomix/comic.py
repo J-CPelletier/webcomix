@@ -81,17 +81,16 @@ class Comic:
         Takes all of the previously downloaded pages and compresses them in
         a .cbz file, erasing them afterwards.
         """
-        cbz_file = ZipFile("{}.cbz".format(comic_name), mode="w")
-        images = os.listdir("{}".format(source_directory))
-        for image in images:
-            image_location = "{}/{}".format(source_directory, image)
-            cbz_file.write(image_location)
-            os.remove(image_location)
-        os.rmdir(source_directory)
-        if cbz_file.testzip() is not None:
-            click.echo(
-                "Error while testing the archive; it might be corrupted.")
-        cbz_file.close()
+        with ZipFile("{}.cbz".format(comic_name), mode="w") as cbz_file:
+            images = os.listdir(source_directory)
+            for image in images:
+                image_location = "{}/{}".format(source_directory, image)
+                cbz_file.write(image_location)
+                os.remove(image_location)
+            os.rmdir(source_directory)
+            if cbz_file.testzip() is not None:
+                click.echo(
+                    "Error while testing the archive; it might be corrupted.")
 
     @staticmethod
     def verify_xpath(url: str, next_page: str, image: str):
