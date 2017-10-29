@@ -8,15 +8,24 @@ install:
 script:
 - py.test --cov=webcomix webcomix/tests
 after_success:
-- zip -r webcomix_Mac_Linux.zip webcomix requirements.txt setup.py LICENCE
-  README.md
+- zip -r webcomix_Mac_Linux.zip webcomix requirements.txt setup.py LICENCE README.md
 - coveralls
 deploy:
-  provider: releases
-  skip_cleanup: true
-  api_key:
-    secure: ucJXZbo9yUhloZrqP0uHWFs4Cw1wQOS0Lh97GuhTV1XXjNxFo/E3/TRNu+x+tdHntHlxBdrG97ONvlYle6NtNnDLMyZHD50eLEWEG99WLhR92Dy6ONEm8U2nV+YPYLD3U64LqMScuoXFBmwh6r/03ORjqddntlxRoJ9zf95PzkHxxNYdMf5BOVsR/d3IZVIIJG2lJzbFl2BXAuIiOPwc6UstEt1/A6I0Z6X3J3JHBwLdwW8sDPxTWK91+auzn+D4ApOpU6hLG1DVKqqTgbeFsBVBSvtRzLwFDpR0LteuUADsx1AHVGJjfI2chtd9aB6GGFOUI3syG4zsHtlTtddGmSVzWCGD4DU7pCBq+0cAU1OTJ9OS337W0tQtmipqSPrn0FSQXQAK1k2QnNwPK+xKH5ax8ssSNFl70ccCEsVcv7oWQEgAOsAx0yzsNbR6rGL2mDKGRluJLQ4OIogoVNDgJ351YTDxu3mhwIT5LumOQEIA0ROFu9zUSmKMnqMx1tywAMp2Es4rn5BKNGZB9+qmGAyB7mYBjJabbzv0zLSei+j9aFsakJopB9wAdyd0Q6GyP5wH1jX/URkqeLELCwnghbSJdanG0lfiUtbMblXP2vYnkVNS8cuE6fh/X3tjcKsEHqY7zFs6LX5rKh3VeUZydX2fmwwjJQh2JAPSsL9p9AM=
-  file: webcomix_Mac_Linux.zip
-  draft: true
-  on:
-    repo: J-CPelletier/webcomix
+  - provider: releases
+    skip_cleanup: true
+    api_key:
+      secure: ucJXZbo9yUhloZrqP0uHWFs4Cw1wQOS0Lh97GuhTV1XXjNxFo/E3/TRNu+x+tdHntHlxBdrG97ONvlYle6NtNnDLMyZHD50eLEWEG99WLhR92Dy6ONEm8U2nV+YPYLD3U64LqMScuoXFBmwh6r/03ORjqddntlxRoJ9zf95PzkHxxNYdMf5BOVsR/d3IZVIIJG2lJzbFl2BXAuIiOPwc6UstEt1/A6I0Z6X3J3JHBwLdwW8sDPxTWK91+auzn+D4ApOpU6hLG1DVKqqTgbeFsBVBSvtRzLwFDpR0LteuUADsx1AHVGJjfI2chtd9aB6GGFOUI3syG4zsHtlTtddGmSVzWCGD4DU7pCBq+0cAU1OTJ9OS337W0tQtmipqSPrn0FSQXQAK1k2QnNwPK+xKH5ax8ssSNFl70ccCEsVcv7oWQEgAOsAx0yzsNbR6rGL2mDKGRluJLQ4OIogoVNDgJ351YTDxu3mhwIT5LumOQEIA0ROFu9zUSmKMnqMx1tywAMp2Es4rn5BKNGZB9+qmGAyB7mYBjJabbzv0zLSei+j9aFsakJopB9wAdyd0Q6GyP5wH1jX/URkqeLELCwnghbSJdanG0lfiUtbMblXP2vYnkVNS8cuE6fh/X3tjcKsEHqY7zFs6LX5rKh3VeUZydX2fmwwjJQh2JAPSsL9p9AM=
+    file: webcomix_Mac_Linux.zip
+    draft: true
+    on:
+      repo: J-CPelletier/webcomix
+      tags: true
+  - provider: pypi
+    skip_cleanup: true
+    username: J-CPelletier
+    password:
+      secure: r7PRWEgVGMG9YT1V/ccAoE2ppb0XiB7Y/ctNcfQZDy3YvTrSoCvTxlSImuxuqZKXU+x+/KL+q1CyVferYk5Ou2Bvexet9uS7IXj59nEJxLqcNa4AGkZubZOMuhZcIYvvbTJYzH1nTtMunvi36czQpYQ15b12hxJX+aMnca9hKru4h7B2o3mGGwWDlKeM+ZyZ3VYFu6ZHzsKfbfSmOpHzdzSiavTp/9VqwGGPOQykUAhj3QEa2uix4vbBoR8+t0O1m1cCejsRFTlWkUzWLwqW41R5LZoIIO0tFmy+5RVBUITFa8lXS69ByQp12+hacufCb270ZV5EeUhcfpvPKp1yGaYUZelkrJ9JOqiLDlz3mRraLkEpCbNCRVFvV01rDKG4qNozTbUXY5TXCj13yV4s4Sgb/CkqA4XKstrUOMw2heELhUtxCa24MYotltg2ZW95jvM93pHxQxSpmy1kKGrFPAhUG5jIv7IaLXyjN0bo68M7M3RG2ZqBxv+EC09zElzDCKQasDaKKP3/99AWI8vIfqDwwSbh2tKWVUQHIN9Ekbhs4YNwy/jHXLsBsx4AZFeHqisBeYfU+2g98vqZ32YiNuU8jwxD2+dnZw176f4yKl+9ovZnC9aHwvsGxPJ+KYzI3BM/2D3RW576UTscyxCdS16hraH4C85ExJApLctm0+I=
+    on:
+      tags: true
+      branch: master
+      python: '3.5'
