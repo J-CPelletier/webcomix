@@ -1,10 +1,10 @@
 # webcomix
 
-[![Build Status](https://travis-ci.org/J-CPelletier/webcomix.svg?branch=master)](https://travis-ci.org/J-CPelletier/webcomix)[![Coverage Status](https://coveralls.io/repos/github/J-CPelletier/webcomix/badge.svg?branch=master)](https://coveralls.io/github/J-CPelletier/webcomix?branch=master)
+[![Build Status](https://travis-ci.org/J-CPelletier/webcomix.svg?branch=master)](https://travis-ci.org/J-CPelletier/webcomix)[![Coverage Status](https://coveralls.io/repos/github/J-CPelletier/webcomix/badge.svg?branch=master)](https://coveralls.io/github/J-CPelletier/webcomix?branch=master)[![PyPI version](https://badge.fury.io/py/webcomix.svg)](https://badge.fury.io/py/webcomix)
 
 ## Description
 
-webcomix is a Python-based web comic downloader that can additionally create a .cbz (Comic Book ZIP) file once downloaded.
+webcomix is a web comic downloader that can additionally create a .cbz (Comic Book ZIP) file once downloaded.
 
 ## Notice
 
@@ -14,31 +14,24 @@ This program is for personal use only. Please be aware that by making the downlo
 
 ### Dependencies
 
-* Python3
+* Python (3.5 or newer)
 * lxml
 * requests
 * click
-* PyQt5 (If you're using the Graphical User Interface version of this tool)
 
 ### Process
 
-#### With the requirements.txt
+#### End user
 
 1. Install [Python 3](https://www.python.org/downloads/)
-2. Install [pip](https://pip.pypa.io/en/stable/installing/)
-3. Clone this repository and open a terminal in its directory.
-4. Get the required packages by running `pip install -r requirements.txt`
-5. Install the command line interface tool with `pip install --editable .`
+2. Install the command line interface tool with `pip install webcomix`
 
-#### Without the requirements.txt
+#### Developer
 
 1. Install [Python 3](https://www.python.org/downloads/)
-2. Install [pip](https://pip.pypa.io/en/stable/installing/)
-3. Get lxml by running `pip install lxml` (More info [here](http://lxml.de/installation.html#where-to-get-it))
-4. Get requests by running `pip install requests` (More info [here](http://docs.python-requests.org/en/master/user/install/))
-5. Get click by running `pip install click` (More info [here](http://click.pocoo.org/5/quickstart/))
-5. Clone this repository or download its ZIP and open a terminal in its directory.
-6. Install the command line interface tool with `pip install --editable .`
+2. Clone this repository and open a terminal in its directory
+3. Download the dependencies by running `pip install -r requirements.txt`
+4. Install the command line interface tool in development mode by running `pip install --editable .`
 
 ## Usage
 
