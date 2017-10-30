@@ -4,7 +4,7 @@
 
 ## Description
 
-webcomix is a web comic downloader that can additionally create a .cbz (Comic Book ZIP) file once downloaded.
+webcomix is a webcomic downloader that can additionally create a .cbz (Comic Book ZIP) file once downloaded.
 
 ## Notice
 
