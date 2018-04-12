@@ -4,7 +4,7 @@ setup(
     name='webcomix',
     version=1.2,
     description='Webcomic downloader',
-    long_description='webcomix is a webcomic downloader that can additionally create a .cbz file onnce downloaded.',
+    long_description='webcomix is a webcomic downloader that can additionally create a .cbz file once downloaded.',
     url='https://github.com/J-CPelletier/webcomix',
     author='Jean-Christophe Pelletier',
     author_email='pelletierj97@gmail.com',
@@ -25,7 +25,8 @@ setup(
     install_requires=[
         'Click',
         'lxml',
-        'requests'
+        'requests',
+        'fake-useragent'
     ],
     python_requires='>=3.5',
     entry_points='''

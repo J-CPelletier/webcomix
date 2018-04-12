@@ -5,6 +5,10 @@ from zipfile import ZipFile
 import click
 import requests
 from lxml import html
+from fake_useragent import UserAgent
+
+ua = UserAgent()
+header = {'User-Agent': str(ua.chrome)}
 
 
 class Comic:
@@ -27,7 +31,7 @@ class Comic:
         page = 1
         while True:
             click.echo("Downloading page {}".format(url))
-            response = requests.get(url)
+            response = requests.get(url, headers=header)
             parsed_html = html.fromstring(response.content)
 
             image_element = parsed_html.xpath(self.comic_image_selector)
@@ -53,7 +57,7 @@ class Comic:
         Gets the image from the image_url and saves it in the directory_name
         """
         click.echo("Saving image {}".format(image_url))
-        res = requests.get(image_url)
+        res = requests.get(image_url, headers=header)
         res.raise_for_status()
         image_path = Comic.save_image_location(image_url, directory_name, page)
         if os.path.isfile(image_path):
@@ -101,12 +105,17 @@ class Comic:
         """
         verification = []
         for _ in range(3):
-            response = requests.get(url)
+            response = requests.get(url, headers=header)
             parsed_html = html.fromstring(response.content)
-
-            image_element = parsed_html.xpath(image)[0]
+            try:
+                image_element = parsed_html.xpath(image)[0]
+                next_link = parsed_html.xpath(next_page)[0]
+            except IndexError:
+                raise Exception("""\n
+                    Next page XPath: {}\n
+                    Image XPath: {}\n
+                    Failed on URL: {}""".format(next_page, image, url))
             image_url = urljoin(url, image_element)
-            next_link = parsed_html.xpath(next_page)[0]
             verification.append((url, image_url))
             url = urljoin(url, next_link)
         return verification
