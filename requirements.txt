@@ -1,4 +1,5 @@
-requests==2.13.0
-pytest==3.0.5
-lxml==3.5.0
-click==6.7
+requests
+pytest
+lxml
+click
+fake-useragent
