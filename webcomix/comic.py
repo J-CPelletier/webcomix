@@ -1,6 +1,10 @@
 import os
 from urllib.parse import urljoin
 from zipfile import ZipFile
+import scrapy
+from scrapy.crawler import CrawlerProcess
+from scrapy.pipelines.images import ImagesPipeline
+from scrapy.exceptions import DropItem
 
 import click
 import requests
@@ -9,6 +13,64 @@ from fake_useragent import UserAgent
 
 ua = UserAgent()
 header = {'User-Agent': str(ua.chrome)}
+
+
+class ComicPage(scrapy.Item):
+    image_element = scrapy.Field()
+    page = scrapy.Field()
+
+
+class ComicPipeline(ImagesPipeline):
+    def get_media_requests(self, item, info):
+        click.echo("Saving image {}".format(item.get('image_element')))
+        image_path = Comic.save_image_location(
+            item.get("image_element"), item.get("page"), info.spider.directory)
+        if os.path.isfile(image_path):
+            click.echo("The image was already downloaded. Skipping...")
+            raise DropItem("The image was already downloaded. Skipping...")
+        yield scrapy.Request(
+            item.get("image_element"),
+            meta={
+                'page': item.get('page'),
+                'image_element': item.get('image_element')
+            })
+
+    def item_completed(self, results, item, info):
+        file_paths = [x['path'] for ok, x in results if ok]
+        if not file_paths:
+            click.echo("The image couldn't be downloaded.")
+            raise DropItem("The image couldn't be downloaded.")
+
+        return item
+
+    def file_path(self, request, response=None, info=None):
+        path = Comic.save_image_location(
+            request.meta.get("image_element"), request.meta.get("page"))
+        return path
+
+
+class MySpider(scrapy.Spider):
+    name = "My spider"
+
+    def __init__(self, *args, **kwargs):
+        self.start_urls = kwargs.get('start_urls') or []
+        self.next_page_selector = kwargs.get('next_page_selector', None)
+        self.comic_image_selector = kwargs.get('comic_image_selector', None)
+        super(MySpider, self).__init__(*args, **kwargs)
+
+    def parse(self, response):
+        comic_image_url = response.xpath(
+            self.comic_image_selector).extract_first()
+
+        page = response.meta.get('page') or 1
+        yield {
+            "image_element": urljoin(response.url, comic_image_url),
+            "page": page
+        }
+        next_page_url = response.xpath(self.next_page_selector).extract_first()
+        if next_page_url is not None and not next_page_url.endswith('#'):
+            yield scrapy.Request(
+                response.urljoin(next_page_url), meta={'page': page + 1})
 
 
 class Comic:
@@ -27,32 +89,51 @@ class Comic:
         if not os.path.isdir(directory_name):
             os.makedirs(directory_name)
 
-        url = self.start_url
-        page = 1
-        while True:
-            click.echo("Downloading page {}".format(url))
-            response = requests.get(url, headers=header)
-            parsed_html = html.fromstring(response.content)
+        process = CrawlerProcess({
+            **header,
+            'ITEM_PIPELINES': {
+                'webcomix.comic.ComicPipeline': 500,
+                'scrapy.pipelines.images.ImagesPipeline': 1
+            },
+            'LOG_ENABLED': False,
+            'IMAGES_STORE': directory_name
+        })
 
-            image_element = parsed_html.xpath(self.comic_image_selector)
-            next_link = parsed_html.xpath(self.next_page_selector)
+        process.crawl(
+            MySpider,
+            start_urls=[self.start_url],
+            next_page_selector=self.next_page_selector,
+            comic_image_selector=self.comic_image_selector,
+            directory=directory_name)
+        process.start()
 
-            if image_element == []:
-                click.echo("Could not find comic image.")
-            else:
-                try:
-                    image_url = urljoin(url, image_element[0])
-                    self.save_image(image_url, directory_name, page)
-                except:
-                    click.echo("The image couldn't be downloaded.")
+        # url = self.start_url
+        # page = 1
+        # while True:
+        #     click.echo("Downloading page {}".format(url))
+        #     response = requests.get(url, headers=header)
+        #     parsed_html = html.fromstring(response.content)
 
-            page += 1
-            if next_link == [] or next_link[0].endswith("#"):
-                break
-            url = urljoin(url, next_link[0])
+        #     image_element = parsed_html.xpath(self.comic_image_selector)
+        #     next_link = parsed_html.xpath(self.next_page_selector)
+
+        #     if image_element == []:
+        #         click.echo("Could not find comic image.")
+        #     else:
+        #         try:
+        #             image_url = urljoin(url, image_element[0])
+        #             Comic.save_image(image_url, directory_name, page)
+        #         except:
+        #             click.echo("The image couldn't be downloaded.")
+
+        #     page += 1
+        #     if next_link == [] or next_link[0].endswith("#"):
+        #         break
+        #     url = urljoin(url, next_link[0])
         click.echo("Finished downloading the images.")
 
-    def save_image(self, image_url: str, directory_name: str, page: int):
+    @staticmethod
+    def save_image(image_url: str, directory_name: str, page: int):
         """
         Gets the image from the image_url and saves it in the directory_name
         """
@@ -67,17 +148,19 @@ class Comic:
                 image_file.write(res.content)
 
     @staticmethod
-    def save_image_location(url: str, directory: str, page: int):
+    def save_image_location(url: str, page: int, directory_name: str = ''):
         """
-        Returns the location in the filesystem under which the webcomic will
-        be saved
+        Returns the relative location in the filesystem under which the
+        webcomic will be saved. If directory_name is specified, it will be
+        relative to the current directory; if not specified, it will return
+        the name relative to the directory in which it is downloaded.
         """
         if url.count(".") <= 1:
             # No file extension (only dot in url is domain name)
             file_name = str(page)
         else:
             file_name = "{}{}".format(page, url[url.rindex("."):])
-        return "/".join([directory, file_name])
+        return os.path.join(directory_name, file_name)
 
     @staticmethod
     def make_cbz(comic_name: str, source_directory: str = "finalComic"):
