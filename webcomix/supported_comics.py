@@ -10,5 +10,6 @@ supported_comics = {
     "AmazingSuperPowers": ("http://www.amazingsuperpowers.com/2007/09/heredity/", "//a[@class='navi navi-next']/@href", "//div[@class='comicpane']/img/@src"),
     "Gunshow": ("http://gunshowcomic.com/1", "(//span[@class='snavb'])[4]/a/@href", "//img[@class='strip']/@src"),
     "Lackadaisy": ("http://www.lackadaisycats.com/comic.php?comicid=1", "//div[@class='next']/a/@href", "//div[@id='content']/img/@src"),
-    "WildeLife": ("http://www.wildelifecomic.com/comic/1", "//a[@class='cc-next']/@href", "//img[@id='cc-comic']/@src")
+    "WildeLife": ("http://www.wildelifecomic.com/comic/1", "//a[@class='cc-next']/@href", "//img[@id='cc-comic']/@src"),
+    "ElGoonishShive": ("http://www.egscomics.com/comic/2002-01-21", "//a[@class='cc-next']/@href", "//div[@id='cc-comicbody']//img/@src")
 }
