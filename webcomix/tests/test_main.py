@@ -100,7 +100,7 @@ def test_custom(monkeypatch):
     assert result.exit_code == 0
     assert result.output.strip() == "\n".join([
         "Verified", "Printed",
-        "Verify that the links above are correct before proceeding.",
+        "Verify that the links above are correct.",
         "Are you sure you want to proceed? [y/N]: yes", "foo"
     ])
 
@@ -119,7 +119,7 @@ def test_custom_make_cbz(monkeypatch):
     assert result.exit_code == 0
     assert result.output.strip() == "\n".join([
         "Verified", "Printed",
-        "Verify that the links above are correct before proceeding.",
+        "Verify that the links above are correct.",
         "Are you sure you want to proceed? [y/N]: y", "foo", ".cbz created"
     ])
 
@@ -139,6 +139,6 @@ def test_search(monkeypatch):
     assert result.exit_code == 0
     assert result.output.strip() == "\n".join([
         "Verified", "Printed",
-        "Verify that the links above are correct before proceeding.",
+        "Verify that the links above are correct.",
         "Are you sure you want to proceed? [y/N]: y", "foo"
     ])
