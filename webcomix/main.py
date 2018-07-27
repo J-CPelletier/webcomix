@@ -56,7 +56,12 @@ def download(name, cbz):
     default=False,
     is_flag=True,
     help="Outputs the comic as a cbz file")
-def search(name, start_url, cbz):
+@click.option(
+    "-y",
+    default=False,
+    is_flag=True,
+    help="Assumes 'yes' as an answer to all prompts")
+def search(name, start_url, cbz, y):
     """
     Downloads a webcomic using a general XPath
     """
@@ -67,8 +72,8 @@ def search(name, start_url, cbz):
                                         comic.comic_image_selector)
         print_verification(validation)
         click.echo(
-            "Verify that the links above are correct before proceeding.")
-        if click.confirm("Are you sure you want to proceed?"):
+            "Verify that the links above are correct.")
+        if y or click.confirm("Are you sure you want to proceed?"):
             comic.download(name)
             if cbz:
                 comic.make_cbz(name, name)
@@ -100,7 +105,12 @@ def search(name, start_url, cbz):
     default=False,
     is_flag=True,
     help="Outputs the comic as a cbz file")
-def custom(comic_name, start_url, next_page_xpath, image_xpath, cbz):
+@click.option(
+    "-y",
+    default=False,
+    is_flag=True,
+    help="Assumes 'yes' as an answer to all prompts")
+def custom(comic_name, start_url, next_page_xpath, image_xpath, cbz, y):
     """
     Downloads a user-defined webcomic
     """
@@ -109,8 +119,8 @@ def custom(comic_name, start_url, next_page_xpath, image_xpath, cbz):
                                     comic.next_page_selector,
                                     comic.comic_image_selector)
     print_verification(validation)
-    click.echo("Verify that the links above are correct before proceeding.")
-    if click.confirm("Are you sure you want to proceed?"):
+    click.echo("Verify that the links above are correct.")
+    if y or click.confirm("Are you sure you want to proceed?"):
         comic.download(comic_name)
         if cbz:
             comic.make_cbz(comic_name, comic_name)
