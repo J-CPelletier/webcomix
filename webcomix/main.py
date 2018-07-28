@@ -106,10 +106,11 @@ def search(name, start_url, cbz, y):
     is_flag=True,
     help="Outputs the comic as a cbz file")
 @click.option(
+    "--yes"
     "-y",
     default=False,
     is_flag=True,
-    help="Assumes 'yes' as an answer to all prompts")
+    help="Skips the verification prompt")
 def custom(comic_name, start_url, next_page_xpath, image_xpath, cbz, y):
     """
     Downloads a user-defined webcomic
