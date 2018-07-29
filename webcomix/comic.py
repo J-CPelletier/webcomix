@@ -106,46 +106,7 @@ class Comic:
             comic_image_selector=self.comic_image_selector,
             directory=directory_name)
         process.start()
-
-        # url = self.start_url
-        # page = 1
-        # while True:
-        #     click.echo("Downloading page {}".format(url))
-        #     response = requests.get(url, headers=header)
-        #     parsed_html = html.fromstring(response.content)
-
-        #     image_element = parsed_html.xpath(self.comic_image_selector)
-        #     next_link = parsed_html.xpath(self.next_page_selector)
-
-        #     if image_element == []:
-        #         click.echo("Could not find comic image.")
-        #     else:
-        #         try:
-        #             image_url = urljoin(url, image_element[0])
-        #             Comic.save_image(image_url, directory_name, page)
-        #         except:
-        #             click.echo("The image couldn't be downloaded.")
-
-        #     page += 1
-        #     if next_link == [] or next_link[0].endswith("#"):
-        #         break
-        #     url = urljoin(url, next_link[0])
         click.echo("Finished downloading the images.")
-
-    @staticmethod
-    def save_image(image_url: str, directory_name: str, page: int):
-        """
-        Gets the image from the image_url and saves it in the directory_name
-        """
-        click.echo("Saving image {}".format(image_url))
-        res = requests.get(image_url, headers=header)
-        res.raise_for_status()
-        image_path = Comic.save_image_location(image_url, directory_name, page)
-        if os.path.isfile(image_path):
-            click.echo("The image was already downloaded. Skipping...")
-        else:
-            with open(image_path, 'wb') as image_file:
-                image_file.write(res.content)
 
     @staticmethod
     def save_image_location(url: str, page: int, directory_name: str = ''):
