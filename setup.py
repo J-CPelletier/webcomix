@@ -26,7 +26,8 @@ setup(
         'Click',
         'lxml',
         'requests',
-        'fake-useragent'
+        'fake-useragent',
+        'scrapy'
     ],
     python_requires='>=3.5',
     entry_points='''
