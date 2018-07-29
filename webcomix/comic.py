@@ -1,76 +1,17 @@
 import os
 from urllib.parse import urljoin
 from zipfile import ZipFile
-import scrapy
-from scrapy.crawler import CrawlerProcess
-from scrapy.pipelines.images import ImagesPipeline
-from scrapy.exceptions import DropItem
 
 import click
 import requests
-from lxml import html
 from fake_useragent import UserAgent
+from lxml import html
+from scrapy.crawler import CrawlerProcess
+
+from webcomix.comic_spider import ComicSpider
 
 ua = UserAgent()
 header = {'User-Agent': str(ua.chrome)}
-
-
-class ComicPage(scrapy.Item):
-    image_element = scrapy.Field()
-    page = scrapy.Field()
-
-
-class ComicPipeline(ImagesPipeline):
-    def get_media_requests(self, item, info):
-        click.echo("Saving image {}".format(item.get('image_element')))
-        image_path = Comic.save_image_location(
-            item.get("image_element"), item.get("page"), info.spider.directory)
-        if os.path.isfile(image_path):
-            click.echo("The image was already downloaded. Skipping...")
-            raise DropItem("The image was already downloaded. Skipping...")
-        yield scrapy.Request(
-            item.get("image_element"),
-            meta={
-                'page': item.get('page'),
-                'image_element': item.get('image_element')
-            })
-
-    def item_completed(self, results, item, info):
-        file_paths = [x['path'] for ok, x in results if ok]
-        if not file_paths:
-            click.echo("The image couldn't be downloaded.")
-            raise DropItem("The image couldn't be downloaded.")
-
-        return item
-
-    def file_path(self, request, response=None, info=None):
-        path = Comic.save_image_location(
-            request.meta.get("image_element"), request.meta.get("page"))
-        return path
-
-
-class MySpider(scrapy.Spider):
-    name = "My spider"
-
-    def __init__(self, *args, **kwargs):
-        self.start_urls = kwargs.get('start_urls') or []
-        self.next_page_selector = kwargs.get('next_page_selector', None)
-        self.comic_image_selector = kwargs.get('comic_image_selector', None)
-        super(MySpider, self).__init__(*args, **kwargs)
-
-    def parse(self, response):
-        comic_image_url = response.xpath(
-            self.comic_image_selector).extract_first()
-
-        page = response.meta.get('page') or 1
-        yield {
-            "image_element": urljoin(response.url, comic_image_url),
-            "page": page
-        }
-        next_page_url = response.xpath(self.next_page_selector).extract_first()
-        if next_page_url is not None and not next_page_url.endswith('#'):
-            yield scrapy.Request(
-                response.urljoin(next_page_url), meta={'page': page + 1})
 
 
 class Comic:
@@ -90,22 +31,21 @@ class Comic:
             os.makedirs(directory_name)
 
         process = CrawlerProcess({
-            **header,
             'ITEM_PIPELINES': {
-                'webcomix.comic.ComicPipeline': 500,
+                'webcomix.comic_pipeline.ComicPipeline': 500,
                 'scrapy.pipelines.images.ImagesPipeline': 1
             },
             'LOG_ENABLED': False,
             'IMAGES_STORE': directory_name
         })
-
         process.crawl(
-            MySpider,
+            ComicSpider,
             start_urls=[self.start_url],
             next_page_selector=self.next_page_selector,
             comic_image_selector=self.comic_image_selector,
             directory=directory_name)
         process.start()
+
         click.echo("Finished downloading the images.")
 
     @staticmethod
