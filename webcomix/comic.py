@@ -36,7 +36,8 @@ class Comic:
                 'scrapy.pipelines.images.ImagesPipeline': 1
             },
             'LOG_ENABLED': False,
-            'IMAGES_STORE': directory_name
+            'IMAGES_STORE': directory_name,
+            'MEDIA_ALLOW_REDIRECTS': True
         })
         process.crawl(
             ComicSpider,
