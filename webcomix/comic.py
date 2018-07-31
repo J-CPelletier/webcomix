@@ -33,10 +33,10 @@ class Comic:
         process = CrawlerProcess({
             'ITEM_PIPELINES': {
                 'webcomix.comic_pipeline.ComicPipeline': 500,
-                'scrapy.pipelines.images.ImagesPipeline': 1
+                'scrapy.pipelines.files.FilesPipeline': 1
             },
             'LOG_ENABLED': False,
-            'IMAGES_STORE': directory_name,
+            'FILES_STORE': directory_name,
             'MEDIA_ALLOW_REDIRECTS': True
         })
         process.crawl(

@@ -2,8 +2,7 @@ import os
 import shutil
 from urllib.parse import urljoin
 from zipfile import ZipFile
-
-import requests
+import urllib.request
 
 from webcomix.comic import Comic
 from webcomix.supported_comics import supported_comics
@@ -11,9 +10,9 @@ from webcomix.supported_comics import supported_comics
 
 def test_save_image_location():
     assert Comic.save_image_location(
-        "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", "foo",
-        1) == "foo/1.jpg"
-    assert Comic.save_image_location("", "bar", 1) == "bar/1"
+        "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", 1,
+        "foo") == "foo/1.jpg"
+    assert Comic.save_image_location("", 1, "bar") == "bar/1"
 
 
 def test_urljoin():
@@ -23,37 +22,6 @@ def test_urljoin():
     assert urljoin("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg",
                    "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"
                    ) == "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"
-
-
-def test_save_image_no_image():
-    comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href",
-                  "//div[@id='comic']/img/@src")
-    if os.path.isdir("test"):
-        shutil.rmtree("test")
-    os.makedirs("test")
-    comic.save_image("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg",
-                     "test", 1)
-    assert os.path.isfile("test/1.jpg")
-    os.remove("test/1.jpg")
-    os.rmdir("test")
-
-
-def test_save_image_already_present(capfd):
-    comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href",
-                  "//div[@id='comic']/img/@src")
-    if os.path.isdir("test"):
-        shutil.rmtree("test")
-    os.makedirs("test")
-    with open("test/1.jpg", "w") as image_file:
-        image_file.write("1")
-    comic.save_image("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg",
-                     "test", 1)
-    out, err = capfd.readouterr()
-    assert out == (
-        "Saving image http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg\n"
-        "The image was already downloaded. Skipping...\n")
-    os.remove("test/1.jpg")
-    os.rmdir("test")
 
 
 def test_make_cbz():
@@ -84,9 +52,9 @@ def test_download():
     comic.download("test")
     for i in range(1, 3):
         with open("test/{}.jpeg".format(i), "rb") as result:
-            expected = requests.get(
+            expected = urllib.request.urlopen(
                 "https://j-cpelletier.github.io/webcomix/{}.jpeg".format(i))
-            assert expected.content == result.read()
+            assert expected.read() == result.read()
     shutil.rmtree("test")
 
 

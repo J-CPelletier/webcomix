@@ -3,12 +3,12 @@ import os
 import click
 import scrapy
 from scrapy.exceptions import DropItem
-from scrapy.pipelines.images import ImagesPipeline
+from scrapy.pipelines.images import FilesPipeline
 
 from webcomix.comic import Comic
 
 
-class ComicPipeline(ImagesPipeline):
+class ComicPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
         click.echo("Saving image {}".format(item.get('image_element')))
         image_path = Comic.save_image_location(
