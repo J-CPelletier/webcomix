@@ -42,19 +42,15 @@ def test_make_cbz():
     os.remove("test.cbz")
 
 
-def test_download():
+def test_download(mocker):
     if os.path.isdir("test"):
         shutil.rmtree("test")
     if os.path.isfile("test.cbz"):
         os.remove("test.cbz")
-    comic = Comic("https://j-cpelletier.github.io/webcomix/1.html",
-                  "//a/@href", "//img/@src")
+    mock = mocker.patch('webcomix.comic.CrawlerProcess.start')
+    comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']//img/@src")
     comic.download("test")
-    for i in range(1, 3):
-        with open("test/{}.jpeg".format(i), "rb") as result:
-            expected = urllib.request.urlopen(
-                "https://j-cpelletier.github.io/webcomix/{}.jpeg".format(i))
-            assert expected.read() == result.read()
+    assert mock.call_count == 1
     shutil.rmtree("test")
 
 
