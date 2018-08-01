@@ -4,3 +4,5 @@ lxml
 click
 fake-useragent
 scrapy
+pytest-cov
+coveralls
