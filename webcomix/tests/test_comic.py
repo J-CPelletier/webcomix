@@ -1,8 +1,6 @@
-import os
 import shutil
 from urllib.parse import urljoin
 from zipfile import ZipFile
-import urllib.request
 
 from webcomix.comic import Comic
 from webcomix.supported_comics import supported_comics
