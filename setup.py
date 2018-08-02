@@ -33,6 +33,7 @@ setup(
         'dev': [
             'pytest',
             'pytest-cov',
+            'pytest-mock',
             'coveralls'
         ]
     },
