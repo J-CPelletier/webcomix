@@ -24,29 +24,23 @@ def test_urljoin():
                    ) == "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"
 
 
-def test_make_cbz():
+def test_make_cbz(tmpdir):
     comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href",
                   "//div[@id='comic']/img/@src")
-    if os.path.isdir("test"):
-        shutil.rmtree("test")
-    os.makedirs("test")
+    tmpdir.mkdir("test")
     for i in range(1, 6):
-        with open("test/{}.txt".format(i), "w") as image_file:
-            image_file.write("testing {}".format(i))
-    comic.make_cbz("test", "test")
+        image_file = tmpdir.join("test/{}.txt".format(i))
+        image_file.write("testing {}".format(i))
+    comic.make_cbz("test", tmpdir.join("test").strpath)
     with ZipFile("test.cbz") as cbz_file:
+        print(cbz_file.namelist())
         for i in range(1, 6):
-            with cbz_file.open("test/{}.txt".format(i), "r") as image_file:
+            with cbz_file.open("{}.txt".format(i), "r") as image_file:
                 assert str(
                     image_file.read()).strip("b'") == "testing {}".format(i)
-    os.remove("test.cbz")
 
 
 def test_download(mocker):
-    if os.path.isdir("test"):
-        shutil.rmtree("test")
-    if os.path.isfile("test.cbz"):
-        os.remove("test.cbz")
     mock = mocker.patch('webcomix.comic.CrawlerProcess.start')
     comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']//img/@src")
     comic.download("test")

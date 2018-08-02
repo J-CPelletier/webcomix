@@ -74,7 +74,7 @@ class Comic:
             images = os.listdir(source_directory)
             for image in images:
                 image_location = "{}/{}".format(source_directory, image)
-                cbz_file.write(image_location)
+                cbz_file.write(image_location, image)
                 os.remove(image_location)
             os.rmdir(source_directory)
             if cbz_file.testzip() is not None:
