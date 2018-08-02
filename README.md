@@ -19,6 +19,7 @@ This program is for personal use only. Please be aware that by making the downlo
 * requests
 * click
 * fake-useragent
+* scrapy
 
 ### Process
 
