@@ -1,9 +1,0 @@
-requests
-pytest
-lxml
-click
-fake-useragent
-scrapy
-pytest-mock
-pytest-cov
-coveralls

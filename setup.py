@@ -29,6 +29,13 @@ setup(
         'fake-useragent',
         'scrapy'
     ],
+    extra_requires={
+        'dev': [
+            'pytest',
+            'pytest-cov',
+            'coveralls'
+        ]
+    },
     python_requires='>=3.5',
     entry_points='''
         [console_scripts]
