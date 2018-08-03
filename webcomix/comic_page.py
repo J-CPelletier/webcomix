@@ -2,5 +2,5 @@ import scrapy
 
 
 class ComicPage(scrapy.Item):
-    image_element = scrapy.Field()
+    url = scrapy.Field()
     page = scrapy.Field()

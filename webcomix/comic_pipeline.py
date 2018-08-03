@@ -10,17 +10,17 @@ from webcomix.comic import Comic
 
 class ComicPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
-        click.echo("Saving image {}".format(item.get('image_element')))
+        click.echo("Saving image {}".format(item.get('url')))
         image_path = Comic.save_image_location(
-            item.get("image_element"), item.get("page"), info.spider.directory)
+            item.get("url"), item.get("page"), info.spider.directory)
         if os.path.isfile(image_path):
             click.echo("The image was already downloaded. Skipping...")
             raise DropItem("The image was already downloaded. Skipping...")
         yield scrapy.Request(
-            item.get("image_element"),
+            item.get("url"),
             meta={
                 'page': item.get('page'),
-                'image_element': item.get('image_element')
+                'url': item.get('url')
             })
 
     def item_completed(self, results, item, info):
@@ -33,5 +33,5 @@ class ComicPipeline(FilesPipeline):
 
     def file_path(self, request, response=None, info=None):
         path = Comic.save_image_location(
-            request.meta.get("image_element"), request.meta.get("page"))
+            request.meta.get("url"), request.meta.get("page"))
         return path
