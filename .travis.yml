@@ -5,8 +5,6 @@ python:
 - '3.6'
 - '3.7-dev'
 install:
-- sudo apt install python3.6-dev
-- sudo apt install python3.7-dev
 - pip install -e .[dev]
 script:
 - py.test --check-supported-comics --cov=webcomix webcomix/tests
