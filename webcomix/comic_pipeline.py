@@ -3,7 +3,7 @@ import os
 import click
 import scrapy
 from scrapy.exceptions import DropItem
-from scrapy.pipelines.images import FilesPipeline
+from scrapy.pipelines.files import FilesPipeline
 
 from webcomix.comic import Comic
 
