@@ -1,11 +1,12 @@
 language: python
 python:
 - '3.5'
+- '3.6-dev'
 - '3.6'
-- '3.7'
+- '3.7-dev'
 install:
-- apt install python3.6-dev
-- apt install python3.7-dev
+- sudo apt install python3.6-dev
+- sudo apt install python3.7-dev
 - pip install -e .[dev]
 script:
 - py.test --check-supported-comics --cov=webcomix webcomix/tests
