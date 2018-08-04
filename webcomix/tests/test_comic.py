@@ -1,6 +1,8 @@
 import shutil
 from urllib.parse import urljoin
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipFile
+
+import pytest
 
 from webcomix.comic import Comic
 from webcomix.supported_comics import supported_comics
@@ -31,16 +33,28 @@ def test_make_cbz(tmpdir):
         image_file.write("testing {}".format(i))
     comic.make_cbz("test", tmpdir.join("test").strpath)
     with ZipFile("test.cbz") as cbz_file:
-        print(cbz_file.namelist())
         for i in range(1, 6):
             with cbz_file.open("{}.txt".format(i), "r") as image_file:
                 assert str(
                     image_file.read()).strip("b'") == "testing {}".format(i)
 
 
+def test_make_cbz_corrupted_archive(tmpdir, mocker, capfd):
+    corrupted_archive = mocker.patch.object(ZipFile, 'testzip', return_value=mocker.ANY)
+    comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href",
+                  "//div[@id='comic']/img/@src")
+    tmpdir.mkdir("test")
+    for i in range(1, 6):
+        image_file = tmpdir.join("test/{}.txt".format(i))
+        image_file.write("testing {}".format(i))
+    with pytest.raises(BadZipFile):
+        comic.make_cbz("test", tmpdir.join("test").strpath)
+
+
 def test_download(mocker):
     mock = mocker.patch('webcomix.comic.CrawlerProcess.start')
-    comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href", "//div[@id='comic']//img/@src")
+    comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href",
+                  "//div[@id='comic']//img/@src")
     comic.download("test")
     assert mock.call_count == 1
     shutil.rmtree("test")

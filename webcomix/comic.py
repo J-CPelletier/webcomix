@@ -1,6 +1,6 @@
 import os
 from urllib.parse import urljoin
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipFile
 
 import click
 import requests
@@ -78,7 +78,7 @@ class Comic:
                 os.remove(image_location)
             os.rmdir(source_directory)
             if cbz_file.testzip() is not None:
-                click.echo(
+                raise BadZipFile(
                     "Error while testing the archive; it might be corrupted.")
 
     @staticmethod
