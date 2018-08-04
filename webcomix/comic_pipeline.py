@@ -11,7 +11,6 @@ from webcomix.comic import Comic
 class ComicPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
         click.echo("Saving image {}".format(item.get('url')))
-        print(info)
         image_path = Comic.save_image_location(
             item.get("url"), item.get("page"), info.spider.directory)
         if os.path.isfile(image_path):
@@ -20,7 +19,8 @@ class ComicPipeline(FilesPipeline):
         yield scrapy.Request(
             item.get("url"),
             meta={
-                'image_path': image_path
+                'image_path':
+                Comic.save_image_location(item.get("url"), item.get("page"))
             })
 
     def item_completed(self, results, item, info):
