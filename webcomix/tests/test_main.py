@@ -118,6 +118,23 @@ def test_search(mocker):
     result = runner.invoke(main.search, ["foo", "--start_url=good"], "y")
     assert result.exit_code == 0
     assert mock_discovery.call_count == 1
-    assert mock_download.call_count == 1
     assert mock_verify_xpath.call_count == 1
     assert mock_print_verification.call_count == 1
+    assert mock_download.call_count == 1
+
+
+def test_search_make_cbz(mocker):
+    runner = CliRunner()
+    mock_discovery = mocker.patch('webcomix.main.discovery', return_value=Comic('url', 'next_page', 'comic_image'))
+    mock_download = mocker.patch('webcomix.comic.Comic.download')
+    mock_verify_xpath = mocker.patch('webcomix.comic.Comic.verify_xpath')
+    mock_print_verification = mocker.patch('webcomix.main.print_verification')
+    mock_make_cbz = mocker.patch('webcomix.comic.Comic.make_cbz')
+
+    result = runner.invoke(main.search, ['foo', '--start_url=good', '--cbz'], 'y')
+    assert result.exit_code == 0
+    assert mock_discovery.call_count == 1
+    assert mock_verify_xpath.call_count == 1
+    assert mock_print_verification.call_count == 1
+    assert mock_download.call_count == 1
+    assert mock_make_cbz.call_count == 1
