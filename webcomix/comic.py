@@ -1,11 +1,14 @@
 import os
 from urllib.parse import urljoin
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipFile
 
 import click
 import requests
-from lxml import html
 from fake_useragent import UserAgent
+from lxml import html
+from scrapy.crawler import CrawlerProcess
+
+from webcomix.comic_spider import ComicSpider
 
 ua = UserAgent()
 header = {'User-Agent': str(ua.chrome)}
@@ -27,57 +30,39 @@ class Comic:
         if not os.path.isdir(directory_name):
             os.makedirs(directory_name)
 
-        url = self.start_url
-        page = 1
-        while True:
-            click.echo("Downloading page {}".format(url))
-            response = requests.get(url, headers=header)
-            parsed_html = html.fromstring(response.content)
+        process = CrawlerProcess({
+            'ITEM_PIPELINES': {
+                'webcomix.comic_pipeline.ComicPipeline': 500,
+                'scrapy.pipelines.files.FilesPipeline': 1
+            },
+            'LOG_ENABLED': False,
+            'FILES_STORE': directory_name,
+            'MEDIA_ALLOW_REDIRECTS': True
+        })
+        process.crawl(
+            ComicSpider,
+            start_urls=[self.start_url],
+            next_page_selector=self.next_page_selector,
+            comic_image_selector=self.comic_image_selector,
+            directory=directory_name)
+        process.start()
 
-            image_element = parsed_html.xpath(self.comic_image_selector)
-            next_link = parsed_html.xpath(self.next_page_selector)
-
-            if image_element == []:
-                click.echo("Could not find comic image.")
-            else:
-                try:
-                    image_url = urljoin(url, image_element[0])
-                    self.save_image(image_url, directory_name, page)
-                except:
-                    click.echo("The image couldn't be downloaded.")
-
-            page += 1
-            if next_link == [] or next_link[0].endswith("#"):
-                break
-            url = urljoin(url, next_link[0])
         click.echo("Finished downloading the images.")
 
-    def save_image(self, image_url: str, directory_name: str, page: int):
-        """
-        Gets the image from the image_url and saves it in the directory_name
-        """
-        click.echo("Saving image {}".format(image_url))
-        res = requests.get(image_url, headers=header)
-        res.raise_for_status()
-        image_path = Comic.save_image_location(image_url, directory_name, page)
-        if os.path.isfile(image_path):
-            click.echo("The image was already downloaded. Skipping...")
-        else:
-            with open(image_path, 'wb') as image_file:
-                image_file.write(res.content)
-
     @staticmethod
-    def save_image_location(url: str, directory: str, page: int):
+    def save_image_location(url: str, page: int, directory_name: str = ''):
         """
-        Returns the location in the filesystem under which the webcomic will
-        be saved
+        Returns the relative location in the filesystem under which the
+        webcomic will be saved. If directory_name is specified, it will be
+        relative to the current directory; if not specified, it will return
+        the name relative to the directory in which it is downloaded.
         """
         if url.count(".") <= 1:
             # No file extension (only dot in url is domain name)
             file_name = str(page)
         else:
             file_name = "{}{}".format(page, url[url.rindex("."):])
-        return "/".join([directory, file_name])
+        return os.path.join(directory_name, file_name)
 
     @staticmethod
     def make_cbz(comic_name: str, source_directory: str = "finalComic"):
@@ -89,11 +74,11 @@ class Comic:
             images = os.listdir(source_directory)
             for image in images:
                 image_location = "{}/{}".format(source_directory, image)
-                cbz_file.write(image_location)
+                cbz_file.write(image_location, image)
                 os.remove(image_location)
             os.rmdir(source_directory)
             if cbz_file.testzip() is not None:
-                click.echo(
+                raise BadZipFile(
                     "Error while testing the archive; it might be corrupted.")
 
     @staticmethod

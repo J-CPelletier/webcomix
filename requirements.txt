@@ -1,7 +1,0 @@
-requests
-pytest
-lxml
-click
-fake-useragent
-pytest-cov
-coveralls

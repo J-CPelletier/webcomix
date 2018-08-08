@@ -26,8 +26,17 @@ setup(
         'Click',
         'lxml',
         'requests',
-        'fake-useragent'
+        'fake-useragent',
+        'scrapy'
     ],
+    extras_require={
+        'dev': [
+            'pytest',
+            'pytest-cov',
+            'pytest-mock',
+            'coveralls'
+        ]
+    },
     python_requires='>=3.5',
     entry_points='''
         [console_scripts]

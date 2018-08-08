@@ -1,9 +1,8 @@
-import os
 import shutil
 from urllib.parse import urljoin
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipFile
 
-import requests
+import pytest
 
 from webcomix.comic import Comic
 from webcomix.supported_comics import supported_comics
@@ -11,9 +10,9 @@ from webcomix.supported_comics import supported_comics
 
 def test_save_image_location():
     assert Comic.save_image_location(
-        "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", "foo",
-        1) == "foo/1.jpg"
-    assert Comic.save_image_location("", "bar", 1) == "bar/1"
+        "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", 1,
+        "foo") == "foo/1.jpg"
+    assert Comic.save_image_location("", 1, "bar") == "bar/1"
 
 
 def test_urljoin():
@@ -25,68 +24,39 @@ def test_urljoin():
                    ) == "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"
 
 
-def test_save_image_no_image():
+def test_make_cbz(tmpdir):
     comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href",
                   "//div[@id='comic']/img/@src")
-    if os.path.isdir("test"):
-        shutil.rmtree("test")
-    os.makedirs("test")
-    comic.save_image("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg",
-                     "test", 1)
-    assert os.path.isfile("test/1.jpg")
-    os.remove("test/1.jpg")
-    os.rmdir("test")
-
-
-def test_save_image_already_present(capfd):
-    comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href",
-                  "//div[@id='comic']/img/@src")
-    if os.path.isdir("test"):
-        shutil.rmtree("test")
-    os.makedirs("test")
-    with open("test/1.jpg", "w") as image_file:
-        image_file.write("1")
-    comic.save_image("http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg",
-                     "test", 1)
-    out, err = capfd.readouterr()
-    assert out == (
-        "Saving image http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg\n"
-        "The image was already downloaded. Skipping...\n")
-    os.remove("test/1.jpg")
-    os.rmdir("test")
-
-
-def test_make_cbz():
-    comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href",
-                  "//div[@id='comic']/img/@src")
-    if os.path.isdir("test"):
-        shutil.rmtree("test")
-    os.makedirs("test")
+    tmpdir.mkdir("test")
     for i in range(1, 6):
-        with open("test/{}.txt".format(i), "w") as image_file:
-            image_file.write("testing {}".format(i))
-    comic.make_cbz("test", "test")
+        image_file = tmpdir.join("test/{}.txt".format(i))
+        image_file.write("testing {}".format(i))
+    comic.make_cbz("test", tmpdir.join("test").strpath)
     with ZipFile("test.cbz") as cbz_file:
         for i in range(1, 6):
-            with cbz_file.open("test/{}.txt".format(i), "r") as image_file:
+            with cbz_file.open("{}.txt".format(i), "r") as image_file:
                 assert str(
                     image_file.read()).strip("b'") == "testing {}".format(i)
-    os.remove("test.cbz")
 
 
-def test_download():
-    if os.path.isdir("test"):
-        shutil.rmtree("test")
-    if os.path.isfile("test.cbz"):
-        os.remove("test.cbz")
-    comic = Comic("https://j-cpelletier.github.io/webcomix/1.html",
-                  "//a/@href", "//img/@src")
+def test_make_cbz_corrupted_archive(tmpdir, mocker, capfd):
+    corrupted_archive = mocker.patch.object(ZipFile, 'testzip', return_value=mocker.ANY)
+    comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href",
+                  "//div[@id='comic']/img/@src")
+    tmpdir.mkdir("test")
+    for i in range(1, 6):
+        image_file = tmpdir.join("test/{}.txt".format(i))
+        image_file.write("testing {}".format(i))
+    with pytest.raises(BadZipFile):
+        comic.make_cbz("test", tmpdir.join("test").strpath)
+
+
+def test_download(mocker):
+    mock = mocker.patch('webcomix.comic.CrawlerProcess.start')
+    comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href",
+                  "//div[@id='comic']//img/@src")
     comic.download("test")
-    for i in range(1, 3):
-        with open("test/{}.jpeg".format(i), "rb") as result:
-            expected = requests.get(
-                "https://j-cpelletier.github.io/webcomix/{}.jpeg".format(i))
-            assert expected.content == result.read()
+    assert mock.call_count == 1
     shutil.rmtree("test")
 
 

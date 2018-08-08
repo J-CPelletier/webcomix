@@ -19,6 +19,7 @@ This program is for personal use only. Please be aware that by making the downlo
 * requests
 * click
 * fake-useragent
+* scrapy
 
 ### Process
 
@@ -31,8 +32,7 @@ This program is for personal use only. Please be aware that by making the downlo
 
 1. Install [Python 3](https://www.python.org/downloads/)
 2. Clone this repository and open a terminal in its directory
-3. Download the dependencies by running `pip install -r requirements.txt`
-4. Install the command line interface tool in development mode by running `pip install --editable .`
+3. Download the dependencies by running `pip install -e .[dev]`
 
 ## Usage
 

@@ -1,10 +1,12 @@
 language: python
 python:
 - '3.5'
+- '3.5-dev'
+- '3.6-dev'
 install:
-- pip install -r requirements.txt
+- pip install -e .[dev]
 script:
-- py.test --cov=webcomix webcomix/tests
+- py.test --check-supported-comics --cov=webcomix webcomix/tests
 after_success:
 - zip -r webcomix_Mac_Linux.zip webcomix requirements.txt setup.py LICENCE README.md
 - coveralls
@@ -23,6 +25,7 @@ deploy:
     username: J-CPelletier
     password:
       secure: r7PRWEgVGMG9YT1V/ccAoE2ppb0XiB7Y/ctNcfQZDy3YvTrSoCvTxlSImuxuqZKXU+x+/KL+q1CyVferYk5Ou2Bvexet9uS7IXj59nEJxLqcNa4AGkZubZOMuhZcIYvvbTJYzH1nTtMunvi36czQpYQ15b12hxJX+aMnca9hKru4h7B2o3mGGwWDlKeM+ZyZ3VYFu6ZHzsKfbfSmOpHzdzSiavTp/9VqwGGPOQykUAhj3QEa2uix4vbBoR8+t0O1m1cCejsRFTlWkUzWLwqW41R5LZoIIO0tFmy+5RVBUITFa8lXS69ByQp12+hacufCb270ZV5EeUhcfpvPKp1yGaYUZelkrJ9JOqiLDlz3mRraLkEpCbNCRVFvV01rDKG4qNozTbUXY5TXCj13yV4s4Sgb/CkqA4XKstrUOMw2heELhUtxCa24MYotltg2ZW95jvM93pHxQxSpmy1kKGrFPAhUG5jIv7IaLXyjN0bo68M7M3RG2ZqBxv+EC09zElzDCKQasDaKKP3/99AWI8vIfqDwwSbh2tKWVUQHIN9Ekbhs4YNwy/jHXLsBsx4AZFeHqisBeYfU+2g98vqZ32YiNuU8jwxD2+dnZw176f4yKl+9ovZnC9aHwvsGxPJ+KYzI3BM/2D3RW576UTscyxCdS16hraH4C85ExJApLctm0+I=
+    distributions: "sdist bdist_wheel"
     on:
       tags: true
       branch: master
