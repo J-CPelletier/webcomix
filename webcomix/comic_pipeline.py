@@ -12,15 +12,18 @@ class ComicPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
         click.echo("Saving image {}".format(item.get('url')))
         image_path = Comic.save_image_location(
-            item.get("url"), item.get("page"), info.spider.directory)
+            item.get("url"),
+            item.get("page"), item.get("sub_page"),
+            info.spider.directory)
         if os.path.isfile(image_path):
             click.echo("The image was already downloaded. Skipping...")
             raise DropItem("The image was already downloaded. Skipping...")
         yield scrapy.Request(
             item.get("url"),
             meta={
-                'image_path':
-                Comic.save_image_location(item.get("url"), item.get("page"))
+                'image_file_name':
+                Comic.save_image_location(
+                    item.get("url"), item.get("page"), item.get("sub_page"))
             })
 
     def item_completed(self, results, item, info):
@@ -32,4 +35,4 @@ class ComicPipeline(FilesPipeline):
         return item
 
     def file_path(self, request, response=None, info=None):
-        return request.meta.get('image_path')
+        return request.meta.get('image_file_name')

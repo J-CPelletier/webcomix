@@ -1,5 +1,5 @@
 import os
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 from urllib.parse import urljoin
 from zipfile import ZipFile, BadZipFile
 
@@ -51,7 +51,9 @@ class Comic:
         click.echo("Finished downloading the images.")
 
     @staticmethod
-    def save_image_location(url: str, page: int,
+    def save_image_location(url: str,
+                            page: int,
+                            sub_page: Optional[int] = None,
                             directory_name: str = '') -> str:
         """
         Returns the relative location in the filesystem under which the
@@ -62,8 +64,10 @@ class Comic:
         if url.count(".") <= 1:
             # No file extension (only dot in url is domain name)
             file_name = str(page)
-        else:
+        elif sub_page is None:
             file_name = "{}{}".format(page, url[url.rindex("."):])
+        else:
+            file_name = "{}_{}{}".format(page, sub_page, url[url.rindex("."):])
         return os.path.join(directory_name, file_name)
 
     @staticmethod
@@ -87,7 +91,7 @@ class Comic:
     @staticmethod
     def verify_xpath(
             url: str, next_page: str, image: str
-    ) -> List[Tuple[str, str], Tuple[str, str], Tuple[str, str]]:
+    ) -> List[Tuple[str, str]]:
         """
         Takes a url and the XPath expressions for the next_page and image to
         go three pages into the comic. It returns a tuple containing the url

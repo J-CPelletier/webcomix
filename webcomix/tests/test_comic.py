@@ -10,9 +10,12 @@ from webcomix.supported_comics import supported_comics
 
 def test_save_image_location():
     assert Comic.save_image_location(
-        "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", 1,
+        "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", 1, None,
         "foo") == "foo/1.jpg"
-    assert Comic.save_image_location("", 1, "bar") == "bar/1"
+    assert Comic.save_image_location("", 1, None, "bar") == "bar/1"
+    assert Comic.save_image_location(
+        "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", 1, 1,
+        "foo") == "foo/1_1.jpg"
 
 
 def test_urljoin():
@@ -40,7 +43,8 @@ def test_make_cbz(tmpdir):
 
 
 def test_make_cbz_corrupted_archive(tmpdir, mocker, capfd):
-    corrupted_archive = mocker.patch.object(ZipFile, 'testzip', return_value=mocker.ANY)
+    corrupted_archive = mocker.patch.object(
+        ZipFile, 'testzip', return_value=mocker.ANY)
     comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href",
                   "//div[@id='comic']/img/@src")
     tmpdir.mkdir("test")
