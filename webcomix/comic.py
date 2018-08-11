@@ -1,4 +1,5 @@
 import os
+from typing import List, Tuple
 from urllib.parse import urljoin
 from zipfile import ZipFile, BadZipFile
 
@@ -21,7 +22,7 @@ class Comic:
         self.next_page_selector = next_page_selector
         self.comic_image_selector = comic_image_selector
 
-    def download(self, directory_name: str = "finalComic"):
+    def download(self, directory_name: str = "finalComic") -> None:
         """
         Downloads an entire Webcomic page by page starting from the first one
         and saves them in the directory_name created in the current working
@@ -50,7 +51,8 @@ class Comic:
         click.echo("Finished downloading the images.")
 
     @staticmethod
-    def save_image_location(url: str, page: int, directory_name: str = ''):
+    def save_image_location(url: str, page: int,
+                            directory_name: str = '') -> str:
         """
         Returns the relative location in the filesystem under which the
         webcomic will be saved. If directory_name is specified, it will be
@@ -65,7 +67,8 @@ class Comic:
         return os.path.join(directory_name, file_name)
 
     @staticmethod
-    def make_cbz(comic_name: str, source_directory: str = "finalComic"):
+    def make_cbz(comic_name: str,
+                 source_directory: str = "finalComic") -> None:
         """
         Takes all of the previously downloaded pages and compresses them in
         a .cbz file, erasing them afterwards.
@@ -82,7 +85,9 @@ class Comic:
                     "Error while testing the archive; it might be corrupted.")
 
     @staticmethod
-    def verify_xpath(url: str, next_page: str, image: str):
+    def verify_xpath(
+            url: str, next_page: str, image: str
+    ) -> List[Tuple[str, str], Tuple[str, str], Tuple[str, str]]:
         """
         Takes a url and the XPath expressions for the next_page and image to
         go three pages into the comic. It returns a tuple containing the url
