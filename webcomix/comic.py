@@ -87,7 +87,7 @@ class Comic:
     @staticmethod
     def verify_xpath(
             url: str, next_page: str, image: str
-    ) -> List[Tuple[str, str], Tuple[str, str], Tuple[str, str]]:
+    ) -> List[Tuple[str, str]]:
         """
         Takes a url and the XPath expressions for the next_page and image to
         go three pages into the comic. It returns a tuple containing the url
