@@ -13,7 +13,7 @@ class ComicPipeline(FilesPipeline):
         click.echo("Saving image {}".format(item.get('url')))
         image_path = Comic.save_image_location(
             item.get("url"),
-            item.get("page"), item.get("sub_page"),
+            item.get("page"),
             info.spider.directory)
         if os.path.isfile(image_path):
             click.echo("The image was already downloaded. Skipping...")
@@ -23,7 +23,7 @@ class ComicPipeline(FilesPipeline):
             meta={
                 'image_file_name':
                 Comic.save_image_location(
-                    item.get("url"), item.get("page"), item.get("sub_page"))
+                    item.get("url"), item.get("page"))
             })
 
     def item_completed(self, results, item, info):

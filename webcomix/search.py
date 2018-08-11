@@ -3,7 +3,7 @@ import click
 from webcomix.comic import Comic
 
 possible_next_page_xpath = ["next", "Next"]
-possible_image_xpath = ["comic", "Comic"]
+possible_image_xpath = ["comic", "Comic", "image", "Image"]
 
 
 def discovery(url):
@@ -16,7 +16,14 @@ def discovery(url):
             try:
                 first_pages = Comic.verify_xpath(url, next_page_xpath,
                                                  image_xpath)
-                assert len(set(first_pages)) == 3
+                page_links = set([page[0] for page in first_pages])
+                assert len(page_links) == 3
+                list_of_images = [page[1] for page in first_pages]
+                image_links = [
+                    image for page in list_of_images for image in page
+                ]
+                assert len(set(image_links)) == len(image_links)
+                assert len(image_links) >= 3
                 return Comic(url, next_page_xpath, image_xpath)
             except:
                 continue

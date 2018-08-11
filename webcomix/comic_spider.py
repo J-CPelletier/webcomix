@@ -17,18 +17,16 @@ class ComicSpider(scrapy.Spider):
 
     def parse(self, response):
         click.echo("Downloading page {}".format(response.url))
-        comic_image_urls = response.xpath(
-            self.comic_image_selector).extract()
+        comic_image_urls = response.xpath(self.comic_image_selector).extract()
 
         page = response.meta.get('page') or 1
         for index, comic_image_url in enumerate(comic_image_urls):
-            sub_page = index + 1 if len(comic_image_urls) > 1 else None
             yield ComicPage(
-                url=urljoin(response.url, comic_image_url),
-                page=page, sub_page=sub_page)
+                url=urljoin(response.url, comic_image_url), page=page + index)
         if not comic_image_urls:
             click.echo("Could not find comic image.")
         next_page_url = response.xpath(self.next_page_selector).extract_first()
         if next_page_url is not None and not next_page_url.endswith('#'):
             yield scrapy.Request(
-                response.urljoin(next_page_url), meta={'page': page + 1})
+                response.urljoin(next_page_url),
+                meta={'page': page + len(comic_image_urls)})

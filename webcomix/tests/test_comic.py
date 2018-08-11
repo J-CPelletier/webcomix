@@ -10,12 +10,9 @@ from webcomix.supported_comics import supported_comics
 
 def test_save_image_location():
     assert Comic.save_image_location(
-        "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", 1, None,
+        "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", 1,
         "foo") == "foo/1.jpg"
-    assert Comic.save_image_location("", 1, None, "bar") == "bar/1"
-    assert Comic.save_image_location(
-        "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", 1, 1,
-        "foo") == "foo/1_1.jpg"
+    assert Comic.save_image_location("", 1, "bar") == "bar/1"
 
 
 def test_urljoin():
@@ -67,8 +64,8 @@ def test_download(mocker):
 def test_verify_xpath():
     assert Comic.verify_xpath(*supported_comics["xkcd"]) == [
         ('http://xkcd.com/1/',
-         'http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg'),
+         ['http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg']),
         ('http://xkcd.com/2/',
-         'http://imgs.xkcd.com/comics/tree_cropped_(1).jpg'),
-        ('http://xkcd.com/3/', 'http://imgs.xkcd.com/comics/island_color.jpg')
+         ['http://imgs.xkcd.com/comics/tree_cropped_(1).jpg']),
+        ('http://xkcd.com/3/', ['http://imgs.xkcd.com/comics/island_color.jpg'])
     ]
