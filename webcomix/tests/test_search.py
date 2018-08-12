@@ -12,7 +12,7 @@ def test_search_searchable_website(mocker):
     mocker.patch('webcomix.search.possible_image_xpath', ["comic"])
     mocker.patch('webcomix.search.possible_tags_image', ["*"])
     mocker.patch('webcomix.search.possible_tags_next', ["*"])
-    mocker.patch('webcomix.search.possible_attributes_image', ["@src"])
+    mocker.patch('webcomix.search.possible_attributes_image', [".", "@src"])
     mocker.patch('webcomix.search.possible_attributes_next', ["@class"])
     mocker.patch('webcomix.util.check_first_pages')
     result = discovery(
@@ -42,3 +42,23 @@ def test_search_unsearchable_website(mocker):
     mocker.patch('webcomix.search.possible_attributes_next', [])
 
     assert discovery("test") is None
+
+
+def test_stopping_searching(mocker):
+    expected = Comic(
+        "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
+        "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'next')]//@href",
+        "//*[contains(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'comic')]//@src"
+    )
+    mocker.patch('webcomix.search.possible_next_page_xpath', ["next"])
+    mocker.patch('webcomix.search.possible_image_xpath', ["comic"])
+    mocker.patch('webcomix.search.possible_tags_image', ["div"])
+    mocker.patch('webcomix.search.possible_tags_next', ["div"])
+    mocker.patch('webcomix.search.possible_attributes_image', ["@rel"])
+    mocker.patch('webcomix.search.possible_attributes_next', ["@class"])
+    exit_called = mocker.patch('sys.exit')
+    mocker.patch('webcomix.comic.Comic.verify_xpath', side_effect=KeyboardInterrupt)
+    result = discovery(
+        'http://www.blindsprings.com/comic/blindsprings-cover-book-one')
+    assert exit_called.call_count == 1
+    assert result is None
