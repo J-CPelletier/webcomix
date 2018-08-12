@@ -27,7 +27,8 @@ setup(
         'lxml',
         'requests',
         'fake-useragent',
-        'scrapy'
+        'scrapy',
+        'tqdm'
     ],
     extras_require={
         'dev': [

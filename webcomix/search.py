@@ -1,31 +1,47 @@
+import sys
+from itertools import product
+
 import click
+from tqdm import tqdm
 
 from webcomix.comic import Comic
+from webcomix.util import check_first_pages
 
-possible_next_page_xpath = ["next", "Next"]
-possible_image_xpath = ["comic", "Comic", "image", "Image"]
+possible_next_page_xpath = ["next"]
+possible_image_xpath = ["comic", "image"]
+possible_tags_image = ["*", "img", "div"]
+possible_tags_next = ["*", "a", "div", "li"]
+possible_attributes_image = [".", "@src", "@class", "@id", "@alt"]
+possible_attributes_next = [".", "text()", "@class", "@id", "@alt", "@rel"]
 
 
 def discovery(url):
-    click.echo("Looking for a path to the whole comic...")
-    for next_page in possible_next_page_xpath:
-        for image in possible_image_xpath:
-            next_page_xpath = "//*[@*[contains(., '{}')]]//@href".format(
-                next_page)
-            image_xpath = "//*[@*[contains(., '{}')]]//@src".format(image)
-            try:
-                first_pages = Comic.verify_xpath(url, next_page_xpath,
-                                                 image_xpath)
-                page_links = set([page[0] for page in first_pages])
-                assert len(page_links) == 3
-                list_of_images = [page[1] for page in first_pages]
-                image_links = [
-                    image for page in list_of_images for image in page
-                ]
-                assert len(set(image_links)) == len(image_links)
-                assert len(image_links) >= 3
-                return Comic(url, next_page_xpath, image_xpath)
-            except:
-                continue
+    def to_lower_case(attribute):
+        return ("translate({}, "
+                "'ABCDEFGHIJKLMNOPQRSTUVWXYZ',"
+                "'abcdefghijklmnopqrstuvwxyz')").format(attribute)
+
+    click.echo("Looking for a path to the whole comic... (Ctrl-C to exit)")
+    combinations = product(possible_next_page_xpath, possible_image_xpath,
+                           possible_tags_image, possible_tags_next,
+                           possible_attributes_image, possible_attributes_next)
+    total = len(possible_next_page_xpath) * len(possible_image_xpath) * len(
+        possible_tags_image) * len(possible_tags_next) * len(
+            possible_attributes_image) * len(possible_attributes_next)
+
+    for next_page, image, tag_image, tag_next, attribute_image, attribute_next in tqdm(
+            combinations, total=total):
+        next_page_xpath = "//{}[contains({}, '{}')]//@href".format(
+            tag_next, to_lower_case(attribute_next), next_page)
+        image_xpath = "//{}[contains({}, '{}')]//@src".format(
+            tag_image, to_lower_case(attribute_image), image)
+        try:
+            first_pages = Comic.verify_xpath(url, next_page_xpath, image_xpath)
+            check_first_pages(first_pages)
+            return Comic(url, next_page_xpath, image_xpath)
+        except KeyboardInterrupt:
+            sys.exit(0)
+        except:
+            continue
     click.echo("Search has failed.")
     return None
