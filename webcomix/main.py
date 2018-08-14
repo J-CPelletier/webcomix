@@ -133,5 +133,5 @@ def print_verification(validation):
     Prints the verification given by the verify_xpath function
     """
     for i in range(3):
-        click.echo("Page {}: \nPage URL: {}\nImage URL: {}\n".format(
-            i + 1, validation[i][0], validation[i][1]))
+        click.echo("Page {}:\nPage URL: {}\nImage URLs:\n{}\n".format(
+            i + 1, validation[i][0], "\n".join(validation[i][1])))

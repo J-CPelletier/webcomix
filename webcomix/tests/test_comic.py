@@ -40,7 +40,8 @@ def test_make_cbz(tmpdir):
 
 
 def test_make_cbz_corrupted_archive(tmpdir, mocker, capfd):
-    corrupted_archive = mocker.patch.object(ZipFile, 'testzip', return_value=mocker.ANY)
+    corrupted_archive = mocker.patch.object(
+        ZipFile, 'testzip', return_value=mocker.ANY)
     comic = Comic("http://xkcd.com/1/", "//a[@rel='next']/@href",
                   "//div[@id='comic']/img/@src")
     tmpdir.mkdir("test")
@@ -63,8 +64,8 @@ def test_download(mocker):
 def test_verify_xpath():
     assert Comic.verify_xpath(*supported_comics["xkcd"]) == [
         ('http://xkcd.com/1/',
-         'http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg'),
+         ['http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg']),
         ('http://xkcd.com/2/',
-         'http://imgs.xkcd.com/comics/tree_cropped_(1).jpg'),
-        ('http://xkcd.com/3/', 'http://imgs.xkcd.com/comics/island_color.jpg')
+         ['http://imgs.xkcd.com/comics/tree_cropped_(1).jpg']),
+        ('http://xkcd.com/3/', ['http://imgs.xkcd.com/comics/island_color.jpg'])
     ]

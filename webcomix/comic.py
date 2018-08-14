@@ -85,9 +85,8 @@ class Comic:
                     "Error while testing the archive; it might be corrupted.")
 
     @staticmethod
-    def verify_xpath(
-            url: str, next_page: str, image: str
-    ) -> List[Tuple[str, str]]:
+    def verify_xpath(url: str, next_page: str,
+                     image: str) -> List[Tuple[str, List[str]]]:
         """
         Takes a url and the XPath expressions for the next_page and image to
         go three pages into the comic. It returns a tuple containing the url
@@ -98,14 +97,16 @@ class Comic:
             response = requests.get(url, headers=header)
             parsed_html = html.fromstring(response.content)
             try:
-                image_element = parsed_html.xpath(image)[0]
+                image_elements = parsed_html.xpath(image)
                 next_link = parsed_html.xpath(next_page)[0]
             except IndexError:
                 raise Exception("""\n
                     Next page XPath: {}\n
                     Image XPath: {}\n
                     Failed on URL: {}""".format(next_page, image, url))
-            image_url = urljoin(url, image_element)
-            verification.append((url, image_url))
+            image_urls = [
+                urljoin(url, image_element) for image_element in image_elements
+            ]
+            verification.append((url, image_urls))
             url = urljoin(url, next_link)
         return verification
