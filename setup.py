@@ -10,14 +10,15 @@ setup(
     author_email='pelletierj97@gmail.com',
     license='MIT',
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: End Users/Desktop',
         'Topic :: Internet :: WWW/HTTP',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-        'Operating System :: OS Independent'
+        'Operating System :: OS Independent',
+        'Framework :: Scrapy'
     ],
     packages=[
         "webcomix"
