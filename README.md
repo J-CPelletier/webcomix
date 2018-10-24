@@ -1,10 +1,10 @@
-# WebComicToCBZ
+# webcomix
 
-[![Build Status](https://travis-ci.org/J-CPelletier/WebComicToCBZ.svg?branch=master)](https://travis-ci.org/J-CPelletier/WebComicToCBZ)
+[![Build Status](https://travis-ci.org/J-CPelletier/webcomix.svg?branch=master)](https://travis-ci.org/J-CPelletier/webcomix)[![Coverage Status](https://coveralls.io/repos/github/J-CPelletier/webcomix/badge.svg?branch=master)](https://coveralls.io/github/J-CPelletier/webcomix?branch=master)[![PyPI version](https://badge.fury.io/py/webcomix.svg)](https://badge.fury.io/py/webcomix)
 
 ## Description
 
-WebComicToCBZ is a Python-based web comic downloader that can additionally create a .cbz (Comic Book ZIP) file once downloaded.
+webcomix is a webcomic downloader that can additionally create a .cbz (Comic Book ZIP) file once downloaded.
 
 ## Notice
 
@@ -14,35 +14,30 @@ This program is for personal use only. Please be aware that by making the downlo
 
 ### Dependencies
 
-* Python3
+* Python (3.5 or newer)
 * lxml
 * requests
 * click
-* PyQt5 (If you're using the Graphical User Interface version of this tool)
+* fake-useragent
+* scrapy (Some additional steps might be required to include this package and can be found [here](https://doc.scrapy.org/en/latest/intro/install.html#intro-install-platform-notes))
+* tqdm
 
 ### Process
 
-#### With the requirements.txt
+#### End user
 
 1. Install [Python 3](https://www.python.org/downloads/)
-2. Install [pip](https://pip.pypa.io/en/stable/installing/)
-3. Clone this repository and open a terminal in its directory.
-4. Get the required packages by running `pip install -r requirements.txt`
-5. Install the command line interface tool with `pip install --editable .`
+2. Install the command line interface tool with `pip install webcomix`
 
-#### Without the requirements.txt
+#### Developer
 
 1. Install [Python 3](https://www.python.org/downloads/)
-2. Install [pip](https://pip.pypa.io/en/stable/installing/)
-3. Get lxml by running `pip install lxml` (More info [here](http://lxml.de/installation.html#where-to-get-it))
-4. Get requests by running `pip install requests` (More info [here](http://docs.python-requests.org/en/master/user/install/))
-5. Get click by running `pip install click` (More info [here](http://click.pocoo.org/5/quickstart/)
-5. Clone this repository or download its ZIP.
-6. Install the command line interface tool with `pip install --editable .`
+2. Clone this repository and open a terminal in its directory
+3. Download the dependencies by running `pip install -e .[dev]`
 
 ## Usage
 
-`WebComicToCBZ [OPTIONS] COMMAND [ARGS]`
+`webcomix [OPTIONS] COMMAND [ARGS]`
 
 ### Global Flags
 
@@ -62,17 +57,22 @@ Shows all predefined comics which can be used with the `download` command.
 
 #### download
 
-Downloads a predefined comic. Supports the `--make_cbz` flag, which creates a .cbz archive of the downloaded comic.
+Downloads a predefined comic. Supports the `--cbz` flag, which creates a .cbz archive of the downloaded comic.
+
+#### search
+
+Searches for an XPath that can download the whole comic. Supports the `--cbz` flag, which creates a .cbz archive of the downloaded comic, and `-y`, which skips the verification prompt.
 
 #### custom
 
-Downloads a user-defined comic. To download a specific comic, you'll need a link to the first page, an XPath expression giving out the link to the next page and an XPath expression giving out the link to the image. More info [here](http://www.w3schools.com/xml/xpath_syntax.asp). Supports the `--make_cbz` flag, which creates a .cbz archive of the downloaded comic.
+Downloads a user-defined comic. To download a specific comic, you'll need a link to the first page, an XPath expression giving out the link to the next page and an XPath expression giving out the link to the image. More info [here](http://www.w3schools.com/xml/xpath_syntax.asp). Supports the `--cbz` flag, which creates a .cbz archive of the downloaded comic, and `-y`, which skips the verification prompt.
 
 ### Examples
 
-* `WebComicToCBZ download xkcd`
-* `WebComicToCBZ custom --make_cbz` (You will be prompted about other needed arguments)
-* `WebComicToCBZ custom --comic_name=xkcd --first_page_url=http://xkcd.com/1/ --next_page_xpath="//a[@rel='next']/@href" --image_xpath="//div[@id='comic']//img/@src" --make_cbz` (Same as before, but with all arguments declared beforehand)
+* `webcomix download xkcd`
+* `webcomix search xkcd --first_page_url=http://xkcd.com/1/`
+* `webcomix custom --cbz` (You will be prompted about other needed arguments)
+* `webcomix custom --comic_name=xkcd --start_url=http://xkcd.com/1/ --next_page_xpath="//a[@rel='next']/@href" --image_xpath="//div[@id='comic']//img/@src" --cbz` (Same as before, but with all arguments declared beforehand)
 
 ### Making an XPath selector
 
@@ -90,4 +90,4 @@ The procedure depends on the type of contribution:
 
 ### Running the tests
 
-To run the tests, you have to get pytest(with `pip install -U pytest`) and use the `pytest` command in the WebComicToCBZ folder.
+To run the tests, you have to get pytest(with `pip install -U pytest`) and use the `pytest` command in the webcomix folder.
