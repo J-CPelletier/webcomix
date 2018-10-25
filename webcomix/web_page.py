@@ -1,6 +1,6 @@
 import scrapy
 
 
-class ComicPage(scrapy.Item):
+class WebPage(scrapy.Item):
     url = scrapy.Field()
     page = scrapy.Field()

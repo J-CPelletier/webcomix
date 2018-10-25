@@ -24,7 +24,7 @@ class Comic:
 
     def download(self, directory_name: str = "finalComic") -> None:
         """
-        Downloads an entire Webcomic page by page starting from the first one
+        Downloads an entire comic page by page starting from the first one
         and saves them in the directory_name created in the current working
         directory
         """

@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 import click
 import scrapy
 
-from webcomix.comic_page import ComicPage
+from webcomix.web_page import WebPage
 
 
 class ComicSpider(scrapy.Spider):
@@ -21,7 +21,7 @@ class ComicSpider(scrapy.Spider):
 
         page = response.meta.get('page') or 1
         for index, comic_image_url in enumerate(comic_image_urls):
-            yield ComicPage(
+            yield WebPage(
                 url=urljoin(response.url, comic_image_url), page=page + index)
         if not comic_image_urls:
             click.echo("Could not find comic image.")

@@ -16,7 +16,7 @@ def cli():
 @cli.command()
 def comics():
     """
-    Shows all predefined webcomics
+    Shows all predefined comics
     """
     comics_content = [
         "{}: {}".format(key, value[0])
@@ -35,7 +35,7 @@ def comics():
     help="Outputs the comic as a cbz file")
 def download(name, cbz):
     """
-    Downloads a predefined webcomic by name
+    Downloads a predefined comic by name
     """
     if name in list(supported_comics.keys()):
         comic = Comic(*supported_comics[name])

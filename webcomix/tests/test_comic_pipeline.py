@@ -3,7 +3,7 @@ from scrapy.http import Request
 import pytest
 
 from webcomix.comic_pipeline import ComicPipeline
-from webcomix.comic_page import ComicPage
+from webcomix.web_page import WebPage
 from webcomix.supported_comics import supported_comics
 
 first_comic = list(sorted(supported_comics.values()))[0]
@@ -22,7 +22,7 @@ def test_get_media_requests_returns_good_request_when_file_not_present(mocker):
     pipeline = ComicPipeline(store_uri="foo")
     elements = list(
         pipeline.get_media_requests(
-            ComicPage(url=expected_url_image, page=1), mock_spider_info))
+            WebPage(url=expected_url_image, page=1), mock_spider_info))
     request = elements[0]
     assert request.url == expected_url_image
     assert request.meta['image_file_name'] == expected_image_location
@@ -38,12 +38,12 @@ def test_get_media_requests_drops_item_when_file_present(mocker):
     pipeline = ComicPipeline(store_uri="foo")
     with pytest.raises(DropItem):
         elements = list(pipeline.get_media_requests(
-            ComicPage(url=expected_url_image, page=1), mock_spider_info))
+            WebPage(url=expected_url_image, page=1), mock_spider_info))
 
 
 def test_item_completed_returns_item_when_file_downloaded(mocker):
     results = [(True, {'path': expected_image_location})]
-    item = ComicPage()
+    item = WebPage()
     pipeline = ComicPipeline(store_uri="foo")
 
     result = pipeline.item_completed(results, item, mocker.ANY)
@@ -53,7 +53,7 @@ def test_item_completed_returns_item_when_file_downloaded(mocker):
 
 def test_item_completed_returns_drops_when_file_not_downloaded(mocker):
     results = [(False, {})]
-    item = ComicPage()
+    item = WebPage()
     pipeline = ComicPipeline(store_uri="foo")
 
     with pytest.raises(DropItem):

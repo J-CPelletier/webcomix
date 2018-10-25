@@ -42,6 +42,6 @@ setup(
     python_requires='>=3.5',
     entry_points='''
         [console_scripts]
-        webcomix=webcomix.main:cli
+        webcomix=webcomix.cli:cli
     ''',
 )
