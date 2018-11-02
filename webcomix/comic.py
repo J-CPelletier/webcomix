@@ -12,12 +12,17 @@ from scrapy.crawler import CrawlerProcess
 from webcomix.comic_spider import ComicSpider
 
 ua = UserAgent()
-header = {'User-Agent': str(ua.chrome)}
+header = {"User-Agent": str(ua.chrome)}
 
 
 class Comic:
-    def __init__(self, name: str, start_url: str, next_page_selector: str,
-                 comic_image_selector: str):
+    def __init__(
+        self,
+        name: str,
+        start_url: str,
+        next_page_selector: str,
+        comic_image_selector: str,
+    ):
         self.name = name
         self.start_url = start_url
         self.next_page_selector = next_page_selector
@@ -32,28 +37,30 @@ class Comic:
         if not os.path.isdir(self.name):
             os.makedirs(self.name)
 
-        process = CrawlerProcess({
-            'ITEM_PIPELINES': {
-                'webcomix.comic_pipeline.ComicPipeline': 500,
-                'scrapy.pipelines.files.FilesPipeline': 1
-            },
-            'LOG_ENABLED': False,
-            'FILES_STORE': self.name,
-            'MEDIA_ALLOW_REDIRECTS': True
-        })
+        process = CrawlerProcess(
+            {
+                "ITEM_PIPELINES": {
+                    "webcomix.comic_pipeline.ComicPipeline": 500,
+                    "scrapy.pipelines.files.FilesPipeline": 1,
+                },
+                "LOG_ENABLED": False,
+                "FILES_STORE": self.name,
+                "MEDIA_ALLOW_REDIRECTS": True,
+            }
+        )
         process.crawl(
             ComicSpider,
             start_urls=[self.start_url],
             next_page_selector=self.next_page_selector,
             comic_image_selector=self.comic_image_selector,
-            directory=self.name)
+            directory=self.name,
+        )
         process.start()
 
         click.echo("Finished downloading the images.")
 
     @staticmethod
-    def save_image_location(url: str, page: int,
-                            directory_name: str = '') -> str:
+    def save_image_location(url: str, page: int, directory_name: str = "") -> str:
         """
         Returns the relative location in the filesystem under which the
         webcomic will be saved. If directory_name is specified, it will be
@@ -64,7 +71,7 @@ class Comic:
             # No file extension (only dot in url is domain name)
             file_name = str(page)
         else:
-            file_name = "{}{}".format(page, url[url.rindex("."):])
+            file_name = "{}{}".format(page, url[url.rindex(".") :])
         return os.path.join(directory_name, file_name)
 
     def convert_to_cbz(self) -> None:
@@ -81,7 +88,8 @@ class Comic:
             os.rmdir(self.name)
             if cbz_file.testzip() is not None:
                 raise BadZipFile(
-                    "Error while testing the archive; it might be corrupted.")
+                    "Error while testing the archive; it might be corrupted."
+                )
 
     def verify_xpath(self) -> List[Tuple[str, List[str]]]:
         """
@@ -98,10 +106,14 @@ class Comic:
                 image_elements = parsed_html.xpath(self.comic_image_selector)
                 next_link = parsed_html.xpath(self.next_page_selector)[0]
             except IndexError:
-                raise Exception("""\n
+                raise Exception(
+                    """\n
                     Next page XPath: {}\n
                     Image XPath: {}\n
-                    Failed on URL: {}""".format(self.next_page_selector, self.comic_image_selector, url))
+                    Failed on URL: {}""".format(
+                        self.next_page_selector, self.comic_image_selector, url
+                    )
+                )
             image_urls = [
                 urljoin(url, image_element) for image_element in image_elements
             ]

@@ -34,6 +34,7 @@ This program is for personal use only. Please be aware that by making the downlo
 1. Install [Python 3](https://www.python.org/downloads/)
 2. Clone this repository and open a terminal in its directory
 3. Download the dependencies by running `pip install -e .[dev]`
+4. Install pre-commit hooks with `pre-commit install`
 
 ## Usage
 

@@ -3,7 +3,10 @@ import pytest
 
 def pytest_addoption(parser):
     parser.addoption(
-        "--check-supported-comics", action="store_true", default=False, help="checks if supported comics XPath are still working"
+        "--check-supported-comics",
+        action="store_true",
+        default=False,
+        help="checks if supported comics XPath are still working",
     )
 
 

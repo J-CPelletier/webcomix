@@ -17,24 +17,39 @@ possible_attributes_next = [".", "text()", "@class", "@id", "@alt", "@rel"]
 
 def discovery(name, url):
     def to_lower_case(attribute):
-        return ("translate({}, "
-                "'ABCDEFGHIJKLMNOPQRSTUVWXYZ',"
-                "'abcdefghijklmnopqrstuvwxyz')").format(attribute)
+        return (
+            "translate({}, "
+            "'ABCDEFGHIJKLMNOPQRSTUVWXYZ',"
+            "'abcdefghijklmnopqrstuvwxyz')"
+        ).format(attribute)
 
     click.echo("Looking for a path to the whole comic... (Ctrl-C to exit)")
-    combinations = product(possible_next_page_xpath, possible_image_xpath,
-                           possible_tags_image, possible_tags_next,
-                           possible_attributes_image, possible_attributes_next)
-    total = len(possible_next_page_xpath) * len(possible_image_xpath) * len(
-        possible_tags_image) * len(possible_tags_next) * len(
-            possible_attributes_image) * len(possible_attributes_next)
+    combinations = product(
+        possible_next_page_xpath,
+        possible_image_xpath,
+        possible_tags_image,
+        possible_tags_next,
+        possible_attributes_image,
+        possible_attributes_next,
+    )
+    total = (
+        len(possible_next_page_xpath)
+        * len(possible_image_xpath)
+        * len(possible_tags_image)
+        * len(possible_tags_next)
+        * len(possible_attributes_image)
+        * len(possible_attributes_next)
+    )
 
     for next_page, image, tag_image, tag_next, attribute_image, attribute_next in tqdm(
-            combinations, total=total):
+        combinations, total=total
+    ):
         next_page_xpath = "//{}[contains({}, '{}')]//@href".format(
-            tag_next, to_lower_case(attribute_next), next_page)
+            tag_next, to_lower_case(attribute_next), next_page
+        )
         image_xpath = "//{}[contains({}, '{}')]//@src".format(
-            tag_image, to_lower_case(attribute_image), image)
+            tag_image, to_lower_case(attribute_image), image
+        )
         try:
             comic = Comic(name, url, next_page_xpath, image_xpath)
             first_pages = comic.verify_xpath()
