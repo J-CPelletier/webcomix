@@ -15,7 +15,7 @@ possible_attributes_image = [".", "@src", "@class", "@id", "@alt"]
 possible_attributes_next = [".", "text()", "@class", "@id", "@alt", "@rel"]
 
 
-def discovery(url):
+def discovery(name, url):
     def to_lower_case(attribute):
         return ("translate({}, "
                 "'ABCDEFGHIJKLMNOPQRSTUVWXYZ',"
@@ -36,9 +36,10 @@ def discovery(url):
         image_xpath = "//{}[contains({}, '{}')]//@src".format(
             tag_image, to_lower_case(attribute_image), image)
         try:
-            first_pages = Comic.verify_xpath(url, next_page_xpath, image_xpath)
+            comic = Comic(name, url, next_page_xpath, image_xpath)
+            first_pages = comic.verify_xpath()
             check_first_pages(first_pages)
-            return Comic(url, next_page_xpath, image_xpath)
+            return comic
         except KeyboardInterrupt:
             sys.exit(0)
         except:

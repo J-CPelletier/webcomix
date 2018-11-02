@@ -4,6 +4,7 @@ from webcomix.search import discovery
 
 def test_search_searchable_website(mocker):
     expected = Comic(
+        "Blindsprings",
         "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
         "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'next')]//@href",
         "//*[contains(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'comic')]//@src"
@@ -16,10 +17,8 @@ def test_search_searchable_website(mocker):
     mocker.patch('webcomix.search.possible_attributes_next', ["@class"])
     mocker.patch('webcomix.util.check_first_pages')
     result = discovery(
-        'http://www.blindsprings.com/comic/blindsprings-cover-book-one')
-    assert Comic.verify_xpath(
-        expected.start_url, expected.next_page_selector,
-        expected.comic_image_selector) == [
+        "Blindsprings", 'http://www.blindsprings.com/comic/blindsprings-cover-book-one')
+    assert result.verify_xpath() == [
             ('http://www.blindsprings.com/comic/blindsprings-cover-book-one',
              ['http://www.blindsprings.com/comics/cover.jpg']),
             ('http://www.blindsprings.com/comic/blindsprings-page-one',
@@ -41,11 +40,12 @@ def test_search_unsearchable_website(mocker):
     mocker.patch('webcomix.search.possible_attributes_image', [])
     mocker.patch('webcomix.search.possible_attributes_next', [])
 
-    assert discovery("test") is None
+    assert discovery("comic_name", "test") is None
 
 
 def test_stopping_searching(mocker):
     expected = Comic(
+        "Blindsprings",
         "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
         "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'next')]//@href",
         "//*[contains(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'comic')]//@src"
@@ -59,6 +59,7 @@ def test_stopping_searching(mocker):
     exit_called = mocker.patch('sys.exit')
     mocker.patch('webcomix.comic.Comic.verify_xpath', side_effect=KeyboardInterrupt)
     result = discovery(
+        'Blindsprings',
         'http://www.blindsprings.com/comic/blindsprings-cover-book-one')
     assert exit_called.call_count == 1
     assert result is None

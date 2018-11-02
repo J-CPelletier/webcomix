@@ -38,10 +38,10 @@ def download(name, cbz):
     Downloads a predefined comic by name
     """
     if name in list(supported_comics.keys()):
-        comic = Comic(*supported_comics[name])
-        comic.download(name)
+        comic = Comic(name, *supported_comics[name])
+        comic.download()
         if cbz:
-            comic.make_cbz(name, name)
+            comic.convert_to_cbz()
 
 
 @cli.command()
@@ -66,18 +66,16 @@ def search(name, start_url, cbz, yes):
     """
     Downloads a webcomic using a general XPath
     """
-    comic = discovery(start_url)
+    comic = discovery(name, start_url)
     if comic is not None:
-        validation = Comic.verify_xpath(comic.start_url,
-                                        comic.next_page_selector,
-                                        comic.comic_image_selector)
+        validation = comic.verify_xpath()
         print_verification(validation)
         click.echo(
             "Verify that the links above are correct.")
         if yes or click.confirm("Are you sure you want to proceed?"):
-            comic.download(name)
+            comic.download()
             if cbz:
-                comic.make_cbz(name, name)
+                comic.convert_to_cbz()
 
 
 @cli.command()
@@ -116,16 +114,14 @@ def custom(comic_name, start_url, next_page_xpath, image_xpath, cbz, yes):
     """
     Downloads a user-defined webcomic
     """
-    comic = Comic(start_url, next_page_xpath, image_xpath)
-    validation = Comic.verify_xpath(comic.start_url,
-                                    comic.next_page_selector,
-                                    comic.comic_image_selector)
+    comic = Comic(comic_name, start_url, next_page_xpath, image_xpath)
+    validation = comic.verify_xpath()
     print_verification(validation)
     click.echo("Verify that the links above are correct.")
     if yes or click.confirm("Are you sure you want to proceed?"):
-        comic.download(comic_name)
+        comic.download()
         if cbz:
-            comic.make_cbz(comic_name, comic_name)
+            comic.convert_to_cbz()
 
 
 def print_verification(validation):
