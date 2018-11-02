@@ -8,5 +8,6 @@ from webcomix.util import check_first_pages
 @pytest.mark.slow
 def test_supported_comics():
     for comic_name, comic_info in supported_comics.items():
-        first_pages = Comic.verify_xpath(*comic_info)
+        comic = Comic(comic_name, *comic_info)
+        first_pages = comic.verify_xpath()
         check_first_pages(first_pages)
