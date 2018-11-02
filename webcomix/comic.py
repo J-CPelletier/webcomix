@@ -39,7 +39,7 @@ class Comic:
         if not os.path.isdir(self.name):
             os.makedirs(self.name)
 
-        process = CrawlerRunner(
+        runner = CrawlerRunner(
             {
                 "ITEM_PIPELINES": {
                     "webcomix.comic_pipeline.ComicPipeline": 500,
@@ -50,7 +50,7 @@ class Comic:
                 "MEDIA_ALLOW_REDIRECTS": True,
             }
         )
-        deferred = process.crawl(
+        deferred = runner.crawl(
             ComicSpider,
             start_urls=[self.start_url],
             next_page_selector=self.next_page_selector,

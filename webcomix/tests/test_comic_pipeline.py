@@ -1,3 +1,5 @@
+import os
+
 from scrapy.exceptions import DropItem
 from scrapy.http import Request
 import pytest
@@ -27,6 +29,7 @@ def test_get_media_requests_returns_good_request_when_file_not_present(mocker):
     request = elements[0]
     assert request.url == expected_url_image
     assert request.meta["image_file_name"] == expected_image_location
+    os.rmdir("foo")
 
 
 def test_get_media_requests_drops_item_when_file_present(mocker):
@@ -42,6 +45,7 @@ def test_get_media_requests_drops_item_when_file_present(mocker):
                 WebPage(url=expected_url_image, page=1), mock_spider_info
             )
         )
+    os.rmdir("foo")
 
 
 def test_item_completed_returns_item_when_file_downloaded(mocker):
@@ -52,6 +56,7 @@ def test_item_completed_returns_item_when_file_downloaded(mocker):
     result = pipeline.item_completed(results, item, mocker.ANY)
 
     assert result == item
+    os.rmdir("foo")
 
 
 def test_item_completed_returns_drops_when_file_not_downloaded(mocker):
@@ -61,6 +66,7 @@ def test_item_completed_returns_drops_when_file_not_downloaded(mocker):
 
     with pytest.raises(DropItem):
         pipeline.item_completed(results, item, mocker.ANY)
+    os.rmdir("foo")
 
 
 def test_file_path_is_image_path(mocker):
@@ -69,3 +75,4 @@ def test_file_path_is_image_path(mocker):
     pipeline = ComicPipeline(store_uri="foo")
     file_path = pipeline.file_path(mock_request)
     assert file_path == expected_image_location
+    os.rmdir("foo")
