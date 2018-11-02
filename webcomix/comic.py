@@ -2,12 +2,14 @@ import os
 from typing import List, Tuple
 from urllib.parse import urljoin
 from zipfile import ZipFile, BadZipFile
+from multiprocessing import Process, Queue
 
 import click
 import requests
 from fake_useragent import UserAgent
 from lxml import html
-from scrapy.crawler import CrawlerProcess
+from scrapy.crawler import CrawlerRunner
+from twisted.internet import reactor
 
 from webcomix.comic_spider import ComicSpider
 
@@ -37,7 +39,7 @@ class Comic:
         if not os.path.isdir(self.name):
             os.makedirs(self.name)
 
-        process = CrawlerProcess(
+        process = CrawlerRunner(
             {
                 "ITEM_PIPELINES": {
                     "webcomix.comic_pipeline.ComicPipeline": 500,
@@ -48,14 +50,15 @@ class Comic:
                 "MEDIA_ALLOW_REDIRECTS": True,
             }
         )
-        process.crawl(
+        deferred = process.crawl(
             ComicSpider,
             start_urls=[self.start_url],
             next_page_selector=self.next_page_selector,
             comic_image_selector=self.comic_image_selector,
             directory=self.name,
         )
-        process.start()
+
+        run_spider(deferred)
 
         click.echo("Finished downloading the images.")
 
@@ -120,3 +123,22 @@ class Comic:
             verification.append((url, image_urls))
             url = urljoin(url, next_link)
         return verification
+
+
+def run_spider(deferred):
+    def f(q):
+        try:
+            deferred.addBoth(lambda _: reactor.stop())
+            reactor.run()
+            q.put(None)
+        except Exception as e:
+            q.put(e)
+
+    q = Queue()
+    p = Process(target=f, args=(q,))
+    p.start()
+    result = q.get()
+    p.join()
+
+    if result is not None:
+        raise result
