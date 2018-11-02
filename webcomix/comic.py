@@ -58,24 +58,9 @@ class Comic:
             directory=self.name,
         )
 
-        run_spider(deferred)
+        Comic.run_spider(deferred)
 
         click.echo("Finished downloading the images.")
-
-    @staticmethod
-    def save_image_location(url: str, page: int, directory_name: str = "") -> str:
-        """
-        Returns the relative location in the filesystem under which the
-        webcomic will be saved. If directory_name is specified, it will be
-        relative to the current directory; if not specified, it will return
-        the name relative to the directory in which it is downloaded.
-        """
-        if url.count(".") <= 1:
-            # No file extension (only dot in url is domain name)
-            file_name = str(page)
-        else:
-            file_name = "{}{}".format(page, url[url.rindex(".") :])
-        return os.path.join(directory_name, file_name)
 
     def convert_to_cbz(self) -> None:
         """
@@ -124,21 +109,36 @@ class Comic:
             url = urljoin(url, next_link)
         return verification
 
+    @staticmethod
+    def save_image_location(url: str, page: int, directory_name: str = "") -> str:
+        """
+        Returns the relative location in the filesystem under which the
+        webcomic will be saved. If directory_name is specified, it will be
+        relative to the current directory; if not specified, it will return
+        the name relative to the directory in which it is downloaded.
+        """
+        if url.count(".") <= 1:
+            # No file extension (only dot in url is domain name)
+            file_name = str(page)
+        else:
+            file_name = "{}{}".format(page, url[url.rindex(".") :])
+        return os.path.join(directory_name, file_name)
 
-def run_spider(deferred):
-    def f(q):
-        try:
-            deferred.addBoth(lambda _: reactor.stop())
-            reactor.run()
-            q.put(None)
-        except Exception as e:
-            q.put(e)
+    @staticmethod
+    def run_spider(deferred):
+        def f(q):
+            try:
+                deferred.addBoth(lambda _: reactor.stop())
+                reactor.run()
+                q.put(None)
+            except Exception as e:
+                q.put(e)
 
-    q = Queue()
-    p = Process(target=f, args=(q,))
-    p.start()
-    result = q.get()
-    p.join()
+        q = Queue()
+        p = Process(target=f, args=(q,))
+        p.start()
+        result = q.get()
+        p.join()
 
-    if result is not None:
-        raise result
+        if result is not None:
+            raise result

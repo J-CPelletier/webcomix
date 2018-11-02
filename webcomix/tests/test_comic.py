@@ -68,7 +68,7 @@ def test_make_cbz_corrupted_archive(mocker, capfd):
 
 
 def test_download(mocker):
-    mock = mocker.patch("webcomix.comic.run_spider")
+    mock = mocker.patch("webcomix.comic.Comic.run_spider")
     comic = Comic(
         "xkcd",
         "http://xkcd.com/1/",
@@ -76,7 +76,7 @@ def test_download(mocker):
         "//div[@id='comic']//img/@src",
     )
     comic.download()
-    assert mock.call_count == 2
+    assert mock.call_count == 1
     shutil.rmtree("xkcd")
 
 
