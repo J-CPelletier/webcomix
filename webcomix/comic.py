@@ -8,7 +8,7 @@ import click
 import requests
 from fake_useragent import UserAgent
 from lxml import html
-from scrapy.crawler import CrawlerRunner
+from scrapy.crawler import CrawlerProcess
 from twisted.internet import reactor
 
 from webcomix.comic_spider import ComicSpider
@@ -39,26 +39,24 @@ class Comic:
         if not os.path.isdir(self.name):
             os.makedirs(self.name)
 
-        runner = CrawlerRunner(
-            {
-                "ITEM_PIPELINES": {
-                    "webcomix.comic_pipeline.ComicPipeline": 500,
-                    "scrapy.pipelines.files.FilesPipeline": 1,
-                },
-                "LOG_ENABLED": False,
-                "FILES_STORE": self.name,
-                "MEDIA_ALLOW_REDIRECTS": True,
-            }
-        )
-        deferred = runner.crawl(
+        settings = {
+            "ITEM_PIPELINES": {
+                "webcomix.comic_pipeline.ComicPipeline": 500,
+                "scrapy.pipelines.files.FilesPipeline": 1,
+            },
+            "LOG_ENABLED": False,
+            "FILES_STORE": self.name,
+            "MEDIA_ALLOW_REDIRECTS": True,
+        }
+
+        Comic.run_spider(
+            settings,
             ComicSpider,
             start_urls=[self.start_url],
             next_page_selector=self.next_page_selector,
             comic_image_selector=self.comic_image_selector,
             directory=self.name,
         )
-
-        Comic.run_spider(deferred)
 
         click.echo("Finished downloading the images.")
 
@@ -125,20 +123,21 @@ class Comic:
         return os.path.join(directory_name, file_name)
 
     @staticmethod
-    def run_spider(deferred):
-        def f(q):
+    def run_spider(settings, *crawl_args, **crawl_kwargs):
+        def execute(error):
             try:
-                deferred.addBoth(lambda _: reactor.stop())
-                reactor.run()
-                q.put(None)
-            except Exception as e:
-                q.put(e)
+                process = CrawlerProcess(settings)
+                process.crawl(*crawl_args, **crawl_kwargs)
+                process.start()
+                error.put(None)
+            except Exception as exception:
+                error.put(exception)
 
-        q = Queue()
-        p = Process(target=f, args=(q,))
-        p.start()
-        result = q.get()
-        p.join()
+        error = Queue()
+        process = Process(target=execute, args=(error,))
+        process.start()
+        result = error.get()
+        process.join()
 
         if result is not None:
             raise result

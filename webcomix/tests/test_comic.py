@@ -54,8 +54,7 @@ def test_make_cbz_corrupted_archive(mocker, capfd):
     os.remove("xkcd.cbz")
 
 
-def test_download_adds_to_crawling_and_runs_the_spider(mocker):
-    mock_add_to_crawling = mocker.patch("scrapy.crawler.CrawlerRunner.crawl")
+def test_download_runs_the_spider(mocker):
     mock_spider_running = mocker.patch("webcomix.comic.Comic.run_spider")
     comic = Comic(
         "xkcd",
@@ -64,24 +63,34 @@ def test_download_adds_to_crawling_and_runs_the_spider(mocker):
         "//div[@id='comic']//img/@src",
     )
     comic.download()
-    assert mock_add_to_crawling.call_count == 1
     assert mock_spider_running.call_count == 1
     shutil.rmtree("xkcd")
-    assert not os.path.exists("xkcd")
 
 
-def test_downloads_the_files():
+def test_download_saves_the_files():
     comic = Comic(
         "test",
         "https://j-cpelletier.github.io/webcomix/1.html",
         "//a/@href",
         "//img/@src",
     )
-    assert not os.path.exists("xkcd")
     comic.download()
     path, dirs, files = next(os.walk("test"))
     assert len(files) == 2
     shutil.rmtree("test")
+
+
+def test_download_does_not_add_crawlers_in_main_process(mocker):
+    mock_spider_running = mocker.patch("webcomix.comic.Comic.run_spider")
+    mock_add_to_crawl = mocker.patch("scrapy.crawler.Crawler.crawl")
+    comic = Comic(
+        "test",
+        "https://j-cpelletier.github.io/webcomix/1.html",
+        "//a/@href",
+        "//img/@src",
+    )
+    comic.download()
+    assert mock_add_to_crawl.call_count == 0
 
 
 def test_verify_xpath():
