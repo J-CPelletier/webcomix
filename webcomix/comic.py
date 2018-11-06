@@ -1,5 +1,5 @@
 import os
-from typing import List, Tuple
+from typing import List, Mapping
 from zipfile import ZipFile, BadZipFile
 from multiprocessing import Process, Queue
 
@@ -81,7 +81,7 @@ class Comic:
                     "Error while testing the archive; it might be corrupted."
                 )
 
-    def verify_xpath(self) -> List[Tuple[str, List[str]]]:
+    def verify_xpath(self) -> List[Mapping]:
         """
         Takes a url and the XPath expressions for the next_page and image to
         go three pages into the comic. It returns a tuple containing the url
