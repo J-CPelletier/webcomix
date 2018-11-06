@@ -20,18 +20,25 @@ def test_search_searchable_website(mocker):
         "Blindsprings", "http://www.blindsprings.com/comic/blindsprings-cover-book-one"
     )
     assert result.verify_xpath() == [
-        (
-            "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
-            ["http://www.blindsprings.com/comics/cover.jpg"],
-        ),
-        (
-            "http://www.blindsprings.com/comic/blindsprings-page-one",
-            ["http://www.blindsprings.com/comics/1430199037-TB_01_001.jpg"],
-        ),
-        (
-            "http://www.blindsprings.com/comic/blindsprings-page-two",
-            ["http://www.blindsprings.com/comics/1430198957-TB_01_002.jpg"],
-        ),
+        {
+            "page": 1,
+            "url": "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
+            "image_urls": ["http://www.blindsprings.com/comics/cover.jpg"],
+        },
+        {
+            "page": 2,
+            "url": "http://www.blindsprings.com/comic/blindsprings-page-one",
+            "image_urls": [
+                "http://www.blindsprings.com/comics/1430199037-TB_01_001.jpg"
+            ],
+        },
+        {
+            "page": 3,
+            "url": "http://www.blindsprings.com/comic/blindsprings-page-two",
+            "image_urls": [
+                "http://www.blindsprings.com/comics/1430198957-TB_01_002.jpg"
+            ],
+        },
     ]
 
     assert result.start_url == expected.start_url

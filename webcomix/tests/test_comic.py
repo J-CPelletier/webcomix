@@ -91,12 +91,25 @@ def test_download_does_not_add_crawlers_in_main_process(mocker):
     )
     comic.download()
     assert mock_add_to_crawl.call_count == 0
+    shutil.rmtree("test")
 
 
 def test_verify_xpath():
     comic = Comic("xkcd", *supported_comics["xkcd"])
     assert comic.verify_xpath() == [
-        ("http://xkcd.com/1/", ["http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"]),
-        ("http://xkcd.com/2/", ["http://imgs.xkcd.com/comics/tree_cropped_(1).jpg"]),
-        ("http://xkcd.com/3/", ["http://imgs.xkcd.com/comics/island_color.jpg"]),
+        {
+            "page": 1,
+            "url": "https://xkcd.com/1/",
+            "image_urls": ["https://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"],
+        },
+        {
+            "page": 2,
+            "url": "https://xkcd.com/2/",
+            "image_urls": ["https://imgs.xkcd.com/comics/tree_cropped_(1).jpg"],
+        },
+        {
+            "page": 3,
+            "url": "https://xkcd.com/3/",
+            "image_urls": ["https://imgs.xkcd.com/comics/island_color.jpg"],
+        },
     ]

@@ -33,7 +33,6 @@ class CrawlerWorker(Process):
         super(CrawlerWorker, self).start()
 
         result = self.result_queue.get()
-        print(result)
 
         if isinstance(result, Exception):
             raise result

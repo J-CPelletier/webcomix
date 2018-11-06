@@ -31,8 +31,7 @@ class VerificationSpider(scrapy.Spider):
         ):
             yield WebPage(url=response.url, page=page, image_urls=image_urls)
             yield scrapy.Request(
-                response.urljoin(next_page_url),
-                meta={"page": page + len(comic_image_urls)},
+                response.urljoin(next_page_url), meta={"page": page + 1}
             )
         else:
             raise Exception(
