@@ -14,20 +14,21 @@ class CrawlerWorker(Process):
 
         self.process = CrawlerProcess(settings)
         self.items = []
+        dispatcher.connect(self._spider_error, signals.spider_error)
         if return_items:
             dispatcher.connect(self._add_item, signals.item_scraped)
 
     def _add_item(self, item):
         self.items.append(item)
 
+    def _spider_error(self, failure):
+        self.result_queue.put(failure.value)
+
     def run(self):
-        try:
-            self.process.crawl(*self.crawl_args, **self.crawl_kwargs)
-            self.process.start()
-            self.process.stop()
+        self.process.crawl(*self.crawl_args, **self.crawl_kwargs)
+        self.process.start()
+        if self.result_queue.empty():
             self.result_queue.put(self.items)
-        except Exception as exception:
-            self.result_queue.put(exception)
 
     def start(self):
         super(CrawlerWorker, self).start()
