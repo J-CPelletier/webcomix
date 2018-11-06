@@ -4,9 +4,7 @@ from zipfile import ZipFile, BadZipFile
 from multiprocessing import Process, Queue
 
 import click
-import requests
 from fake_useragent import UserAgent
-from lxml import html
 from scrapy.crawler import CrawlerProcess
 from twisted.internet import reactor
 
