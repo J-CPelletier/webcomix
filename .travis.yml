@@ -6,7 +6,7 @@ python:
 install:
 - pip install -e .[dev]
 script:
-- py.test --check-supported-comics --cov=webcomix webcomix/tests
+- py.test --check-supported-comics --cov=webcomix
 after_success:
 - zip -r webcomix_Mac_Linux.zip webcomix requirements.txt setup.py LICENCE README.md
 - coveralls
