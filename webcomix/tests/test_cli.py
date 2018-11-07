@@ -14,19 +14,19 @@ def test_print_verification(capfd):
     out, err = capfd.readouterr()
     assert out == (
         "Page 1:\n"
-        "Page URL: http://xkcd.com/1/\n"
+        "Page URL: https://xkcd.com/1/\n"
         "Image URLs:\n"
-        "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg\n"
+        "https://imgs.xkcd.com/comics/barrel_cropped_(1).jpg\n"
         "\n"
         "Page 2:\n"
-        "Page URL: http://xkcd.com/2/\n"
+        "Page URL: https://xkcd.com/2/\n"
         "Image URLs:\n"
-        "http://imgs.xkcd.com/comics/tree_cropped_(1).jpg\n"
+        "https://imgs.xkcd.com/comics/tree_cropped_(1).jpg\n"
         "\n"
         "Page 3:\n"
-        "Page URL: http://xkcd.com/3/\n"
+        "Page URL: https://xkcd.com/3/\n"
         "Image URLs:\n"
-        "http://imgs.xkcd.com/comics/island_color.jpg\n"
+        "https://imgs.xkcd.com/comics/island_color.jpg\n"
         "\n"
     )
 

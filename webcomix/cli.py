@@ -114,9 +114,9 @@ def print_verification(validation):
     """
     Prints the verification given by the verify_xpath function
     """
-    for i in range(3):
+    for item in sorted(validation, key=lambda x: x.get("page")):
         click.echo(
             "Page {}:\nPage URL: {}\nImage URLs:\n{}\n".format(
-                i + 1, validation[i][0], "\n".join(validation[i][1])
+                item.get("page"), item.get("url"), "\n".join(item.get("image_urls"))
             )
         )

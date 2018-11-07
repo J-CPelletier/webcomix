@@ -1,9 +1,10 @@
+import os
+
 from scrapy.exceptions import DropItem
-from scrapy.http import Request
 import pytest
 
-from webcomix.comic_pipeline import ComicPipeline
-from webcomix.web_page import WebPage
+from webcomix.scrapy.download.comic_pipeline import ComicPipeline
+from webcomix.scrapy.download.comic_page import ComicPage
 from webcomix.supported_comics import supported_comics
 
 first_comic = list(sorted(supported_comics.values()))[0]
@@ -21,12 +22,13 @@ def test_get_media_requests_returns_good_request_when_file_not_present(mocker):
     pipeline = ComicPipeline(store_uri="foo")
     elements = list(
         pipeline.get_media_requests(
-            WebPage(url=expected_url_image, page=1), mock_spider_info
+            ComicPage(url=expected_url_image, page=1), mock_spider_info
         )
     )
     request = elements[0]
     assert request.url == expected_url_image
     assert request.meta["image_file_name"] == expected_image_location
+    os.rmdir("foo")
 
 
 def test_get_media_requests_drops_item_when_file_present(mocker):
@@ -39,28 +41,31 @@ def test_get_media_requests_drops_item_when_file_present(mocker):
     with pytest.raises(DropItem):
         elements = list(
             pipeline.get_media_requests(
-                WebPage(url=expected_url_image, page=1), mock_spider_info
+                ComicPage(url=expected_url_image, page=1), mock_spider_info
             )
         )
+    os.rmdir("foo")
 
 
 def test_item_completed_returns_item_when_file_downloaded(mocker):
     results = [(True, {"path": expected_image_location})]
-    item = WebPage()
+    item = ComicPage()
     pipeline = ComicPipeline(store_uri="foo")
 
     result = pipeline.item_completed(results, item, mocker.ANY)
 
     assert result == item
+    os.rmdir("foo")
 
 
 def test_item_completed_returns_drops_when_file_not_downloaded(mocker):
     results = [(False, {})]
-    item = WebPage()
+    item = ComicPage()
     pipeline = ComicPipeline(store_uri="foo")
 
     with pytest.raises(DropItem):
         pipeline.item_completed(results, item, mocker.ANY)
+    os.rmdir("foo")
 
 
 def test_file_path_is_image_path(mocker):
@@ -69,3 +74,4 @@ def test_file_path_is_image_path(mocker):
     pipeline = ComicPipeline(store_uri="foo")
     file_path = pipeline.file_path(mock_request)
     assert file_path == expected_image_location
+    os.rmdir("foo")
