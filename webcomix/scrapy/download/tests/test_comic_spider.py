@@ -1,4 +1,4 @@
-from webcomix.comic_spider import ComicSpider
+from webcomix.scrapy.download.comic_spider import ComicSpider
 
 
 def test_parse_yields_good_page(mocker):

@@ -2,7 +2,7 @@ from urllib.parse import urljoin
 
 import scrapy
 
-from webcomix.web_page import WebPage
+from webcomix.scrapy.verification.web_page import WebPage
 
 
 class VerificationSpider(scrapy.Spider):

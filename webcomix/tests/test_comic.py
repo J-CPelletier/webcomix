@@ -55,7 +55,9 @@ def test_make_cbz_corrupted_archive(mocker, capfd):
 
 
 def test_download_runs_the_worker(mocker):
-    mock_crawler_running = mocker.patch("webcomix.crawler_worker.CrawlerWorker.start")
+    mock_crawler_running = mocker.patch(
+        "webcomix.scrapy.crawler_worker.CrawlerWorker.start"
+    )
     comic = Comic(
         "xkcd",
         "http://xkcd.com/1/",
@@ -81,7 +83,9 @@ def test_download_saves_the_files():
 
 
 def test_download_does_not_add_crawlers_in_main_process(mocker):
-    mock_crawler_running = mocker.patch("webcomix.crawler_worker.CrawlerWorker.start")
+    mock_crawler_running = mocker.patch(
+        "webcomix.scrapy.crawler_worker.CrawlerWorker.start"
+    )
     mock_add_to_crawl = mocker.patch("scrapy.crawler.Crawler.crawl")
     comic = Comic(
         "test",

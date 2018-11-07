@@ -1,16 +1,13 @@
 import os
 from typing import List, Mapping
 from zipfile import ZipFile, BadZipFile
-from multiprocessing import Process, Queue
 
 import click
 from fake_useragent import UserAgent
-from scrapy.crawler import CrawlerProcess
-from twisted.internet import reactor
 
-from webcomix.comic_spider import ComicSpider
-from webcomix.verification_spider import VerificationSpider
-from webcomix.crawler_worker import CrawlerWorker
+from webcomix.scrapy.download.comic_spider import ComicSpider
+from webcomix.scrapy.verification.verification_spider import VerificationSpider
+from webcomix.scrapy.crawler_worker import CrawlerWorker
 
 ua = UserAgent()
 header = {"User-Agent": str(ua.chrome)}
@@ -40,7 +37,7 @@ class Comic:
 
         settings = {
             "ITEM_PIPELINES": {
-                "webcomix.comic_pipeline.ComicPipeline": 1,
+                "webcomix.scrapy.download.comic_pipeline.ComicPipeline": 1,
                 "scrapy.pipelines.files.FilesPipeline": 500,
             },
             "LOG_ENABLED": False,

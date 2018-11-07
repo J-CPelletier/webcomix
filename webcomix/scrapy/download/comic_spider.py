@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 import click
 import scrapy
 
-from webcomix.comic_page import ComicPage
+from webcomix.scrapy.download.comic_page import ComicPage
 
 
 class ComicSpider(scrapy.Spider):

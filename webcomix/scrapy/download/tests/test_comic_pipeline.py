@@ -1,11 +1,10 @@
 import os
 
 from scrapy.exceptions import DropItem
-from scrapy.http import Request
 import pytest
 
-from webcomix.comic_pipeline import ComicPipeline
-from webcomix.comic_page import ComicPage
+from webcomix.scrapy.download.comic_pipeline import ComicPipeline
+from webcomix.scrapy.download.comic_page import ComicPage
 from webcomix.supported_comics import supported_comics
 
 first_comic = list(sorted(supported_comics.values()))[0]
