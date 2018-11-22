@@ -18,8 +18,8 @@ class Comic:
         self,
         name: str,
         start_url: str,
-        next_page_selector: str,
         comic_image_selector: str,
+        next_page_selector: str,
     ):
         self.name = name
         self.start_url = start_url
@@ -50,8 +50,8 @@ class Comic:
             False,
             ComicSpider,
             start_urls=[self.start_url],
-            next_page_selector=self.next_page_selector,
             comic_image_selector=self.comic_image_selector,
+            next_page_selector=self.next_page_selector,
             directory=self.name,
         )
 
@@ -89,8 +89,8 @@ class Comic:
             True,
             VerificationSpider,
             start_urls=[self.start_url],
-            next_page_selector=self.next_page_selector,
             comic_image_selector=self.comic_image_selector,
+            next_page_selector=self.next_page_selector,
             directory=self.name,
         )
 

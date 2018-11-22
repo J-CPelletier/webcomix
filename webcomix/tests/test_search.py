@@ -6,8 +6,8 @@ def test_search_searchable_website(mocker):
     expected = Comic(
         "Blindsprings",
         "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
-        "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'next')]//@href",
         "//*[contains(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'comic')]//@src",
+        "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'next')]//@href",
     )
     mocker.patch("webcomix.search.possible_next_page_xpath", ["next"])
     mocker.patch("webcomix.search.possible_image_xpath", ["comic"])

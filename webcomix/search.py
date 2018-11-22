@@ -51,7 +51,7 @@ def discovery(name, url):
             tag_image, to_lower_case(attribute_image), image
         )
         try:
-            comic = Comic(name, url, next_page_xpath, image_xpath)
+            comic = Comic(name, url, image_xpath, next_page_xpath)
             first_pages = comic.verify_xpath()
             check_first_pages(first_pages)
             return comic

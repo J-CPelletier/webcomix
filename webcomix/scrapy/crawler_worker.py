@@ -1,5 +1,6 @@
 from multiprocessing import Process, Queue
 
+import click
 from scrapy import signals
 from scrapy.crawler import CrawlerProcess
 from pydispatch import dispatcher
@@ -12,6 +13,8 @@ class CrawlerWorker(Process):
         self.crawl_args = crawl_args
         self.crawl_kwargs = crawl_kwargs
 
+        self.inner_exception = None
+
         self.process = CrawlerProcess(settings)
         self.items = []
         dispatcher.connect(self._spider_error, signals.spider_error)
@@ -23,6 +26,7 @@ class CrawlerWorker(Process):
 
     def _spider_error(self, failure):
         self.result_queue.put(failure.value)
+        self.result_queue.put(failure.getTraceback())
 
     def run(self):
         self.process.crawl(*self.crawl_args, **self.crawl_kwargs)
@@ -36,7 +40,12 @@ class CrawlerWorker(Process):
         result = self.result_queue.get()
 
         if isinstance(result, Exception):
-            raise result
+            inner_exception = self.result_queue.get()
+            click.echo("Error inside of Crawler Worker:")
+            click.echo(inner_exception)
+            click.echo("-------------------------------")
+            click.echo("Error outside of Crawler Worker:")
+            raise Exception(result)
         elif not result:
             return None
         else:

@@ -79,28 +79,28 @@ def search(name, start_url, cbz, yes):
     "--start_url", prompt=True, type=click.STRING, help="URL of the comic's first page"
 )
 @click.option(
-    "--next_page_xpath",
-    prompt=True,
-    type=click.STRING,
-    help="XPath expression giving the url to the next page",
-)
-@click.option(
     "--image_xpath",
     prompt=True,
     type=click.STRING,
     help="XPath expression giving the url to the image",
 )
 @click.option(
-    "--cbz", default=False, is_flag=True, help="Outputs the comic as a cbz file"
+    "--next_page_xpath",
+    prompt=True,
+    type=click.STRING,
+    help="XPath expression giving the url to the next page",
 )
 @click.option(
-    "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
+    "--cbz", default=False, is_flag=True, help="Outputs the comic as a cbz file",
+)
+@click.option(
+    "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt",
 )
 def custom(comic_name, start_url, next_page_xpath, image_xpath, cbz, yes):
     """
     Downloads a user-defined webcomic
     """
-    comic = Comic(comic_name, start_url, next_page_xpath, image_xpath)
+    comic = Comic(comic_name, start_url, image_xpath, next_page_xpath)
     validation = comic.verify_xpath()
     print_verification(validation)
     click.echo("Verify that the links above are correct.")

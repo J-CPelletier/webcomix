@@ -22,8 +22,8 @@ def test_make_cbz():
     comic = Comic(
         "xkcd",
         "http://xkcd.com/1/",
-        "//a[@rel='next']/@href",
         "//div[@id='comic']/img/@src",
+        "//a[@rel='next']/@href",
     )
     os.mkdir("xkcd")
     for i in range(1, 6):
@@ -42,8 +42,8 @@ def test_make_cbz_corrupted_archive(mocker, capfd):
     comic = Comic(
         "xkcd",
         "http://xkcd.com/1/",
-        "//a[@rel='next']/@href",
         "//div[@id='comic']/img/@src",
+        "//a[@rel='next']/@href",
     )
     os.mkdir("xkcd")
     for i in range(1, 6):
@@ -61,8 +61,8 @@ def test_download_runs_the_worker(mocker):
     comic = Comic(
         "xkcd",
         "http://xkcd.com/1/",
-        "//a[@rel='next']/@href",
         "//div[@id='comic']//img/@src",
+        "//a[@rel='next']/@href",
     )
     comic.download()
     assert mock_crawler_running.call_count == 1
@@ -73,8 +73,8 @@ def test_download_saves_the_files():
     comic = Comic(
         "test",
         "https://j-cpelletier.github.io/webcomix/1.html",
-        "//a/@href",
         "//img/@src",
+        "//a/@href",
     )
     comic.download()
     path, dirs, files = next(os.walk("test"))
@@ -90,8 +90,8 @@ def test_download_does_not_add_crawlers_in_main_process(mocker):
     comic = Comic(
         "test",
         "https://j-cpelletier.github.io/webcomix/1.html",
-        "//a/@href",
         "//img/@src",
+        "//a/@href",
     )
     comic.download()
     assert mock_add_to_crawl.call_count == 0
