@@ -96,7 +96,10 @@ def search(name, start_url, cbz, yes):
 @click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt",
 )
-def custom(comic_name, start_url, next_page_xpath, image_xpath, cbz, yes):
+@click.option(
+    "--single_page", "-s", default=False, is_flag=True, help="Downloads from a single webpage",
+)
+def custom(comic_name, start_url, next_page_xpath, image_xpath, cbz, yes, single_page):
     """
     Downloads a user-defined webcomic
     """
