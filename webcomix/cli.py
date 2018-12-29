@@ -51,13 +51,16 @@ def download(name, cbz):
     "--cbz", default=False, is_flag=True, help="Outputs the comic as a cbz file"
 )
 @click.option(
+    "--single_page", default=False, is_flag=True, help="Downloads from a single webpage"
+)
+@click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
-def search(name, start_url, cbz, yes):
+def search(name, start_url, cbz, single_page, yes):
     """
     Downloads a webcomic using a general XPath
     """
-    comic = discovery(name, start_url)
+    comic = discovery(name, start_url, single_page)
     if comic is not None:
         validation = comic.verify_xpath()
         print_verification(validation)
@@ -91,19 +94,23 @@ def search(name, start_url, cbz, yes):
     help="XPath expression giving the url to the next page",
 )
 @click.option(
-    "--cbz", default=False, is_flag=True, help="Outputs the comic as a cbz file",
+    "--cbz", default=False, is_flag=True, help="Outputs the comic as a cbz file"
 )
 @click.option(
-    "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt",
+    "--single_page",
+    "-s",
+    default=False,
+    is_flag=True,
+    help="Downloads from a single webpage",
 )
 @click.option(
-    "--single_page", "-s", default=False, is_flag=True, help="Downloads from a single webpage",
+    "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
-def custom(comic_name, start_url, next_page_xpath, image_xpath, cbz, yes, single_page):
+def custom(comic_name, start_url, next_page_xpath, image_xpath, cbz, single_page, yes):
     """
     Downloads a user-defined webcomic
     """
-    comic = Comic(comic_name, start_url, image_xpath, next_page_xpath)
+    comic = Comic(comic_name, start_url, image_xpath, next_page_xpath, single_page)
     validation = comic.verify_xpath()
     print_verification(validation)
     click.echo("Verify that the links above are correct.")

@@ -30,6 +30,7 @@ def fake_downloaded_xkcd_comic():
         "http://xkcd.com/1/",
         "//div[@id='comic']/img/@src",
         "//a[@rel='next']/@href",
+        False,
     )
     os.mkdir("xkcd")
     for i in range(1, 6):
@@ -40,6 +41,7 @@ def fake_downloaded_xkcd_comic():
         os.remove("xkcd.cbz")
     if os.path.isdir("xkcd"):
         shutil.rmtree("xkcd")
+
 
 def test_save_image_location():
     assert (
@@ -74,6 +76,7 @@ def test_download_runs_the_worker(mocker, cleanup_test_directories):
         "http://xkcd.com/1/",
         "//div[@id='comic']//img/@src",
         "//a[@rel='next']/@href",
+        False,
     )
     comic.download()
     assert mock_crawler_running.call_count == 1
@@ -85,13 +88,16 @@ def test_download_saves_the_files(cleanup_test_directories):
         "https://j-cpelletier.github.io/webcomix/1.html",
         "//img/@src",
         "//a/@href",
+        False,
     )
     comic.download()
     path, dirs, files = next(os.walk("test"))
     assert len(files) == 2
 
 
-def test_download_does_not_add_crawlers_in_main_process(mocker, cleanup_test_directories):
+def test_download_does_not_add_crawlers_in_main_process(
+    mocker, cleanup_test_directories
+):
     mock_crawler_running = mocker.patch(
         "webcomix.scrapy.crawler_worker.CrawlerWorker.start"
     )
@@ -101,6 +107,7 @@ def test_download_does_not_add_crawlers_in_main_process(mocker, cleanup_test_dir
         "https://j-cpelletier.github.io/webcomix/1.html",
         "//img/@src",
         "//a/@href",
+        False,
     )
     comic.download()
     assert mock_add_to_crawl.call_count == 0

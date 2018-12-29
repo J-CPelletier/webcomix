@@ -20,11 +20,13 @@ class Comic:
         start_url: str,
         comic_image_selector: str,
         next_page_selector: str,
+        single_page: bool,
     ):
         self.name = name
         self.start_url = start_url
         self.next_page_selector = next_page_selector
         self.comic_image_selector = comic_image_selector
+        self.single_page = single_page
 
     def download(self) -> None:
         """
@@ -91,7 +93,7 @@ class Comic:
             start_urls=[self.start_url],
             comic_image_selector=self.comic_image_selector,
             next_page_selector=self.next_page_selector,
-            directory=self.name,
+            number_of_pages_to_check=1 if self.single_page else 3,
         )
 
         verification = worker.start()

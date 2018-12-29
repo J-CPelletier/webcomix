@@ -8,6 +8,7 @@ def test_search_searchable_website(mocker):
         "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
         "//*[contains(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'comic')]//@src",
         "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'next')]//@href",
+        False,
     )
     mocker.patch("webcomix.search.possible_next_page_xpath", ["next"])
     mocker.patch("webcomix.search.possible_image_xpath", ["comic"])
@@ -17,7 +18,9 @@ def test_search_searchable_website(mocker):
     mocker.patch("webcomix.search.possible_attributes_next", ["@class"])
     mocker.patch("webcomix.util.check_first_pages")
     result = discovery(
-        "Blindsprings", "http://www.blindsprings.com/comic/blindsprings-cover-book-one"
+        "Blindsprings",
+        "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
+        False,
     )
     assert result.verify_xpath() == [
         {
@@ -54,7 +57,7 @@ def test_search_unsearchable_website(mocker):
     mocker.patch("webcomix.search.possible_attributes_image", [])
     mocker.patch("webcomix.search.possible_attributes_next", [])
 
-    assert discovery("comic_name", "test") is None
+    assert discovery("comic_name", "test", True) is None
 
 
 def test_stopping_searching(mocker):
@@ -63,6 +66,7 @@ def test_stopping_searching(mocker):
         "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
         "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'next')]//@href",
         "//*[contains(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'comic')]//@src",
+        False,
     )
     mocker.patch("webcomix.search.possible_next_page_xpath", ["next"])
     mocker.patch("webcomix.search.possible_image_xpath", ["comic"])
@@ -73,7 +77,9 @@ def test_stopping_searching(mocker):
     exit_called = mocker.patch("sys.exit")
     mocker.patch("webcomix.comic.Comic.verify_xpath", side_effect=KeyboardInterrupt)
     result = discovery(
-        "Blindsprings", "http://www.blindsprings.com/comic/blindsprings-cover-book-one"
+        "Blindsprings",
+        "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
+        False,
     )
     assert exit_called.call_count == 1
     assert result is None

@@ -12,12 +12,13 @@ class VerificationSpider(scrapy.Spider):
         self.start_urls = kwargs.get("start_urls") or []
         self.next_page_selector = kwargs.get("next_page_selector", None)
         self.comic_image_selector = kwargs.get("comic_image_selector", None)
+        self.number_of_pages_to_check = kwargs.get("number_of_pages_to_check", 3)
         super(VerificationSpider, self).__init__(*args, **kwargs)
 
     def parse(self, response):
         comic_image_urls = response.xpath(self.comic_image_selector).extract()
         page = response.meta.get("page") or 1
-        if page > 3:
+        if page > self.number_of_pages_to_check:
             return
         image_urls = [
             urljoin(response.url, image_element_url)

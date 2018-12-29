@@ -15,7 +15,7 @@ possible_attributes_image = [".", "@src", "@class", "@id", "@alt"]
 possible_attributes_next = [".", "text()", "@class", "@id", "@alt", "@rel"]
 
 
-def discovery(name, url):
+def discovery(name, url, single_page):
     def to_lower_case(attribute):
         return (
             "translate({}, "
@@ -51,7 +51,7 @@ def discovery(name, url):
             tag_image, to_lower_case(attribute_image), image
         )
         try:
-            comic = Comic(name, url, image_xpath, next_page_xpath)
+            comic = Comic(name, url, image_xpath, next_page_xpath, single_page)
             first_pages = comic.verify_xpath()
             check_first_pages(first_pages)
             return comic
