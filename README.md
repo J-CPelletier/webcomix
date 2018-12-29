@@ -80,6 +80,16 @@ Using an HTML inspector, spot a html path to the next link's `href` attribute/co
 e.g.: `//div[@class='foo']/img/@src`
 This will select the src attribute of the first image whose class is: foo
 
+Note: `webcomix` works best on static websites, since `scrapy`(the framework we use to travel web pages) doesn't process Javascript.
+
+To make sure your XPath is correct, you have to go into `scrapy shell`, which should be downloaded when you've installed `webcomix`. (See #11)
+
+```
+scrapy shell <website> --> Use the website's url to go to it.
+> response.body --> Will give you the html from the website.
+> response.xpath --> Test an xpath selection. If you get [], this means your XPath expression hasn't gotten anything from the webpage.
+```
+
 ## Contribution
 
 The procedure depends on the type of contribution:
