@@ -82,7 +82,7 @@ This will select the src attribute of the first image whose class is: foo
 
 Note: `webcomix` works best on static websites, since `scrapy`(the framework we use to travel web pages) doesn't process Javascript.
 
-To make sure your XPath is correct, you have to go into `scrapy shell`, which should be downloaded when you've installed `webcomix`. (See #11)
+To make sure your XPath is correct, you have to go into `scrapy shell`, which should be downloaded when you've installed `webcomix`.
 
 ```
 scrapy shell <website> --> Use the website's url to go to it.
