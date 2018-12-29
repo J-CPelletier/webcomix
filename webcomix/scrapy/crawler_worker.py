@@ -7,11 +7,14 @@ from pydispatch import dispatcher
 
 
 class CrawlerWorker(Process):
-    def __init__(self, settings, return_items, *crawl_args, **crawl_kwargs):
+    def __init__(
+        self, settings, return_items, print_exception=True, *crawl_args, **crawl_kwargs
+    ):
         super(CrawlerWorker, self).__init__()
         self.result_queue = Queue()
         self.crawl_args = crawl_args
         self.crawl_kwargs = crawl_kwargs
+        self.print_exception = print_exception
 
         self.inner_exception = None
 
@@ -41,10 +44,11 @@ class CrawlerWorker(Process):
 
         if isinstance(result, Exception):
             inner_exception = self.result_queue.get()
-            click.echo("Error inside of Crawler Worker:")
-            click.echo(inner_exception)
-            click.echo("-------------------------------")
-            click.echo("Error outside of Crawler Worker:")
+            if self.print_exception:
+                click.echo("Error inside of Crawler Worker:")
+                click.echo(inner_exception)
+                click.echo("-------------------------------")
+                click.echo("Error outside of Crawler Worker:")
             raise Exception(result)
         elif not result:
             return None
