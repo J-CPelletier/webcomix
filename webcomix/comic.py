@@ -50,6 +50,7 @@ class Comic:
         worker = CrawlerWorker(
             settings,
             False,
+            True,
             ComicSpider,
             start_urls=[self.start_url],
             comic_image_selector=self.comic_image_selector,

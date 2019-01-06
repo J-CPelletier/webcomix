@@ -6,6 +6,7 @@ import pytest
 
 from webcomix.comic import Comic
 from webcomix.supported_comics import supported_comics
+from webcomix.tests.fake_websites.fixture import three_webpages_uri
 
 
 @pytest.fixture
@@ -82,33 +83,21 @@ def test_download_runs_the_worker(mocker, cleanup_test_directories):
     assert mock_crawler_running.call_count == 1
 
 
-def test_download_saves_the_files(cleanup_test_directories):
-    comic = Comic(
-        "test",
-        "https://j-cpelletier.github.io/webcomix/1.html",
-        "//img/@src",
-        "//a/@href",
-        False,
-    )
+def test_download_saves_the_files(cleanup_test_directories, three_webpages_uri):
+    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href", False)
     comic.download()
     path, dirs, files = next(os.walk("test"))
     assert len(files) == 2
 
 
 def test_download_does_not_add_crawlers_in_main_process(
-    mocker, cleanup_test_directories
+    mocker, cleanup_test_directories, three_webpages_uri
 ):
     mock_crawler_running = mocker.patch(
         "webcomix.scrapy.crawler_worker.CrawlerWorker.start"
     )
     mock_add_to_crawl = mocker.patch("scrapy.crawler.Crawler.crawl")
-    comic = Comic(
-        "test",
-        "https://j-cpelletier.github.io/webcomix/1.html",
-        "//img/@src",
-        "//a/@href",
-        False,
-    )
+    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href", False)
     comic.download()
     assert mock_add_to_crawl.call_count == 0
 
