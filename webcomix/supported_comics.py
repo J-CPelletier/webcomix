@@ -56,7 +56,7 @@ supported_comics = {
     "Gunshow": (
         "http://gunshowcomic.com/1",
         "//img[@class='strip']/@src",
-        "//span[@class='snavb'])[4]/a/@href",
+        "//span[@class='snavb'][4]/a/@href",
         False,
     ),
     "Lackadaisy": (
