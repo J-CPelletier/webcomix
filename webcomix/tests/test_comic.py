@@ -6,7 +6,7 @@ import pytest
 
 from webcomix.comic import Comic
 from webcomix.supported_comics import supported_comics
-from webcomix.tests.fake_websites.fixture import three_webpages_uri
+from webcomix.tests.fake_websites.fixture import three_webpages_uri, one_webpage_uri
 
 
 @pytest.fixture
@@ -121,3 +121,10 @@ def test_verify_xpath():
             "image_urls": ["https://imgs.xkcd.com/comics/island_color.jpg"],
         },
     ]
+
+
+def test_verify_xpath_only_verifies_one_page_with_single_page(mocker, one_webpage_uri):
+    comic = Comic("test", one_webpage_uri, "//img/@src", "//a/@href", True)
+    actual = comic.verify_xpath()
+    assert len(actual) == 1
+    assert len(actual[0]["image_urls"]) == 2

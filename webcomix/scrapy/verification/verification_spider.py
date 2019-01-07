@@ -18,14 +18,15 @@ class VerificationSpider(scrapy.Spider):
     def parse(self, response):
         comic_image_urls = response.xpath(self.comic_image_selector).extract()
         page = response.meta.get("page") or 1
-        if page > self.number_of_pages_to_check:
-            return
         image_urls = [
             urljoin(response.url, image_element_url)
             for image_element_url in comic_image_urls
         ]
         next_page_url = response.xpath(self.next_page_selector).extract_first()
-        if next_page_url is not None and not next_page_url.endswith("#"):
+        if page >= self.number_of_pages_to_check:
+            yield WebPage(url=response.url, page=page, image_urls=image_urls)
+            return
+        elif next_page_url is not None and not next_page_url.endswith("#"):
             yield WebPage(url=response.url, page=page, image_urls=image_urls)
             yield scrapy.Request(
                 response.urljoin(next_page_url), meta={"page": page + 1}
