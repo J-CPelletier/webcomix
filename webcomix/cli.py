@@ -45,13 +45,21 @@ def download(name, cbz):
 @cli.command()
 @click.argument("name", type=click.STRING)
 @click.option(
-    "--start_url", prompt=True, type=click.STRING, help="URL of the comic's first page"
+    "--start-url",
+    "--start_url",
+    prompt=True,
+    type=click.STRING,
+    help="URL of the comic's first page",
 )
 @click.option(
     "--cbz", default=False, is_flag=True, help="Outputs the comic as a cbz file"
 )
 @click.option(
-    "--single_page", default=False, is_flag=True, help="Downloads from a single webpage"
+    "--single-page",
+    "--single_page",
+    default=False,
+    is_flag=True,
+    help="Downloads from a single webpage",
 )
 @click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
@@ -73,21 +81,28 @@ def search(name, start_url, cbz, single_page, yes):
 
 @cli.command()
 @click.option(
+    "--comic-name",
     "--comic_name",
     prompt=True,
     type=click.STRING,
     help="Name of the user-defined comic",
 )
 @click.option(
-    "--start_url", prompt=True, type=click.STRING, help="URL of the comic's first page"
+    "--start-url",
+    "--start_url",
+    prompt=True,
+    type=click.STRING,
+    help="URL of the comic's first page",
 )
 @click.option(
+    "--image-xpath",
     "--image_xpath",
     prompt=True,
     type=click.STRING,
     help="XPath expression giving the url to the image",
 )
 @click.option(
+    "--next-page-xpath",
     "--next_page_xpath",
     prompt=True,
     type=click.STRING,
@@ -97,6 +112,7 @@ def search(name, start_url, cbz, single_page, yes):
     "--cbz", default=False, is_flag=True, help="Outputs the comic as a cbz file"
 )
 @click.option(
+    "--single-page",
     "--single_page",
     "-s",
     default=False,
