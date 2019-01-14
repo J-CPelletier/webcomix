@@ -17,8 +17,6 @@ class CrawlerWorker(Process):
         self.crawl_kwargs = crawl_kwargs
         self.print_exception = print_exception
 
-        self.inner_exception = None
-
         self.process = CrawlerProcess(settings)
         self.kill_process = False
         self.items = []
