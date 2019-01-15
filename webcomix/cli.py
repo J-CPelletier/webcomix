@@ -3,6 +3,7 @@
 import click
 
 from webcomix.comic import Comic
+from webcomix.exceptions import NextLinkNotFound
 from webcomix.search import discovery
 from webcomix.supported_comics import supported_comics
 
@@ -45,21 +46,31 @@ def download(name, cbz):
 @cli.command()
 @click.argument("name", type=click.STRING)
 @click.option(
-    "--start_url", prompt=True, type=click.STRING, help="URL of the comic's first page"
+    "--start-url",
+    "--start_url",
+    prompt=True,
+    type=click.STRING,
+    help="URL of the comic's first page",
 )
 @click.option(
     "--cbz", default=False, is_flag=True, help="Outputs the comic as a cbz file"
 )
 @click.option(
+    "--single-page",
+    "--single_page",
+    default=False,
+    is_flag=True,
+    help="Downloads from a single webpage",
+)
+@click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
-def search(name, start_url, cbz, yes):
+def search(name, start_url, cbz, single_page, yes):
     """
     Downloads a webcomic using a general XPath
     """
-    comic = discovery(name, start_url)
+    comic, validation = discovery(name, start_url, single_page)
     if comic is not None:
-        validation = comic.verify_xpath()
         print_verification(validation)
         click.echo("Verify that the links above are correct.")
         if yes or click.confirm("Are you sure you want to proceed?"):
@@ -69,45 +80,62 @@ def search(name, start_url, cbz, yes):
 
 
 @cli.command()
+@click.argument(
+    "name",
+    type=click.STRING,
+)
 @click.option(
-    "--comic_name",
+    "--start-url",
+    "--start_url",
     prompt=True,
     type=click.STRING,
-    help="Name of the user-defined comic",
+    help="URL of the comic's first page",
 )
 @click.option(
-    "--start_url", prompt=True, type=click.STRING, help="URL of the comic's first page"
-)
-@click.option(
-    "--next_page_xpath",
-    prompt=True,
-    type=click.STRING,
-    help="XPath expression giving the url to the next page",
-)
-@click.option(
+    "--image-xpath",
     "--image_xpath",
     prompt=True,
     type=click.STRING,
     help="XPath expression giving the url to the image",
 )
 @click.option(
+    "--next-page-xpath",
+    "--next_page_xpath",
+    prompt=True,
+    type=click.STRING,
+    help="XPath expression giving the url to the next page",
+)
+@click.option(
     "--cbz", default=False, is_flag=True, help="Outputs the comic as a cbz file"
+)
+@click.option(
+    "--single-page",
+    "--single_page",
+    "-s",
+    default=False,
+    is_flag=True,
+    help="Downloads from a single webpage",
 )
 @click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
-def custom(comic_name, start_url, next_page_xpath, image_xpath, cbz, yes):
+def custom(name, start_url, next_page_xpath, image_xpath, cbz, single_page, yes):
     """
     Downloads a user-defined webcomic
     """
-    comic = Comic(comic_name, start_url, next_page_xpath, image_xpath)
-    validation = comic.verify_xpath()
-    print_verification(validation)
-    click.echo("Verify that the links above are correct.")
-    if yes or click.confirm("Are you sure you want to proceed?"):
-        comic.download()
-        if cbz:
-            comic.convert_to_cbz()
+    comic = Comic(name, start_url, image_xpath, next_page_xpath, single_page)
+    try:
+        validation = comic.verify_xpath()
+    except NextLinkNotFound as exception:
+        click.echo("Could not find next link of: {} \nwith next page XPath expression: {}".format(exception.failed_url, exception.next_page_xpath))
+        click.echo("Have you tried testing your XPath expression with 'scrapy shell'?")
+    else:
+        print_verification(validation)
+        click.echo("Verify that the links above are correct.")
+        if yes or click.confirm("Are you sure you want to proceed?"):
+            comic.download()
+            if cbz:
+                comic.convert_to_cbz()
 
 
 def print_verification(validation):

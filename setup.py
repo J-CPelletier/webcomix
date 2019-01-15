@@ -21,9 +21,9 @@ setup(
         "Framework :: Scrapy",
     ],
     packages=["webcomix"],
-    install_requires=["Click", "fake-useragent", "scrapy", "tqdm"],
+    install_requires=["Click", "fake-useragent", "scrapy", "tqdm", "PyDispatcher"],
     extras_require={
-        "dev": ["pytest", "pytest-cov", "pytest-mock", "coveralls", "pre-commit"]
+        "dev": ["pytest", "pytest-cov==2.5.1", "pytest-mock", "coveralls", "pre-commit"]
     },
     python_requires=">=3.5",
     entry_points="""
