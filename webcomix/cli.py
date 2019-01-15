@@ -119,11 +119,11 @@ def search(name, start_url, cbz, single_page, yes):
 @click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
-def custom(comic_name, start_url, next_page_xpath, image_xpath, cbz, single_page, yes):
+def custom(name, start_url, next_page_xpath, image_xpath, cbz, single_page, yes):
     """
     Downloads a user-defined webcomic
     """
-    comic = Comic(comic_name, start_url, image_xpath, next_page_xpath, single_page)
+    comic = Comic(name, start_url, image_xpath, next_page_xpath, single_page)
     try:
         validation = comic.verify_xpath()
     except NextLinkNotFound as exception:

@@ -99,7 +99,7 @@ def test_custom_comic_asks_for_verification_before_downloading(mocker):
     result = runner.invoke(
         cli.custom,
         [
-            "--comic_name=foo",
+            "foo",
             "--start_url=url",
             "--next_page_xpath=next_page",
             "--image_xpath=image",
@@ -126,7 +126,7 @@ def test_custom_comic_makes_the_cbz_file(mocker):
     result = runner.invoke(
         cli.custom,
         [
-            "--comic_name=foo",
+            "foo",
             "--start_url=url",
             "--next_page_xpath=next_page",
             "--image_xpath=image",
@@ -148,7 +148,7 @@ def test_custom_comic_doesnt_ask_for_verification_if_next_link_not_found(mocker)
     result = runner.invoke(
         cli.custom,
         [
-            "--comic_name=foo",
+            "foo",
             "--start_url=url",
             "--next_page_xpath=next_page",
             "--image_xpath=image",
