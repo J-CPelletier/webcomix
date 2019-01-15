@@ -54,7 +54,7 @@ def discovery(name, url, single_page):
             comic = Comic(name, url, image_xpath, next_page_xpath, single_page)
             first_pages = comic.verify_xpath()
             check_first_pages(first_pages)
-            return comic
+            return comic, first_pages
         except KeyboardInterrupt:
             sys.exit(0)
         except:

@@ -68,9 +68,8 @@ def search(name, start_url, cbz, single_page, yes):
     """
     Downloads a webcomic using a general XPath
     """
-    comic = discovery(name, start_url, single_page)
+    comic, validation = discovery(name, start_url, single_page)
     if comic is not None:
-        validation = comic.verify_xpath()
         print_verification(validation)
         click.echo("Verify that the links above are correct.")
         if yes or click.confirm("Are you sure you want to proceed?"):
