@@ -3,6 +3,7 @@
 import click
 
 from webcomix.comic import Comic
+from webcomix.exceptions import NextLinkNotFound
 from webcomix.search import discovery
 from webcomix.supported_comics import supported_comics
 
@@ -126,13 +127,18 @@ def custom(comic_name, start_url, next_page_xpath, image_xpath, cbz, single_page
     Downloads a user-defined webcomic
     """
     comic = Comic(comic_name, start_url, image_xpath, next_page_xpath, single_page)
-    validation = comic.verify_xpath()
-    print_verification(validation)
-    click.echo("Verify that the links above are correct.")
-    if yes or click.confirm("Are you sure you want to proceed?"):
-        comic.download()
-        if cbz:
-            comic.convert_to_cbz()
+    try:
+        validation = comic.verify_xpath()
+    except NextLinkNotFound as exception:
+        click.echo("Could not find next link of: {} \nwith next page XPath expression: {}".format(exception.failed_url, exception.next_page_xpath))
+        click.echo("Have you tried testing your XPath expression with 'scrapy shell'?")
+    else:
+        print_verification(validation)
+        click.echo("Verify that the links above are correct.")
+        if yes or click.confirm("Are you sure you want to proceed?"):
+            comic.download()
+            if cbz:
+                comic.convert_to_cbz()
 
 
 def print_verification(validation):

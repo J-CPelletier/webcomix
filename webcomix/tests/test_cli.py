@@ -2,6 +2,7 @@ from click.testing import CliRunner
 
 from webcomix import cli
 from webcomix.comic import Comic
+from webcomix.exceptions import NextLinkNotFound
 from webcomix.supported_comics import supported_comics
 
 first_comic = list(sorted(supported_comics.keys()))[0]
@@ -136,6 +137,28 @@ def test_custom_comic_makes_the_cbz_file(mocker):
     assert result.exit_code == 0
     assert mock_convert_to_cbz.call_count == 1
 
+
+def test_custom_comic_doesnt_ask_for_verification_if_next_link_not_found(mocker):
+    runner = CliRunner()
+    mock_manager = mocker.Mock()
+    mock_download = mocker.patch("webcomix.comic.Comic.download")
+    mock_verify_xpath = mocker.patch("webcomix.comic.Comic.verify_xpath", side_effect=NextLinkNotFound(mocker.ANY, mocker.ANY))
+    mock_print_verification = mocker.patch("webcomix.cli.print_verification")
+
+    result = runner.invoke(
+        cli.custom,
+        [
+            "--comic_name=foo",
+            "--start_url=url",
+            "--next_page_xpath=next_page",
+            "--image_xpath=image",
+        ],
+        "yes",
+    )
+    assert result.exit_code == 0
+    assert mock_verify_xpath.call_count == 1
+    assert mock_print_verification.call_count == 0
+    assert mock_download.call_count == 0
 
 def test_discovered_comic_searches_for_a_comic(mocker):
     runner = CliRunner()
