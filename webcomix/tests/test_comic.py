@@ -11,10 +11,6 @@ from webcomix.tests.fake_websites.fixture import three_webpages_uri, one_webpage
 
 @pytest.fixture
 def cleanup_test_directories():
-    if os.path.isdir("xkcd"):
-        shutil.rmtree("xkcd")
-    if os.path.isdir("test"):
-        shutil.rmtree("test")
     yield None
     if os.path.isdir("xkcd"):
         shutil.rmtree("xkcd")
@@ -24,8 +20,6 @@ def cleanup_test_directories():
 
 @pytest.fixture
 def fake_downloaded_xkcd_comic():
-    if os.path.isdir("xkcd"):
-        shutil.rmtree("xkcd")
     comic = Comic(
         "xkcd",
         "http://xkcd.com/1/",
