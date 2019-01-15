@@ -80,12 +80,9 @@ def search(name, start_url, cbz, single_page, yes):
 
 
 @cli.command()
-@click.option(
-    "--comic-name",
-    "--comic_name",
-    prompt=True,
+@click.argument(
+    "name",
     type=click.STRING,
-    help="Name of the user-defined comic",
 )
 @click.option(
     "--start-url",
