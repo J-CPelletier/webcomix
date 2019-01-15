@@ -2,6 +2,7 @@ from urllib.parse import urljoin
 
 import scrapy
 
+from webcomix.exceptions import NextLinkNotFound
 from webcomix.scrapy.verification.web_page import WebPage
 
 
@@ -32,11 +33,6 @@ class VerificationSpider(scrapy.Spider):
                 response.urljoin(next_page_url), meta={"page": page + 1}
             )
         else:
-            raise Exception(
-                """\n
-                    Next page XPath: {}\n
-                    Image XPath: {}\n
-                    Failed on URL: {}""".format(
-                    self.next_page_selector, self.comic_image_selector, response.url
-                )
+            raise NextLinkNotFound(
+                response.url, self.next_page_selector
             )

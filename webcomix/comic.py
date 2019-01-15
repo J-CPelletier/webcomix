@@ -50,7 +50,6 @@ class Comic:
         worker = CrawlerWorker(
             settings,
             False,
-            True,
             ComicSpider,
             start_urls=[self.start_url],
             comic_image_selector=self.comic_image_selector,
@@ -79,7 +78,7 @@ class Comic:
                     "Error while testing the archive; it might be corrupted."
                 )
 
-    def verify_xpath(self, print_exception: bool = True) -> List[Mapping]:
+    def verify_xpath(self) -> List[Mapping]:
         """
         Takes a url and the XPath expressions for the next_page and image to
         go three pages into the comic. It returns a tuple containing the url
@@ -90,7 +89,6 @@ class Comic:
         worker = CrawlerWorker(
             settings,
             True,
-            print_exception,
             VerificationSpider,
             start_urls=[self.start_url],
             comic_image_selector=self.comic_image_selector,
