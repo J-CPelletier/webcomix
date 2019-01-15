@@ -60,18 +60,18 @@ Downloads a predefined comic. Supports the `--cbz` flag, which creates a .cbz ar
 
 #### search
 
-Searches for an XPath that can download the whole comic. Supports the `--cbz` flag, which creates a .cbz archive of the downloaded comic, and `-y`, which skips the verification prompt.
+Searches for an XPath that can download the whole comic. Supports the `--cbz` flag, which creates a .cbz archive of the downloaded comic,`-s`, which verifies only the provided page of the comic, and `-y`, which skips the verification prompt.
 
 #### custom
 
-Downloads a user-defined comic. To download a specific comic, you'll need a link to the first page, an XPath expression giving out the link to the next page and an XPath expression giving out the link to the image. More info [here](http://www.w3schools.com/xml/xpath_syntax.asp). Supports the `--cbz` flag, which creates a .cbz archive of the downloaded comic, and `-y`, which skips the verification prompt.
+Downloads a user-defined comic. To download a specific comic, you'll need a link to the first page, an XPath expression giving out the link to the next page and an XPath expression giving out the link to the image. More info [here](http://www.w3schools.com/xml/xpath_syntax.asp). Supports the `--cbz` flag, which creates a .cbz archive of the downloaded comic, `-s`, which verifies only the provided page of the comic, and `-y`, which skips the verification prompt.
 
 ### Examples
 
 * `webcomix download xkcd`
-* `webcomix search xkcd --first_page_url=http://xkcd.com/1/`
+* `webcomix search xkcd --start-url=http://xkcd.com/1/`
 * `webcomix custom --cbz` (You will be prompted about other needed arguments)
-* `webcomix custom --comic_name=xkcd --start_url=http://xkcd.com/1/ --next_page_xpath="//a[@rel='next']/@href" --image_xpath="//div[@id='comic']//img/@src" --cbz` (Same as before, but with all arguments declared beforehand)
+* `webcomix custom xkcd --start-url=http://xkcd.com/1/ --next-page-xpath="//a[@rel='next']/@href" --image-xpath="//div[@id='comic']//img/@src" --cbz` (Same as before, but with all arguments declared beforehand)
 
 ### Making an XPath selector
 
