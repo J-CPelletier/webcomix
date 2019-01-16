@@ -20,6 +20,7 @@ deploy:
     on:
       repo: J-CPelletier/webcomix
       tags: true
+      python: '3.5'
   - provider: pypi
     skip_cleanup: true
     username: J-CPelletier
@@ -29,3 +30,4 @@ deploy:
     on:
       tags: true
       branch: master
+      python: '3.5'
