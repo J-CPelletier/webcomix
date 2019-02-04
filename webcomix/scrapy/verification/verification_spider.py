@@ -33,6 +33,4 @@ class VerificationSpider(scrapy.Spider):
                 response.urljoin(next_page_url), meta={"page": page + 1}
             )
         else:
-            raise NextLinkNotFound(
-                response.url, self.next_page_selector
-            )
+            raise NextLinkNotFound(response.url, self.next_page_selector)

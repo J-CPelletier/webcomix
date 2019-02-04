@@ -7,9 +7,7 @@ from scrapy.crawler import CrawlerProcess
 
 
 class CrawlerWorker(Process):
-    def __init__(
-        self, settings, return_items, *crawl_args, **crawl_kwargs
-    ):
+    def __init__(self, settings, return_items, *crawl_args, **crawl_kwargs):
         super(CrawlerWorker, self).__init__()
         self.result_queue = Queue()
         self.crawl_args = crawl_args

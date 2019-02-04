@@ -80,10 +80,7 @@ def search(name, start_url, cbz, single_page, yes):
 
 
 @cli.command()
-@click.argument(
-    "name",
-    type=click.STRING,
-)
+@click.argument("name", type=click.STRING)
 @click.option(
     "--start-url",
     "--start_url",
@@ -127,7 +124,11 @@ def custom(name, start_url, next_page_xpath, image_xpath, cbz, single_page, yes)
     try:
         validation = comic.verify_xpath()
     except NextLinkNotFound as exception:
-        click.echo("Could not find next link of: {} \nwith next page XPath expression: {}".format(exception.failed_url, exception.next_page_xpath))
+        click.echo(
+            "Could not find next link of: {} \nwith next page XPath expression: {}".format(
+                exception.failed_url, exception.next_page_xpath
+            )
+        )
         click.echo("Have you tried testing your XPath expression with 'scrapy shell'?")
     else:
         print_verification(validation)

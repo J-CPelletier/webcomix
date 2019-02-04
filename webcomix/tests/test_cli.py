@@ -142,7 +142,10 @@ def test_custom_comic_doesnt_ask_for_verification_if_next_link_not_found(mocker)
     runner = CliRunner()
     mock_manager = mocker.Mock()
     mock_download = mocker.patch("webcomix.comic.Comic.download")
-    mock_verify_xpath = mocker.patch("webcomix.comic.Comic.verify_xpath", side_effect=NextLinkNotFound(mocker.ANY, mocker.ANY))
+    mock_verify_xpath = mocker.patch(
+        "webcomix.comic.Comic.verify_xpath",
+        side_effect=NextLinkNotFound(mocker.ANY, mocker.ANY),
+    )
     mock_print_verification = mocker.patch("webcomix.cli.print_verification")
 
     result = runner.invoke(
@@ -160,11 +163,15 @@ def test_custom_comic_doesnt_ask_for_verification_if_next_link_not_found(mocker)
     assert mock_print_verification.call_count == 0
     assert mock_download.call_count == 0
 
+
 def test_discovered_comic_searches_for_a_comic(mocker):
     runner = CliRunner()
     mock_discovery = mocker.patch(
         "webcomix.cli.discovery",
-        return_value=(Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY), mocker.ANY),
+        return_value=(
+            Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY),
+            mocker.ANY,
+        ),
     )
     mock_download = mocker.patch("webcomix.comic.Comic.download")
     mock_verify_xpath = mocker.patch("webcomix.comic.Comic.verify_xpath")
@@ -180,7 +187,10 @@ def test_discovered_comic_asks_for_verification_before_downloading(mocker):
     mock_manager = mocker.Mock()
     mock_discovery = mocker.patch(
         "webcomix.cli.discovery",
-        return_value=(Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY), mocker.ANY),
+        return_value=(
+            Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY),
+            mocker.ANY,
+        ),
     )
     mock_download = mocker.patch("webcomix.comic.Comic.download")
     mock_verify_xpath = mocker.patch("webcomix.comic.Comic.verify_xpath")
@@ -192,10 +202,7 @@ def test_discovered_comic_asks_for_verification_before_downloading(mocker):
     result = runner.invoke(cli.search, ["foo", "--start_url=good"], "y")
     assert result.exit_code == 0
     mock_manager.assert_has_calls(
-        [
-            mocker.call.print_verification(mocker.ANY),
-            mocker.call.download(),
-        ]
+        [mocker.call.print_verification(mocker.ANY), mocker.call.download()]
     )
 
 
@@ -203,7 +210,10 @@ def test_discovered_comic_makes_cbz_file(mocker):
     runner = CliRunner()
     mock_discovery = mocker.patch(
         "webcomix.cli.discovery",
-        return_value=(Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY), mocker.ANY),
+        return_value=(
+            Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY),
+            mocker.ANY,
+        ),
     )
     mock_download = mocker.patch("webcomix.comic.Comic.download")
     mock_verify_xpath = mocker.patch("webcomix.comic.Comic.verify_xpath")
