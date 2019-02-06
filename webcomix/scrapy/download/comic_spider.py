@@ -1,12 +1,13 @@
 from urllib.parse import urljoin
 
 import click
-import scrapy
+from scrapy import Spider
+from scrapy_splash import SplashRequest
 
 from webcomix.scrapy.download.comic_page import ComicPage
 
 
-class ComicSpider(scrapy.Spider):
+class ComicSpider(Spider):
     name = "Comic Spider"
 
     def __init__(self, *args, **kwargs):
@@ -28,7 +29,12 @@ class ComicSpider(scrapy.Spider):
             click.echo("Could not find comic image.")
         next_page_url = response.xpath(self.next_page_selector).extract_first()
         if next_page_url is not None and not next_page_url.endswith("#"):
-            yield scrapy.Request(
+            yield SplashRequest(
                 response.urljoin(next_page_url),
-                meta={"page": page + len(comic_image_urls)},
+                args={
+                    "wait": 0.5,
+                },
+                meta={
+                    "page": page + 1,
+                }
             )

@@ -38,6 +38,17 @@ class Comic:
             os.makedirs(self.name)
 
         settings = {
+            "SPLASH_URL": "http://0.0.0.0:8050",
+            "DOWNLOADER_MIDDLEWARES": {
+                'scrapy_splash.SplashCookiesMiddleware': 723,
+                'scrapy_splash.SplashMiddleware': 725,
+                'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+            },
+            "SPIDER_MIDDLEWARES": {
+                'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
+            },
+            "DUPEFILTER_CLASS": 'scrapy_splash.SplashAwareDupeFilter',
+            "HTTPCACHE_STORAGE": 'scrapy_splash.SplashAwareFSCacheStorage',
             "ITEM_PIPELINES": {
                 "webcomix.scrapy.download.comic_pipeline.ComicPipeline": 1,
                 "scrapy.pipelines.files.FilesPipeline": 500,
@@ -84,7 +95,20 @@ class Comic:
         go three pages into the comic. It returns a tuple containing the url
         of each page and their respective image urls.
         """
-        settings = {"LOG_ENABLED": False}
+        settings = {
+            "SPLASH_URL": "http://0.0.0.0:8050",
+            "DOWNLOADER_MIDDLEWARES": {
+                'scrapy_splash.SplashCookiesMiddleware': 723,
+                'scrapy_splash.SplashMiddleware': 725,
+                'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+            },
+            "SPIDER_MIDDLEWARES": {
+                'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
+            },
+            "DUPEFILTER_CLASS": 'scrapy_splash.SplashAwareDupeFilter',
+            "HTTPCACHE_STORAGE": 'scrapy_splash.SplashAwareFSCacheStorage',
+            "LOG_ENABLED": False
+        }
 
         worker = CrawlerWorker(
             settings,

@@ -1,12 +1,13 @@
 from urllib.parse import urljoin
 
-import scrapy
+from scrapy import Spider
+from scrapy_splash import SplashRequest
 
 from webcomix.exceptions import NextLinkNotFound
 from webcomix.scrapy.verification.web_page import WebPage
 
 
-class VerificationSpider(scrapy.Spider):
+class VerificationSpider(Spider):
     name = "Verification Spider"
 
     def __init__(self, *args, **kwargs):
@@ -29,8 +30,14 @@ class VerificationSpider(scrapy.Spider):
             return
         elif next_page_url is not None and not next_page_url.endswith("#"):
             yield WebPage(url=response.url, page=page, image_urls=image_urls)
-            yield scrapy.Request(
-                response.urljoin(next_page_url), meta={"page": page + 1}
+            yield SplashRequest(
+                response.urljoin(next_page_url),
+                args={
+                    "wait": 0.5,
+                },
+                meta={
+                    "page": page + 1,
+                }
             )
         else:
             raise NextLinkNotFound(response.url, self.next_page_selector)
