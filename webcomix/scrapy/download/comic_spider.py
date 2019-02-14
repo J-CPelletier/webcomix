@@ -22,13 +22,13 @@ class ComicSpider(scrapy.Spider):
         page = response.meta.get("page") or 1
         for index, comic_image_url in enumerate(comic_image_urls):
             yield ComicPage(
-                url=urljoin(response.url, comic_image_url), page=page + index
+                url=urljoin(response.url, comic_image_url.strip()), page=page + index
             )
         if not comic_image_urls:
             click.echo("Could not find comic image.")
         next_page_url = response.xpath(self.next_page_selector).get()
         if next_page_url is not None and not next_page_url.endswith("#"):
             yield scrapy.Request(
-                response.urljoin(next_page_url),
+                response.urljoin(next_page_url).strip(),
                 meta={"page": page + len(comic_image_urls)},
             )
