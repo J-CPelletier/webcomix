@@ -17,7 +17,7 @@ class ComicSpider(scrapy.Spider):
 
     def parse(self, response):
         click.echo("Downloading page {}".format(response.url))
-        comic_image_urls = response.xpath(self.comic_image_selector).extract()
+        comic_image_urls = response.xpath(self.comic_image_selector).getall()
 
         page = response.meta.get("page") or 1
         for index, comic_image_url in enumerate(comic_image_urls):
@@ -26,7 +26,7 @@ class ComicSpider(scrapy.Spider):
             )
         if not comic_image_urls:
             click.echo("Could not find comic image.")
-        next_page_url = response.xpath(self.next_page_selector).extract_first()
+        next_page_url = response.xpath(self.next_page_selector).get()
         if next_page_url is not None and not next_page_url.endswith("#"):
             yield scrapy.Request(
                 response.urljoin(next_page_url),

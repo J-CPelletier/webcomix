@@ -7,8 +7,8 @@ def test_parse_yields_good_page(mocker):
     mock_response.url = "http://xkcd.com/2/"
     mock_selector = mocker.patch("scrapy.selector.SelectorList")
     mock_response.xpath.return_value = mock_selector
-    mock_selector.extract.return_value = ["//imgs.xkcd.com/comics/tree_cropped_(1).jpg"]
-    mock_selector.extract_first.return_value = "xkcd.com/3/"
+    mock_selector.getall.return_value = ["//imgs.xkcd.com/comics/tree_cropped_(1).jpg"]
+    mock_selector.get.return_value = "xkcd.com/3/"
 
     spider = ComicSpider()
     result = spider.parse(mock_response)
@@ -24,11 +24,11 @@ def test_parse_yields_multiple_subpages(mocker):
     mock_response.url = "http://xkcd.com/2/"
     mock_selector = mocker.patch("scrapy.selector.SelectorList")
     mock_response.xpath.return_value = mock_selector
-    mock_selector.extract.return_value = [
+    mock_selector.getall.return_value = [
         "//imgs.xkcd.com/comics/tree_cropped_(1).jpg",
         "//imgs.xkcd.com/comics/tree_cropped_(2).jpg",
     ]
-    mock_selector.extract_first.return_value = "xkcd.com/3/"
+    mock_selector.get.return_value = "xkcd.com/3/"
 
     spider = ComicSpider()
     result = spider.parse(mock_response)
@@ -45,8 +45,8 @@ def test_parse_yields_no_pages(mocker):
     mock_response.url = "http://xkcd.com/2/"
     mock_selector = mocker.patch("scrapy.selector.SelectorList")
     mock_response.xpath.return_value = mock_selector
-    mock_selector.extract.return_value = []
-    mock_selector.extract_first.return_value = "xkcd.com/3/"
+    mock_selector.getall.return_value = []
+    mock_selector.get.return_value = "xkcd.com/3/"
 
     spider = ComicSpider()
     result = spider.parse(mock_response)
