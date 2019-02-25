@@ -11,15 +11,31 @@ from webcomix.tests.fake_websites.fixture import three_webpages_uri, one_webpage
 
 @pytest.fixture
 def cleanup_test_directories():
+    if os.path.isfile("xkcd.cbz"):
+        os.remove("xkcd.cbz")
+    if os.path.isfile("test.cbz"):
+        os.remove("test.cbz")
+    if os.path.isdir("xkcd"):
+        shutil.rmtree("xkcd")
+    if os.path.isdir("test"):
+        shutil.rmtree("test")
     yield None
     if os.path.isdir("xkcd"):
         shutil.rmtree("xkcd")
     if os.path.isdir("test"):
         shutil.rmtree("test")
+    if os.path.isfile("xkcd.cbz"):
+        os.remove("xkcd.cbz")
+    if os.path.isfile("test.cbz"):
+        os.remove("test.cbz")
 
 
 @pytest.fixture
 def fake_downloaded_xkcd_comic():
+    if os.path.isfile("xkcd.cbz"):
+        os.remove("xkcd.cbz")
+    if os.path.isdir("xkcd"):
+        shutil.rmtree("xkcd")
     comic = Comic(
         "xkcd",
         "http://xkcd.com/1/",
@@ -125,7 +141,7 @@ def test_verify_xpath():
     ]
 
 
-def test_verify_xpath_only_verifies_one_page_with_single_page(mocker, one_webpage_uri):
+def test_verify_xpath_only_verifies_one_page_with_single_page(one_webpage_uri):
     comic = Comic("test", one_webpage_uri, "//img/@src", "//a/@href", True)
     actual = comic.verify_xpath()
     assert len(actual) == 1

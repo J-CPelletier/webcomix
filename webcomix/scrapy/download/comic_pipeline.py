@@ -1,4 +1,5 @@
 import os
+from zipfile import ZipFile
 
 import click
 import scrapy
@@ -11,12 +12,19 @@ from webcomix.comic import Comic
 class ComicPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
         click.echo("Saving image {}".format(item.get("url")))
-        image_path = Comic.save_image_location(
+        image_path_directory = Comic.save_image_location(
             item.get("url"), item.get("page"), info.spider.directory
         )
-        if os.path.isfile(image_path):
+        zipfile_path = "{}.cbz".format(info.spider.directory)
+        image_path_cbz = Comic.save_image_location(item.get("url"), item.get("page"))
+        if os.path.isfile(image_path_directory):
             click.echo("The image was already downloaded. Skipping...")
             raise DropItem("The image was already downloaded. Skipping...")
+        elif os.path.isfile(zipfile_path):
+            with ZipFile(zipfile_path, "r") as zipfile:
+                if image_path_cbz in zipfile.namelist():
+                    click.echo("The image was already downloaded. Skipping...")
+                    raise DropItem("The image was already downloaded. Skipping...")
         yield scrapy.Request(
             item.get("url"),
             meta={

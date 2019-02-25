@@ -13,6 +13,7 @@ class ComicSpider(scrapy.Spider):
         self.start_urls = kwargs.get("start_urls") or []
         self.next_page_selector = kwargs.get("next_page_selector", None)
         self.comic_image_selector = kwargs.get("comic_image_selector", None)
+        self.directory = kwargs.get("directory", None)
         super(ComicSpider, self).__init__(*args, **kwargs)
 
     def parse(self, response):
