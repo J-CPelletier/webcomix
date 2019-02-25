@@ -53,11 +53,11 @@ def test_make_cbz(fake_downloaded_xkcd_comic):
     with ZipFile("xkcd.cbz") as cbz_file:
         for i in range(1, 6):
             with cbz_file.open("{}.txt".format(i), "r") as image_file:
-                assert str(image_file.read()).strip("b'") == "testing {}".format(i)
+                assert image_file.read().decode("ascii") == "testing {}".format(i)
 
 
 def test_make_cbz_corrupted_archive(mocker, capfd, fake_downloaded_xkcd_comic):
-    corrupted_archive = mocker.patch.object(ZipFile, "testzip", return_value=mocker.ANY)
+    mocker.patch.object(ZipFile, "testzip", return_value=mocker.ANY)
     with pytest.raises(BadZipFile):
         fake_downloaded_xkcd_comic.convert_to_cbz()
 
@@ -87,13 +87,21 @@ def test_download_saves_the_files(cleanup_test_directories, three_webpages_uri):
 def test_download_does_not_add_crawlers_in_main_process(
     mocker, cleanup_test_directories, three_webpages_uri
 ):
-    mock_crawler_running = mocker.patch(
-        "webcomix.scrapy.crawler_worker.CrawlerWorker.start"
-    )
+    mocker.patch("webcomix.scrapy.crawler_worker.CrawlerWorker.start")
     mock_add_to_crawl = mocker.patch("scrapy.crawler.Crawler.crawl")
     comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href", False)
     comic.download()
     assert mock_add_to_crawl.call_count == 0
+
+
+def test_convert_to_cbz_adds_all_files_to_cbz(
+    cleanup_test_directories, three_webpages_uri
+):
+    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href", False)
+    comic.download()
+    comic.convert_to_cbz()
+    with ZipFile("{}.cbz".format(comic.name), mode="r") as cbz_file:
+        assert len(cbz_file.infolist()) == 2
 
 
 def test_verify_xpath():

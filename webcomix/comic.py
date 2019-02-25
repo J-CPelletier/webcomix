@@ -66,7 +66,7 @@ class Comic:
         Takes all of the previously downloaded pages and compresses them in
         a .cbz file, erasing them afterwards.
         """
-        with ZipFile("{}.cbz".format(self.name), mode="w") as cbz_file:
+        with ZipFile("{}.cbz".format(self.name), mode="a") as cbz_file:
             images = os.listdir(self.name)
             for image in images:
                 image_location = "{}/{}".format(self.name, image)
