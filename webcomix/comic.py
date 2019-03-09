@@ -9,8 +9,7 @@ from webcomix.scrapy.download.comic_spider import ComicSpider
 from webcomix.scrapy.verification.verification_spider import VerificationSpider
 from webcomix.scrapy.crawler_worker import CrawlerWorker
 
-ua = UserAgent()
-header = {"User-Agent": str(ua.chrome)}
+user_agent = UserAgent()
 
 
 class Comic:
@@ -45,6 +44,7 @@ class Comic:
             "LOG_ENABLED": False,
             "FILES_STORE": self.name,
             "MEDIA_ALLOW_REDIRECTS": True,
+            "USER_AGENT": user_agent.chrome,
         }
 
         worker = CrawlerWorker(
@@ -84,7 +84,10 @@ class Comic:
         go three pages into the comic. It returns a tuple containing the url
         of each page and their respective image urls.
         """
-        settings = {"LOG_ENABLED": False}
+        settings = {
+            "LOG_ENABLED": False,
+            "USER_AGENT": user_agent.chrome,
+        }
 
         worker = CrawlerWorker(
             settings,
