@@ -21,7 +21,7 @@ class VerificationSpider(Spider):
         super(VerificationSpider, self).__init__(*args, **kwargs)
 
     def make_requests_from_url(self, url):
-        return self.request_factory.create_request(url=url, next_page=1)
+        return self.request_factory.create(url=url, next_page=1)
 
     def parse(self, response):
         comic_image_urls = response.xpath(self.comic_image_selector).getall()
@@ -36,7 +36,7 @@ class VerificationSpider(Spider):
             return
         elif is_not_end_of_comic(next_page_url):
             yield WebPage(url=response.url, page=page, image_urls=image_urls)
-            yield self.request_factory.create_request(
+            yield self.request_factory.create(
                 url=response.urljoin(next_page_url).strip(), next_page=page + 1
             )
         else:

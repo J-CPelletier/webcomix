@@ -21,7 +21,7 @@ class ComicSpider(Spider):
         super(ComicSpider, self).__init__(*args, **kwargs)
 
     def make_requests_from_url(self, url):
-        return self.request_factory.create_request(url=url, next_page=1)
+        return self.request_factory.create(url=url, next_page=1)
 
     def parse(self, response):
         click.echo("Downloading page {}".format(response.url))
@@ -35,7 +35,7 @@ class ComicSpider(Spider):
             click.echo("Could not find comic image.")
         next_page_url = response.xpath(self.next_page_selector).get()
         if is_not_end_of_comic(next_page_url):
-            yield self.request_factory.create_request(
+            yield self.request_factory.create(
                 url=response.urljoin(next_page_url).strip(),
                 next_page=page + len(comic_image_urls),
             )
