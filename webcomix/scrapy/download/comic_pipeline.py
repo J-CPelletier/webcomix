@@ -15,16 +15,11 @@ class ComicPipeline(FilesPipeline):
         image_path_directory = Comic.save_image_location(
             item.get("url"), item.get("page"), info.spider.directory
         )
-        zipfile_path = "{}.cbz".format(info.spider.directory)
-        image_path_cbz = Comic.save_image_location(item.get("url"), item.get("page"))
-        if os.path.isfile(image_path_directory):
+        if os.path.isfile(image_path_directory) or self.image_in_zipfile(
+            item, info.spider.directory
+        ):
             click.echo("The image was already downloaded. Skipping...")
             raise DropItem("The image was already downloaded. Skipping...")
-        elif os.path.isfile(zipfile_path):
-            with ZipFile(zipfile_path, "r") as zipfile:
-                if image_path_cbz in zipfile.namelist():
-                    click.echo("The image was already downloaded. Skipping...")
-                    raise DropItem("The image was already downloaded. Skipping...")
         yield scrapy.Request(
             item.get("url"),
             meta={
@@ -44,3 +39,12 @@ class ComicPipeline(FilesPipeline):
 
     def file_path(self, request, response=None, info=None):
         return request.meta.get("image_file_name")
+
+    @staticmethod
+    def image_in_zipfile(item, directory):
+        zipfile_path = "{}.cbz".format(directory)
+        if os.path.isfile(zipfile_path):
+            return False
+        image_path_cbz = Comic.save_image_location(item.get("url"), item.get("page"))
+        with ZipFile(zipfile_path, "r") as zipfile:
+            return image_path_cbz in zipfile.namelist()

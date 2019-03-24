@@ -14,9 +14,9 @@ expected_image_location = "test/1.jpg"
 
 
 def test_get_media_requests_returns_good_request_when_file_not_present(mocker):
-    mock_file_not_there = mocker.patch("os.path.isfile", return_value=False)
+    mocker.patch("os.path.isfile", return_value=False)
     mock_spider_info = mocker.patch("scrapy.pipelines.media.MediaPipeline.SpiderInfo")
-    mock_got_save_image = mocker.patch(
+    mocker.patch(
         "webcomix.comic.Comic.save_image_location", return_value=expected_image_location
     )
     pipeline = ComicPipeline(store_uri="foo")
@@ -32,14 +32,34 @@ def test_get_media_requests_returns_good_request_when_file_not_present(mocker):
 
 
 def test_get_media_requests_drops_item_when_file_present(mocker):
-    mock_file_here = mocker.patch("os.path.isfile", return_value=True)
+    mocker.patch("os.path.isfile", return_value=True)
     mock_spider_info = mocker.patch("scrapy.pipelines.media.MediaPipeline.SpiderInfo")
-    mock_got_save_image = mocker.patch(
+    mocker.patch(
         "webcomix.comic.Comic.save_image_location", return_value=expected_image_location
     )
     pipeline = ComicPipeline(store_uri="foo")
     with pytest.raises(DropItem):
-        elements = list(
+        list(
+            pipeline.get_media_requests(
+                ComicPage(url=expected_url_image, page=1), mock_spider_info
+            )
+        )
+    os.rmdir("foo")
+
+
+def test_get_media_requests_drops_item_when_file_present_in_zip(mocker):
+    mocker.patch("os.path.isfile", side_effect=[False])
+    mocker.patch(
+        "webcomix.scrapy.download.comic_pipeline.ComicPipeline.image_in_zipfile",
+        return_value=True,
+    )
+    mock_spider_info = mocker.patch("scrapy.pipelines.media.MediaPipeline.SpiderInfo")
+    mocker.patch(
+        "webcomix.comic.Comic.save_image_location", return_value=expected_image_location
+    )
+    pipeline = ComicPipeline(store_uri="foo")
+    with pytest.raises(DropItem):
+        list(
             pipeline.get_media_requests(
                 ComicPage(url=expected_url_image, page=1), mock_spider_info
             )
