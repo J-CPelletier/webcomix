@@ -43,7 +43,7 @@ class ComicPipeline(FilesPipeline):
     @staticmethod
     def image_in_zipfile(item, directory):
         zipfile_path = "{}.cbz".format(directory)
-        if os.path.isfile(zipfile_path):
+        if not os.path.isfile(zipfile_path):
             return False
         image_path_cbz = Comic.save_image_location(item.get("url"), item.get("page"))
         with ZipFile(zipfile_path, "r") as zipfile:

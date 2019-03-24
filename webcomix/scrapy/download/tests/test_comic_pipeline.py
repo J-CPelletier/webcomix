@@ -95,3 +95,8 @@ def test_file_path_is_image_path(mocker):
     file_path = pipeline.file_path(mock_request)
     assert file_path == expected_image_location
     os.rmdir("foo")
+
+
+def test_image_not_in_zip_if_zip_does_not_exist(mocker):
+    mocker.patch("os.path.isfile", return_value=False)
+    assert ComicPipeline.image_in_zipfile(mocker.ANY, mocker.ANY) == False
