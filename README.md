@@ -18,6 +18,7 @@ This program is for personal use only. Please be aware that by making the downlo
 * click
 * fake-useragent
 * scrapy (Some additional steps might be required to include this package and can be found [here](https://doc.scrapy.org/en/latest/intro/install.html#intro-install-platform-notes))
+* scrapy-splash
 * tqdm
 
 ### Process
