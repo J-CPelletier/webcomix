@@ -17,10 +17,12 @@ class ComicSpider(Spider):
         self.directory = kwargs.get("directory", None)
         super(ComicSpider, self).__init__(*args, **kwargs)
 
+    def make_requests_from_url(self, url):
+        return SplashRequest(url, args={"wait": 0.5})
+
     def parse(self, response):
         click.echo("Downloading page {}".format(response.url))
         comic_image_urls = response.xpath(self.comic_image_selector).getall()
-
         page = response.meta.get("page") or 1
         for index, comic_image_url in enumerate(comic_image_urls):
             yield ComicPage(

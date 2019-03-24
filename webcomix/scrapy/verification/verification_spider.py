@@ -17,6 +17,9 @@ class VerificationSpider(Spider):
         self.number_of_pages_to_check = kwargs.get("number_of_pages_to_check", 3)
         super(VerificationSpider, self).__init__(*args, **kwargs)
 
+    def make_requests_from_url(self, url):
+        return SplashRequest(url, args={"wait": 0.5})
+
     def parse(self, response):
         comic_image_urls = response.xpath(self.comic_image_selector).getall()
         page = response.meta.get("page") or 1
