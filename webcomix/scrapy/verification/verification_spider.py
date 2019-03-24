@@ -1,9 +1,10 @@
 from urllib.parse import urljoin
 
 from scrapy import Spider
-from scrapy_splash import SplashRequest
 
 from webcomix.exceptions import NextLinkNotFound
+from webcomix.scrapy.request_factory import RequestFactory
+from webcomix.scrapy.util import is_not_end_of_comic
 from webcomix.scrapy.verification.web_page import WebPage
 
 
@@ -15,10 +16,12 @@ class VerificationSpider(Spider):
         self.next_page_selector = kwargs.get("next_page_selector", None)
         self.comic_image_selector = kwargs.get("comic_image_selector", None)
         self.number_of_pages_to_check = kwargs.get("number_of_pages_to_check", 3)
+        javascript = kwargs.get("javascript", False)
+        self.request_factory = RequestFactory(javascript)
         super(VerificationSpider, self).__init__(*args, **kwargs)
 
     def make_requests_from_url(self, url):
-        return SplashRequest(url, args={"wait": 0.5})
+        return self.request_factory.create_request(url=url, next_page=1)
 
     def parse(self, response):
         comic_image_urls = response.xpath(self.comic_image_selector).getall()
@@ -31,12 +34,10 @@ class VerificationSpider(Spider):
         if page >= self.number_of_pages_to_check:
             yield WebPage(url=response.url, page=page, image_urls=image_urls)
             return
-        elif next_page_url is not None and not next_page_url.endswith("#"):
+        elif is_not_end_of_comic(next_page_url):
             yield WebPage(url=response.url, page=page, image_urls=image_urls)
-            yield SplashRequest(
-                response.urljoin(next_page_url).strip(),
-                args={"wait": 0.5},
-                meta={"page": page + 1},
+            yield self.request_factory.create_request(
+                url=response.urljoin(next_page_url).strip(), next_page=page + 1
             )
         else:
             raise NextLinkNotFound(response.url, self.next_page_selector)
