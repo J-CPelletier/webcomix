@@ -30,6 +30,7 @@ class CrawlerWorker(Process):
 
     def _exit_gracefully(self, signum, frame):
         self.kill_process = True
+        self.process.stop()
 
     def run(self):
         self.process.crawl(*self.crawl_args, **self.crawl_kwargs)

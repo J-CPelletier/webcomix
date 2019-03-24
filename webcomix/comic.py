@@ -9,8 +9,7 @@ from webcomix.scrapy.download.comic_spider import ComicSpider
 from webcomix.scrapy.verification.verification_spider import VerificationSpider
 from webcomix.scrapy.crawler_worker import CrawlerWorker
 
-ua = UserAgent()
-header = {"User-Agent": str(ua.chrome)}
+user_agent = UserAgent()
 
 
 class Comic:
@@ -40,15 +39,15 @@ class Comic:
         settings = {
             "SPLASH_URL": "http://0.0.0.0:8050",
             "DOWNLOADER_MIDDLEWARES": {
-                'scrapy_splash.SplashCookiesMiddleware': 723,
-                'scrapy_splash.SplashMiddleware': 725,
-                'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+                "scrapy_splash.SplashCookiesMiddleware": 723,
+                "scrapy_splash.SplashMiddleware": 725,
+                "scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware": 810,
             },
             "SPIDER_MIDDLEWARES": {
-                'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
+                "scrapy_splash.SplashDeduplicateArgsMiddleware": 100
             },
-            "DUPEFILTER_CLASS": 'scrapy_splash.SplashAwareDupeFilter',
-            "HTTPCACHE_STORAGE": 'scrapy_splash.SplashAwareFSCacheStorage',
+            "DUPEFILTER_CLASS": "scrapy_splash.SplashAwareDupeFilter",
+            "HTTPCACHE_STORAGE": "scrapy_splash.SplashAwareFSCacheStorage",
             "ITEM_PIPELINES": {
                 "webcomix.scrapy.download.comic_pipeline.ComicPipeline": 1,
                 "scrapy.pipelines.files.FilesPipeline": 500,
@@ -56,6 +55,7 @@ class Comic:
             "LOG_ENABLED": False,
             "FILES_STORE": self.name,
             "MEDIA_ALLOW_REDIRECTS": True,
+            "USER_AGENT": user_agent.chrome,
         }
 
         worker = CrawlerWorker(
@@ -77,7 +77,7 @@ class Comic:
         Takes all of the previously downloaded pages and compresses them in
         a .cbz file, erasing them afterwards.
         """
-        with ZipFile("{}.cbz".format(self.name), mode="w") as cbz_file:
+        with ZipFile("{}.cbz".format(self.name), mode="a") as cbz_file:
             images = os.listdir(self.name)
             for image in images:
                 image_location = "{}/{}".format(self.name, image)
@@ -98,16 +98,17 @@ class Comic:
         settings = {
             "SPLASH_URL": "http://0.0.0.0:8050",
             "DOWNLOADER_MIDDLEWARES": {
-                'scrapy_splash.SplashCookiesMiddleware': 723,
-                'scrapy_splash.SplashMiddleware': 725,
-                'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+                "scrapy_splash.SplashCookiesMiddleware": 723,
+                "scrapy_splash.SplashMiddleware": 725,
+                "scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware": 810,
             },
             "SPIDER_MIDDLEWARES": {
-                'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
+                "scrapy_splash.SplashDeduplicateArgsMiddleware": 100
             },
-            "DUPEFILTER_CLASS": 'scrapy_splash.SplashAwareDupeFilter',
-            "HTTPCACHE_STORAGE": 'scrapy_splash.SplashAwareFSCacheStorage',
-            "LOG_ENABLED": False
+            "DUPEFILTER_CLASS": "scrapy_splash.SplashAwareDupeFilter",
+            "HTTPCACHE_STORAGE": "scrapy_splash.SplashAwareFSCacheStorage",
+            "LOG_ENABLED": False,
+            "USER_AGENT": user_agent.chrome,
         }
 
         worker = CrawlerWorker(

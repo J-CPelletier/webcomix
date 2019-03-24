@@ -77,4 +77,10 @@ supported_comics = {
         "//a[@class='cc-next']/@href",
         False,
     ),
+    "StandStillStaySilent": (
+        "http://www.sssscomic.com/comic.php?page=1",
+        "//img[@class='comicnormal']/@src",
+        "//a[img[contains(@src, 'next')]]/@href",
+        False,
+    ),
 }

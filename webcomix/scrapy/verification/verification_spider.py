@@ -18,26 +18,22 @@ class VerificationSpider(Spider):
         super(VerificationSpider, self).__init__(*args, **kwargs)
 
     def parse(self, response):
-        comic_image_urls = response.xpath(self.comic_image_selector).extract()
+        comic_image_urls = response.xpath(self.comic_image_selector).getall()
         page = response.meta.get("page") or 1
         image_urls = [
-            urljoin(response.url, image_element_url)
+            urljoin(response.url, image_element_url.strip())
             for image_element_url in comic_image_urls
         ]
-        next_page_url = response.xpath(self.next_page_selector).extract_first()
+        next_page_url = response.xpath(self.next_page_selector).get()
         if page >= self.number_of_pages_to_check:
             yield WebPage(url=response.url, page=page, image_urls=image_urls)
             return
         elif next_page_url is not None and not next_page_url.endswith("#"):
             yield WebPage(url=response.url, page=page, image_urls=image_urls)
             yield SplashRequest(
-                response.urljoin(next_page_url),
-                args={
-                    "wait": 0.5,
-                },
-                meta={
-                    "page": page + 1,
-                }
+                response.urljoin(next_page_url).strip(),
+                args={"wait": 0.5},
+                meta={"page": page + 1},
             )
         else:
             raise NextLinkNotFound(response.url, self.next_page_selector)
