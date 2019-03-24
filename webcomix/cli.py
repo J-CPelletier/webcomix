@@ -63,13 +63,21 @@ def download(name, cbz):
     help="Downloads from a single webpage",
 )
 @click.option(
+    "--javascript",
+    "--js",
+    "-j",
+    default=False,
+    is_flag=True,
+    help="Renders javascript in the page (slower)",
+)
+@click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
-def search(name, start_url, cbz, single_page, yes):
+def search(name, start_url, cbz, single_page, javascript, yes):
     """
     Downloads a webcomic using a general XPath
     """
-    comic, validation = discovery(name, start_url, single_page)
+    comic, validation = discovery(name, start_url, single_page, javascript)
     if comic is not None:
         print_verification(validation)
         click.echo("Verify that the links above are correct.")
@@ -114,13 +122,25 @@ def search(name, start_url, cbz, single_page, yes):
     help="Downloads from a single webpage",
 )
 @click.option(
+    "--javascript",
+    "--js",
+    "-j",
+    default=False,
+    is_flag=True,
+    help="Renders javascript in the page (slower)",
+)
+@click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
-def custom(name, start_url, next_page_xpath, image_xpath, cbz, single_page, yes):
+def custom(
+    name, start_url, next_page_xpath, image_xpath, cbz, single_page, javascript, yes
+):
     """
     Downloads a user-defined webcomic
     """
-    comic = Comic(name, start_url, image_xpath, next_page_xpath, single_page)
+    comic = Comic(
+        name, start_url, image_xpath, next_page_xpath, single_page, javascript
+    )
     try:
         validation = comic.verify_xpath()
     except NextLinkNotFound as exception:
