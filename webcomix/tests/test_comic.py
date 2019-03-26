@@ -4,7 +4,7 @@ from zipfile import ZipFile, BadZipFile
 
 import pytest
 
-from webcomix.comic import Comic
+from webcomix.comic import Comic, SPLASH_SETTINGS
 from webcomix.supported_comics import supported_comics
 from webcomix.tests.fake_websites.fixture import three_webpages_uri, one_webpage_uri
 
@@ -146,3 +146,39 @@ def test_verify_xpath_only_verifies_one_page_with_single_page(one_webpage_uri):
     actual = comic.verify_xpath()
     assert len(actual) == 1
     assert len(actual[0]["image_urls"]) == 2
+
+
+def test_download_will_run_javascript_settings_if_javascript(mocker):
+    mocker.patch("os.path.isdir")
+    mock_crawler_worker = mocker.patch("webcomix.comic.CrawlerWorker")
+    comic = Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, True)
+    comic.download()
+    settings = mock_crawler_worker.call_args_list[0][0][0]
+    assert all(setting in settings for setting in SPLASH_SETTINGS)
+
+
+def test_download_will_not_run_javascript_settings_if_not_javascript(mocker):
+    mocker.patch("os.path.isdir")
+    mock_crawler_worker = mocker.patch("webcomix.comic.CrawlerWorker")
+    comic = Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, False)
+    comic.download()
+    settings = mock_crawler_worker.call_args_list[0][0][0]
+    assert all(setting not in settings for setting in SPLASH_SETTINGS)
+
+
+def test_verify_xpath_will_run_javascript_settings_if_javascript(mocker):
+    mocker.patch("os.path.isdir")
+    mock_crawler_worker = mocker.patch("webcomix.comic.CrawlerWorker")
+    comic = Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, True)
+    comic.verify_xpath()
+    settings = mock_crawler_worker.call_args_list[0][0][0]
+    assert all(setting in settings for setting in SPLASH_SETTINGS)
+
+
+def test_verify_xpath_will_not_run_javascript_settings_if_not_javascript(mocker):
+    mocker.patch("os.path.isdir")
+    mock_crawler_worker = mocker.patch("webcomix.comic.CrawlerWorker")
+    comic = Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, False)
+    comic.verify_xpath()
+    settings = mock_crawler_worker.call_args_list[0][0][0]
+    assert all(setting not in settings for setting in SPLASH_SETTINGS)

@@ -11,6 +11,18 @@ from webcomix.scrapy.crawler_worker import CrawlerWorker
 
 user_agent = UserAgent()
 
+SPLASH_SETTINGS = {
+    "SPLASH_URL": "http://0.0.0.0:8050",
+    "DOWNLOADER_MIDDLEWARES": {
+        "scrapy_splash.SplashCookiesMiddleware": 723,
+        "scrapy_splash.SplashMiddleware": 725,
+        "scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware": 810,
+    },
+    "SPIDER_MIDDLEWARES": {"scrapy_splash.SplashDeduplicateArgsMiddleware": 100},
+    "DUPEFILTER_CLASS": "scrapy_splash.SplashAwareDupeFilter",
+    "HTTPCACHE_STORAGE": "scrapy_splash.SplashAwareFSCacheStorage",
+}
+
 
 class Comic:
     def __init__(
@@ -19,13 +31,15 @@ class Comic:
         start_url: str,
         comic_image_selector: str,
         next_page_selector: str,
-        single_page: bool,
+        single_page: bool = False,
+        javascript: bool = False,
     ):
         self.name = name
         self.start_url = start_url
         self.next_page_selector = next_page_selector
         self.comic_image_selector = comic_image_selector
         self.single_page = single_page
+        self.javascript = javascript
 
     def download(self) -> None:
         """
@@ -47,6 +61,9 @@ class Comic:
             "USER_AGENT": user_agent.chrome,
         }
 
+        if self.javascript:
+            settings.update(SPLASH_SETTINGS)
+
         worker = CrawlerWorker(
             settings,
             False,
@@ -55,6 +72,7 @@ class Comic:
             comic_image_selector=self.comic_image_selector,
             next_page_selector=self.next_page_selector,
             directory=self.name,
+            javascript=self.javascript,
         )
 
         worker.start()
@@ -84,10 +102,10 @@ class Comic:
         go three pages into the comic. It returns a tuple containing the url
         of each page and their respective image urls.
         """
-        settings = {
-            "LOG_ENABLED": False,
-            "USER_AGENT": user_agent.chrome,
-        }
+        settings = {"LOG_ENABLED": False, "USER_AGENT": user_agent.chrome}
+
+        if self.javascript:
+            settings.update(SPLASH_SETTINGS)
 
         worker = CrawlerWorker(
             settings,
@@ -97,6 +115,7 @@ class Comic:
             comic_image_selector=self.comic_image_selector,
             next_page_selector=self.next_page_selector,
             number_of_pages_to_check=1 if self.single_page else 3,
+            javascript=self.javascript,
         )
 
         verification = worker.start()
