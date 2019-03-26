@@ -91,9 +91,9 @@ scrapy shell <website> --> Use the website's url to go to it.
 > response.xpath --> Test an xpath selection. If you get [], this means your XPath expression hasn't gotten anything from the webpage.
 ```
 
-### Saving comics on Javascript-heavy websites
+### Downloading comics on Javascript-heavy websites
 
-If the webcomic's website uses javascript to render its images, you won't be able to save it using the default configuration. webcomix now has an optional flag `-j` on both the `custom` and `search` command to execute the javascript using [scrapy-splash](https://github.com/scrapy-plugins/scrapy-splash). In order to use it, you'll need to have [Docker](https://www.docker.com/) installed and run the following command before trying to save the comic:
+If the webcomic's website uses javascript to render its images, you won't be able to download it using the default configuration. webcomix now has an optional flag `-j` on both the `custom` and `search` command to execute the javascript using [scrapy-splash](https://github.com/scrapy-plugins/scrapy-splash). In order to use it, you'll need to have [Docker](https://www.docker.com/) installed and run the following command before trying to download the comic:
 
 ```
 docker run -p 8050:8050 scrapinghub/splash

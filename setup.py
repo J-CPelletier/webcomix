@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="webcomix",
-    version=3.0,
+    version=3.1,
     description="Webcomic downloader",
     long_description="webcomix is a webcomic downloader that can additionally create a .cbz file once downloaded.",
     url="https://github.com/J-CPelletier/webcomix",
@@ -21,7 +21,14 @@ setup(
         "Framework :: Scrapy",
     ],
     packages=["webcomix"],
-    install_requires=["Click", "fake-useragent", "scrapy", "tqdm", "PyDispatcher", "scrapy-splash"],
+    install_requires=[
+        "Click",
+        "fake-useragent",
+        "scrapy",
+        "tqdm",
+        "PyDispatcher",
+        "scrapy-splash",
+    ],
     extras_require={
         "dev": ["pytest", "pytest-cov==2.5.1", "pytest-mock", "coveralls", "pre-commit"]
     },
