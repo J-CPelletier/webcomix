@@ -35,7 +35,7 @@ supported_comics = {
         "//a[@class='navi comic-nav-next navi-next']/@href",
     ),
     "TalesOfElysium": (
-        "http://ssp-comics.com/comics/toe/?page=1&mode=10",
+        "https://ssp-comics.com/comics/toe/?page=1&mode=10",
         "//div[@id='ImageComicContainer']//img[contains(@src, 'comic')]/@src",
         "//a[button/@id='next10Button']/@href",
     ),
