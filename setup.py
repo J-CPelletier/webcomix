@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name="webcomix",
@@ -20,7 +20,7 @@ setup(
         "Operating System :: OS Independent",
         "Framework :: Scrapy",
     ],
-    packages=["webcomix"],
+    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     install_requires=[
         "Click",
         "fake-useragent",
