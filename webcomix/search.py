@@ -1,5 +1,6 @@
 import sys
 from itertools import product
+from typing import Optional, List, Tuple, Mapping
 
 import click
 from tqdm import tqdm
@@ -15,7 +16,7 @@ possible_attributes_image = [".", "@src", "@class", "@id", "@alt"]
 possible_attributes_next = [".", "text()", "@class", "@id", "@alt", "@rel"]
 
 
-def discovery(name, url, single_page=False, javascript=False):
+def discovery(name: str, url: str, single_page: bool = False, javascript: bool = False) -> Tuple[Optional[Comic], Optional[List[Mapping]]]:
     def to_lower_case(attribute):
         return (
             "translate({}, "
@@ -62,4 +63,4 @@ def discovery(name, url, single_page=False, javascript=False):
         except:
             continue
     click.echo("Search has failed.")
-    return None
+    return None, None

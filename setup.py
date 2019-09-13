@@ -30,7 +30,7 @@ setup(
         "scrapy-splash",
     ],
     extras_require={
-        "dev": ["pytest", "pytest-cov==2.5.1", "pytest-mock", "coveralls", "pre-commit"]
+        "dev": ["pytest", "pytest-cov==2.5.1", "pytest-mock", "coveralls", "pre-commit", "mypy"]
     },
     python_requires=">=3.5",
     entry_points="""

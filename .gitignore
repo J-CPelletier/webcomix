@@ -100,3 +100,4 @@ ENV/
 */*.gif
 
 /.idea/*
+/.mypy_cache/*
