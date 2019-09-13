@@ -58,7 +58,7 @@ def test_search_unsearchable_website(mocker):
     mocker.patch("webcomix.search.possible_attributes_image", [])
     mocker.patch("webcomix.search.possible_attributes_next", [])
 
-    assert discovery("comic_name", "test", True) is None
+    assert discovery("comic_name", "test", True) == (None, None)
 
 
 def test_stopping_searching(mocker):
@@ -83,7 +83,7 @@ def test_stopping_searching(mocker):
         False,
     )
     assert exit_called.call_count == 1
-    assert result is None
+    assert result == (None, None)
 
 
 def test_can_find_single_page_correctly_while_searching(
