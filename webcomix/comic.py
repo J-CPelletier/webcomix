@@ -33,6 +33,7 @@ class Comic:
         next_page_selector: str,
         single_page: bool = False,
         javascript: bool = False,
+        alt_text: str = None,
     ):
         self.name = name
         self.start_url = start_url
@@ -40,6 +41,7 @@ class Comic:
         self.comic_image_selector = comic_image_selector
         self.single_page = single_page
         self.javascript = javascript
+        self.alt_text = alt_text
 
     def download(self) -> None:
         """
@@ -73,6 +75,7 @@ class Comic:
             next_page_selector=self.next_page_selector,
             directory=self.name,
             javascript=self.javascript,
+            alt_text=self.alt_text
         )
 
         worker.start()
@@ -116,6 +119,7 @@ class Comic:
             next_page_selector=self.next_page_selector,
             number_of_pages_to_check=1 if self.single_page else 3,
             javascript=self.javascript,
+            alt_text=self.alt_text
         )
 
         verification = worker.start()

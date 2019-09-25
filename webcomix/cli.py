@@ -71,13 +71,20 @@ def download(name, cbz):
     help="Renders javascript in the page (slower)",
 )
 @click.option(
+    "--alt-text",
+    "-a",
+    default=None,
+    type=click.STRING,
+    help="Optional XPath to fetch an additionnal text while scraping"
+)
+@click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
-def search(name, start_url, cbz, single_page, javascript, yes):
+def search(name, start_url, cbz, single_page, javascript, alt_text, yes):
     """
     Downloads a webcomic using a general XPath
     """
-    comic, validation = discovery(name, start_url, single_page, javascript)
+    comic, validation = discovery(name, start_url, single_page, javascript, alt_text)
     if comic is not None:
         print_verification(validation)
         click.echo("Verify that the links above are correct.")
@@ -130,10 +137,17 @@ def search(name, start_url, cbz, single_page, javascript, yes):
     help="Renders javascript in the page (slower)",
 )
 @click.option(
+    "--alt-text",
+    "-a",
+    default=None,
+    type=click.STRING,
+    help="XPath to fetch an additionnal text while scraping"
+)
+@click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
 def custom(
-    name, start_url, next_page_xpath, image_xpath, cbz, single_page, javascript, yes
+    name, start_url, next_page_xpath, image_xpath, cbz, single_page, javascript, alt_text, yes
 ):
     """
     Downloads a user-defined webcomic
