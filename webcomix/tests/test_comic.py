@@ -127,16 +127,19 @@ def test_verify_xpath():
             "page": 1,
             "url": "https://xkcd.com/1/",
             "image_urls": ["https://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"],
+            "alt_text": None,
         },
         {
             "page": 2,
             "url": "https://xkcd.com/2/",
             "image_urls": ["https://imgs.xkcd.com/comics/tree_cropped_(1).jpg"],
+            "alt_text": None,
         },
         {
             "page": 3,
             "url": "https://xkcd.com/3/",
             "image_urls": ["https://imgs.xkcd.com/comics/island_color.jpg"],
+            "alt_text": None,
         },
     ]
 

@@ -28,6 +28,7 @@ def test_search_searchable_website(mocker):
             "page": 1,
             "url": "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
             "image_urls": ["http://www.blindsprings.com/comics/cover.jpg"],
+            "alt_text": None,
         },
         {
             "page": 2,
@@ -35,6 +36,7 @@ def test_search_searchable_website(mocker):
             "image_urls": [
                 "http://www.blindsprings.com/comics/1430199037-TB_01_001.jpg"
             ],
+            "alt_text": None,
         },
         {
             "page": 3,
@@ -42,6 +44,7 @@ def test_search_searchable_website(mocker):
             "image_urls": [
                 "http://www.blindsprings.com/comics/1430198957-TB_01_002.jpg"
             ],
+            "alt_text": None,
         },
     ]
 
