@@ -75,7 +75,7 @@ def download(name, cbz):
     "-a",
     default=None,
     type=click.STRING,
-    help="Optional XPath to fetch an additionnal text while scraping"
+    help="Optional XPath to fetch an additionnal text while scraping",
 )
 @click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
@@ -141,19 +141,27 @@ def search(name, start_url, cbz, single_page, javascript, alt_text, yes):
     "-a",
     default=None,
     type=click.STRING,
-    help="XPath to fetch an additionnal text while scraping"
+    help="XPath to fetch an additionnal text while scraping",
 )
 @click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
 def custom(
-    name, start_url, next_page_xpath, image_xpath, cbz, single_page, javascript, alt_text, yes
+    name,
+    start_url,
+    next_page_xpath,
+    image_xpath,
+    cbz,
+    single_page,
+    javascript,
+    alt_text,
+    yes,
 ):
     """
     Downloads a user-defined webcomic
     """
     comic = Comic(
-        name, start_url, image_xpath, next_page_xpath, single_page, javascript
+        name, start_url, image_xpath, next_page_xpath, single_page, javascript, alt_text
     )
     try:
         validation = comic.verify_xpath()
