@@ -12,7 +12,7 @@ class VerificationSpider(Spider):
     name = "Verification Spider"
 
     def __init__(self, *args, **kwargs):
-        self.start_urls = kwargs.get("start_urls") or []
+        self.start_url = kwargs.get("start_url")
         self.next_page_selector = kwargs.get("next_page_selector", None)
         self.comic_image_selector = kwargs.get("comic_image_selector", None)
         self.number_of_pages_to_check = kwargs.get("number_of_pages_to_check", 3)
@@ -21,8 +21,8 @@ class VerificationSpider(Spider):
         self.request_factory = RequestFactory(javascript)
         super(VerificationSpider, self).__init__(*args, **kwargs)
 
-    def make_requests_from_url(self, url):
-        return self.request_factory.create(url=url, next_page=1)
+    def start_requests(self):
+        yield self.request_factory.create(url=self.start_url, next_page=1)
 
     def parse(self, response):
         comic_image_urls = response.xpath(self.comic_image_selector).getall()
