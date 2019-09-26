@@ -199,10 +199,10 @@ def test_custom_comic_doesnt_ask_for_verification_if_next_link_not_found(mocker)
 def test_custom_comic_doesnt_download_comic_if_crawler_blocked(mocker):
     runner = CliRunner()
     mock_download = mocker.patch("webcomix.comic.Comic.download")
-    mock_verify_xpath = mocker.patch(
-        "webcomix.comic.Comic.verify_xpath", side_effect=CrawlerBlocked()
+    mock_verify_xpath = mocker.patch("webcomix.comic.Comic.verify_xpath")
+    mock_print_verification = mocker.patch(
+        "webcomix.cli.print_verification", side_effect=CrawlerBlocked()
     )
-    mock_print_verification = mocker.patch("webcomix.cli.print_verification")
 
     result = runner.invoke(
         cli.custom,
@@ -216,7 +216,7 @@ def test_custom_comic_doesnt_download_comic_if_crawler_blocked(mocker):
     )
     assert result.exit_code == 1
     assert mock_verify_xpath.call_count == 1
-    assert mock_print_verification.call_count == 0
+    assert mock_print_verification.call_count == 1
     assert mock_download.call_count == 0
 
 
