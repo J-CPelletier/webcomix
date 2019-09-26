@@ -172,18 +172,22 @@ def custom(
             )
         )
         click.echo("Have you tried testing your XPath expression with 'scrapy shell'?")
+        raise click.Abort()
+    try:
+        print_verification(validation)
     except CrawlerBlocked as exception:
-        click.echo("{} could not be accessed with webcomix.".format(name))
+        click.echo(
+            "{} could not be accessed with webcomix.".format(exception.failed_url)
+        )
         click.echo(
             "Chances are the website you're trying to download images from doesn't want to be scraped."
         )
-    else:
-        print_verification(validation)
-        click.echo("Verify that the links above are correct.")
-        if yes or click.confirm("Are you sure you want to proceed?"):
-            comic.download()
-            if cbz:
-                comic.convert_to_cbz()
+        raise click.Abort()
+    click.echo("Verify that the links above are correct.")
+    if yes or click.confirm("Are you sure you want to proceed?"):
+        comic.download()
+        if cbz:
+            comic.convert_to_cbz()
 
 
 def print_verification(validation):
