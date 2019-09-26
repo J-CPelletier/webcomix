@@ -190,7 +190,9 @@ def test_custom_comic_doesnt_ask_for_verification_if_next_link_not_found(mocker)
         ],
         "yes",
     )
+
     assert result.exit_code == 1
+    assert type(result.exception) is SystemExit
     assert mock_verify_xpath.call_count == 1
     assert mock_print_verification.call_count == 0
     assert mock_download.call_count == 0
@@ -214,7 +216,9 @@ def test_custom_comic_doesnt_download_comic_if_crawler_blocked(mocker):
         ],
         "yes",
     )
+
     assert result.exit_code == 1
+    assert type(result.exception) is SystemExit
     assert mock_verify_xpath.call_count == 1
     assert mock_print_verification.call_count == 1
     assert mock_download.call_count == 0

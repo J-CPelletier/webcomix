@@ -176,9 +176,7 @@ def custom(
     try:
         print_verification(validation)
     except CrawlerBlocked as exception:
-        click.echo(
-            "{} could not be accessed with webcomix.".format(exception.failed_url)
-        )
+        click.echo("{} could not be accessed with webcomix.".format(name))
         click.echo(
             "Chances are the website you're trying to download images from doesn't want to be scraped."
         )
