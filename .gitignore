@@ -98,6 +98,7 @@ ENV/
 */*.jpeg
 */*.bmp
 */*.gif
+*/*.txt
 
 /.idea/*
 /.mypy_cache/*

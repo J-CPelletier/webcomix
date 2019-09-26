@@ -16,7 +16,13 @@ possible_attributes_image = [".", "@src", "@class", "@id", "@alt"]
 possible_attributes_next = [".", "text()", "@class", "@id", "@alt", "@rel"]
 
 
-def discovery(name: str, url: str, single_page: bool = False, javascript: bool = False) -> Tuple[Optional[Comic], Optional[List[Mapping]]]:
+def discovery(
+    name: str,
+    url: str,
+    single_page: bool = False,
+    javascript: bool = False,
+    alt_text: str = None,
+) -> Tuple[Optional[Comic], Optional[List[Mapping]]]:
     def to_lower_case(attribute):
         return (
             "translate({}, "
@@ -53,7 +59,13 @@ def discovery(name: str, url: str, single_page: bool = False, javascript: bool =
         )
         try:
             comic = Comic(
-                name, url, image_xpath, next_page_xpath, single_page, javascript
+                name,
+                url,
+                image_xpath,
+                next_page_xpath,
+                single_page,
+                javascript,
+                alt_text,
             )
             first_pages = comic.verify_xpath()
             check_first_pages(first_pages)

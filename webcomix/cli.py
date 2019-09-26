@@ -3,7 +3,7 @@
 import click
 
 from webcomix.comic import Comic
-from webcomix.exceptions import NextLinkNotFound
+from webcomix.exceptions import CrawlerBlocked, NextLinkNotFound
 from webcomix.search import discovery
 from webcomix.supported_comics import supported_comics
 
@@ -71,13 +71,20 @@ def download(name, cbz):
     help="Renders javascript in the page (slower)",
 )
 @click.option(
+    "--alt-text",
+    "-a",
+    default=None,
+    type=click.STRING,
+    help="Optional XPath to fetch an additionnal text while scraping",
+)
+@click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
-def search(name, start_url, cbz, single_page, javascript, yes):
+def search(name, start_url, cbz, single_page, javascript, alt_text, yes):
     """
     Downloads a webcomic using a general XPath
     """
-    comic, validation = discovery(name, start_url, single_page, javascript)
+    comic, validation = discovery(name, start_url, single_page, javascript, alt_text)
     if comic is not None:
         print_verification(validation)
         click.echo("Verify that the links above are correct.")
@@ -130,16 +137,31 @@ def search(name, start_url, cbz, single_page, javascript, yes):
     help="Renders javascript in the page (slower)",
 )
 @click.option(
+    "--alt-text",
+    "-a",
+    default=None,
+    type=click.STRING,
+    help="XPath to fetch an additionnal text while scraping",
+)
+@click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
 def custom(
-    name, start_url, next_page_xpath, image_xpath, cbz, single_page, javascript, yes
+    name,
+    start_url,
+    next_page_xpath,
+    image_xpath,
+    cbz,
+    single_page,
+    javascript,
+    alt_text,
+    yes,
 ):
     """
     Downloads a user-defined webcomic
     """
     comic = Comic(
-        name, start_url, image_xpath, next_page_xpath, single_page, javascript
+        name, start_url, image_xpath, next_page_xpath, single_page, javascript, alt_text
     )
     try:
         validation = comic.verify_xpath()
@@ -150,22 +172,32 @@ def custom(
             )
         )
         click.echo("Have you tried testing your XPath expression with 'scrapy shell'?")
-    else:
+        raise click.Abort()
+    try:
         print_verification(validation)
-        click.echo("Verify that the links above are correct.")
-        if yes or click.confirm("Are you sure you want to proceed?"):
-            comic.download()
-            if cbz:
-                comic.convert_to_cbz()
+    except CrawlerBlocked as exception:
+        click.echo("{} could not be accessed with webcomix.".format(name))
+        click.echo(
+            "Chances are the website you're trying to download images from doesn't want to be scraped."
+        )
+        raise click.Abort()
+    click.echo("Verify that the links above are correct.")
+    if yes or click.confirm("Are you sure you want to proceed?"):
+        comic.download()
+        if cbz:
+            comic.convert_to_cbz()
 
 
 def print_verification(validation):
     """
     Prints the verification given by the verify_xpath function
     """
+    if validation is None:
+        raise CrawlerBlocked()
     for item in sorted(validation, key=lambda x: x.get("page")):
-        click.echo(
-            "Page {}:\nPage URL: {}\nImage URLs:\n{}\n".format(
-                item.get("page"), item.get("url"), "\n".join(item.get("image_urls"))
-            )
+        output = "Page {}:\nPage URL: {}\nImage URLs:\n{}\n".format(
+            item.get("page"), item.get("url"), "\n".join(item.get("image_urls"))
         )
+        if item.get("alt_text") is not None:
+            output += "Alt text: {}\n".format(item.get("alt_text"))
+        click.echo(output)

@@ -6,7 +6,11 @@ import pytest
 
 from webcomix.comic import Comic, SPLASH_SETTINGS
 from webcomix.supported_comics import supported_comics
-from webcomix.tests.fake_websites.fixture import three_webpages_uri, one_webpage_uri
+from webcomix.tests.fake_websites.fixture import (
+    three_webpages_uri,
+    three_webpages_alt_text_uri,
+    one_webpage_uri,
+)
 
 
 @pytest.fixture
@@ -100,6 +104,23 @@ def test_download_saves_the_files(cleanup_test_directories, three_webpages_uri):
     assert len(files) == 2
 
 
+def test_download_with_alt_text_saves_the_text(
+    cleanup_test_directories, three_webpages_alt_text_uri
+):
+    comic = Comic(
+        "test",
+        three_webpages_alt_text_uri,
+        "//img/@src",
+        "//a/@href",
+        False,
+        False,
+        "//img/@title",
+    )
+    comic.download()
+    path, dirs, files = next(os.walk("test"))
+    assert len(files) == 4
+
+
 def test_download_does_not_add_crawlers_in_main_process(
     mocker, cleanup_test_directories, three_webpages_uri
 ):
@@ -127,16 +148,43 @@ def test_verify_xpath():
             "page": 1,
             "url": "https://xkcd.com/1/",
             "image_urls": ["https://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"],
+            "alt_text": None,
         },
         {
             "page": 2,
             "url": "https://xkcd.com/2/",
             "image_urls": ["https://imgs.xkcd.com/comics/tree_cropped_(1).jpg"],
+            "alt_text": None,
         },
         {
             "page": 3,
             "url": "https://xkcd.com/3/",
             "image_urls": ["https://imgs.xkcd.com/comics/island_color.jpg"],
+            "alt_text": None,
+        },
+    ]
+
+
+def test_verify_xpath_with_alt_text():
+    comic = Comic("xkcd", *supported_comics["xkcd_alt"])
+    assert comic.verify_xpath() == [
+        {
+            "page": 1,
+            "url": "https://xkcd.com/1/",
+            "image_urls": ["https://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"],
+            "alt_text": "Don't we all.",
+        },
+        {
+            "page": 2,
+            "url": "https://xkcd.com/2/",
+            "image_urls": ["https://imgs.xkcd.com/comics/tree_cropped_(1).jpg"],
+            "alt_text": "'Petit' being a reference to Le Petit Prince, which I only thought about halfway through the sketch",
+        },
+        {
+            "page": 3,
+            "url": "https://xkcd.com/3/",
+            "image_urls": ["https://imgs.xkcd.com/comics/island_color.jpg"],
+            "alt_text": "Hello, island",
         },
     ]
 

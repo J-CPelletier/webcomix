@@ -12,7 +12,7 @@ def test_spider_raising_error_gets_raised_by_crawler_worker(one_webpage_uri):
         settings,
         False,
         VerificationSpider,
-        start_urls=[one_webpage_uri],
+        start_url=one_webpage_uri,
         next_page_selector="//div/@href",
         comic_image_selector="//img/@src",
         number_of_pages_to_check=2,

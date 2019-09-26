@@ -12,24 +12,30 @@ class ComicSpider(Spider):
     name = "Comic Spider"
 
     def __init__(self, *args, **kwargs):
-        self.start_urls = kwargs.get("start_urls") or []
+        self.start_url = kwargs.get("start_url")
         self.next_page_selector = kwargs.get("next_page_selector", None)
         self.comic_image_selector = kwargs.get("comic_image_selector", None)
         self.directory = kwargs.get("directory", None)
         javascript = kwargs.get("javascript", False)
+        self.alt_text = kwargs.get("alt_text", None)
         self.request_factory = RequestFactory(javascript)
         super(ComicSpider, self).__init__(*args, **kwargs)
 
-    def make_requests_from_url(self, url):
-        return self.request_factory.create(url=url, next_page=1)
+    def start_requests(self):
+        yield self.request_factory.create(url=self.start_url, next_page=1)
 
     def parse(self, response):
         click.echo("Downloading page {}".format(response.url))
         comic_image_urls = response.xpath(self.comic_image_selector).getall()
         page = response.meta.get("page") or 1
+        alt_text = (
+            response.xpath(self.alt_text).get() if self.alt_text is not None else None
+        )
         for index, comic_image_url in enumerate(comic_image_urls):
             yield ComicPage(
-                url=urljoin(response.url, comic_image_url.strip()), page=page + index
+                url=urljoin(response.url, comic_image_url.strip()),
+                page=page + index,
+                alt_text=alt_text,
             )
         if not comic_image_urls:
             click.echo("Could not find comic image.")

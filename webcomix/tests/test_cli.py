@@ -1,8 +1,9 @@
 from click.testing import CliRunner
+import pytest
 
 from webcomix import cli
 from webcomix.comic import Comic
-from webcomix.exceptions import NextLinkNotFound
+from webcomix.exceptions import CrawlerBlocked, NextLinkNotFound
 from webcomix.supported_comics import supported_comics
 
 first_comic = list(sorted(supported_comics.keys()))[0]
@@ -30,6 +31,38 @@ def test_print_verification(capfd):
         "https://imgs.xkcd.com/comics/island_color.jpg\n"
         "\n"
     )
+
+
+def test_print_verification_with_alt_text(capfd):
+    comic = Comic("xkcd", *supported_comics["xkcd_alt"])
+    verification = comic.verify_xpath()
+    cli.print_verification(verification)
+    out, err = capfd.readouterr()
+    assert out == (
+        "Page 1:\n"
+        "Page URL: https://xkcd.com/1/\n"
+        "Image URLs:\n"
+        "https://imgs.xkcd.com/comics/barrel_cropped_(1).jpg\n"
+        "Alt text: Don't we all.\n"
+        "\n"
+        "Page 2:\n"
+        "Page URL: https://xkcd.com/2/\n"
+        "Image URLs:\n"
+        "https://imgs.xkcd.com/comics/tree_cropped_(1).jpg\n"
+        "Alt text: 'Petit' being a reference to Le Petit Prince, which I only thought about halfway through the sketch\n"
+        "\n"
+        "Page 3:\n"
+        "Page URL: https://xkcd.com/3/\n"
+        "Image URLs:\n"
+        "https://imgs.xkcd.com/comics/island_color.jpg\n"
+        "Alt text: Hello, island\n"
+        "\n"
+    )
+
+
+def test_print_verification_with_no_validation_throws_crawler_blocked():
+    with pytest.raises(CrawlerBlocked):
+        cli.print_verification(None)
 
 
 def test_comics():
@@ -140,7 +173,6 @@ def test_custom_comic_makes_the_cbz_file(mocker):
 
 def test_custom_comic_doesnt_ask_for_verification_if_next_link_not_found(mocker):
     runner = CliRunner()
-    mock_manager = mocker.Mock()
     mock_download = mocker.patch("webcomix.comic.Comic.download")
     mock_verify_xpath = mocker.patch(
         "webcomix.comic.Comic.verify_xpath",
@@ -158,9 +190,37 @@ def test_custom_comic_doesnt_ask_for_verification_if_next_link_not_found(mocker)
         ],
         "yes",
     )
-    assert result.exit_code == 0
+
+    assert result.exit_code == 1
+    assert type(result.exception) is SystemExit
     assert mock_verify_xpath.call_count == 1
     assert mock_print_verification.call_count == 0
+    assert mock_download.call_count == 0
+
+
+def test_custom_comic_doesnt_download_comic_if_crawler_blocked(mocker):
+    runner = CliRunner()
+    mock_download = mocker.patch("webcomix.comic.Comic.download")
+    mock_verify_xpath = mocker.patch("webcomix.comic.Comic.verify_xpath")
+    mock_print_verification = mocker.patch(
+        "webcomix.cli.print_verification", side_effect=CrawlerBlocked()
+    )
+
+    result = runner.invoke(
+        cli.custom,
+        [
+            "foo",
+            "--start_url=url",
+            "--next_page_xpath=next_page",
+            "--image_xpath=image",
+        ],
+        "yes",
+    )
+
+    assert result.exit_code == 1
+    assert type(result.exception) is SystemExit
+    assert mock_verify_xpath.call_count == 1
+    assert mock_print_verification.call_count == 1
     assert mock_download.call_count == 0
 
 
