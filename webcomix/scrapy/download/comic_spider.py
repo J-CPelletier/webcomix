@@ -28,10 +28,14 @@ class ComicSpider(Spider):
         click.echo("Downloading page {}".format(response.url))
         comic_image_urls = response.xpath(self.comic_image_selector).getall()
         page = response.meta.get("page") or 1
-        alt_text = response.xpath(self.alt_text) if self.alt_text is not None else None
+        alt_text = (
+            response.xpath(self.alt_text).get() if self.alt_text is not None else None
+        )
         for index, comic_image_url in enumerate(comic_image_urls):
             yield ComicPage(
-                url=urljoin(response.url, comic_image_url.strip()), page=page + index, alt_text=alt_text
+                url=urljoin(response.url, comic_image_url.strip()),
+                page=page + index,
+                alt_text=alt_text,
             )
         if not comic_image_urls:
             click.echo("Could not find comic image.")

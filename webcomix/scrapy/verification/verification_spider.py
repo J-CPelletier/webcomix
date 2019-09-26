@@ -17,6 +17,7 @@ class VerificationSpider(Spider):
         self.comic_image_selector = kwargs.get("comic_image_selector", None)
         self.number_of_pages_to_check = kwargs.get("number_of_pages_to_check", 3)
         javascript = kwargs.get("javascript", False)
+        self.alt_text_selector = kwargs.get("alt_text")
         self.request_factory = RequestFactory(javascript)
         super(VerificationSpider, self).__init__(*args, **kwargs)
 
@@ -30,12 +31,21 @@ class VerificationSpider(Spider):
             urljoin(response.url, image_element_url.strip())
             for image_element_url in comic_image_urls
         ]
+        alt_text = (
+            response.xpath(self.alt_text_selector).get()
+            if self.alt_text_selector is not None
+            else None
+        )
         next_page_url = response.xpath(self.next_page_selector).get()
         if page >= self.number_of_pages_to_check:
-            yield WebPage(url=response.url, page=page, image_urls=image_urls)
+            yield WebPage(
+                url=response.url, page=page, image_urls=image_urls, alt_text=alt_text
+            )
             return
         elif is_not_end_of_comic(next_page_url):
-            yield WebPage(url=response.url, page=page, image_urls=image_urls)
+            yield WebPage(
+                url=response.url, page=page, image_urls=image_urls, alt_text=alt_text
+            )
             yield self.request_factory.create(
                 url=response.urljoin(next_page_url).strip(), next_page=page + 1
             )

@@ -24,7 +24,7 @@ class ComicPipeline(FilesPipeline):
             raise DropItem("The image was already downloaded. Skipping...")
         if alt_text is not None:
             with open(
-                Comic.save_alt_text_location(page, info.spider.directory_name), "w"
+                Comic.save_alt_text_location(page, info.spider.directory), "w"
             ) as alt_text_file:
                 alt_text_file.write(alt_text)
         yield scrapy.Request(
