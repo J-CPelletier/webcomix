@@ -186,8 +186,9 @@ def print_verification(validation):
     Prints the verification given by the verify_xpath function
     """
     for item in sorted(validation, key=lambda x: x.get("page")):
-        click.echo(
-            "Page {}:\nPage URL: {}\nImage URLs:\n{}\n".format(
-                item.get("page"), item.get("url"), "\n".join(item.get("image_urls"))
-            )
+        output = "Page {}:\nPage URL: {}\nImage URLs:\n{}\n".format(
+            item.get("page"), item.get("url"), "\n".join(item.get("image_urls"))
         )
+        if item.get("alt_text") is not None:
+            output += "Alt text: {}\n".format(item.get("alt_text"))
+        click.echo(output)
