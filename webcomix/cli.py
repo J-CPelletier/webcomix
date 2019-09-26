@@ -3,7 +3,7 @@
 import click
 
 from webcomix.comic import Comic
-from webcomix.exceptions import NextLinkNotFound
+from webcomix.exceptions import CrawlerBlocked, NextLinkNotFound
 from webcomix.search import discovery
 from webcomix.supported_comics import supported_comics
 
@@ -172,6 +172,11 @@ def custom(
             )
         )
         click.echo("Have you tried testing your XPath expression with 'scrapy shell'?")
+    except CrawlerBlocked as exception:
+        click.echo("{} could not be accessed with webcomix.".format(name))
+        click.echo(
+            "Chances are the website you're trying to download images from doesn't want to be scraped."
+        )
     else:
         print_verification(validation)
         click.echo("Verify that the links above are correct.")
@@ -185,6 +190,8 @@ def print_verification(validation):
     """
     Prints the verification given by the verify_xpath function
     """
+    if validation is None:
+        raise CrawlerBlocked()
     for item in sorted(validation, key=lambda x: x.get("page")):
         output = "Page {}:\nPage URL: {}\nImage URLs:\n{}\n".format(
             item.get("page"), item.get("url"), "\n".join(item.get("image_urls"))
