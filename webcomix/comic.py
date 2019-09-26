@@ -75,7 +75,7 @@ class Comic:
             next_page_selector=self.next_page_selector,
             directory=self.name,
             javascript=self.javascript,
-            alt_text=self.alt_text
+            alt_text=self.alt_text,
         )
 
         worker.start()
@@ -119,7 +119,7 @@ class Comic:
             next_page_selector=self.next_page_selector,
             number_of_pages_to_check=1 if self.single_page else 3,
             javascript=self.javascript,
-            alt_text=self.alt_text
+            alt_text=self.alt_text,
         )
 
         verification = worker.start()
@@ -139,4 +139,13 @@ class Comic:
             file_name = str(page)
         else:
             file_name = "{}{}".format(page, url[url.rindex(".") :])
+        return os.path.join(directory_name, file_name)
+
+    @staticmethod
+    def save_alt_text_location(page: int, directory_name: str = "") -> str:
+        """
+        Returns the relative location in the filesystem under which the comic
+        image's alt text will be saved
+        """
+        file_name = str.format("{}.txt", page)
         return os.path.join(directory_name, file_name)

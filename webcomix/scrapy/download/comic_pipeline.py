@@ -1,3 +1,4 @@
+from operator import itemgetter
 import os
 from zipfile import ZipFile
 
@@ -12,14 +13,20 @@ from webcomix.comic import Comic
 class ComicPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
         click.echo("Saving image {}".format(item.get("url")))
+        url, page, alt_text = itemgetter("url", "page", "alt_text")(item)
         image_path_directory = Comic.save_image_location(
-            item.get("url"), item.get("page"), info.spider.directory
+            url, page, info.spider.directory
         )
         if os.path.isfile(image_path_directory) or self.image_in_zipfile(
             item, info.spider.directory
         ):
             click.echo("The image was already downloaded. Skipping...")
             raise DropItem("The image was already downloaded. Skipping...")
+        if alt_text is not None:
+            with open(
+                Comic.save_alt_text_location(page, info.spider.directory_name), "w"
+            ) as alt_text_file:
+                alt_text_file.write(alt_text)
         yield scrapy.Request(
             item.get("url"),
             meta={

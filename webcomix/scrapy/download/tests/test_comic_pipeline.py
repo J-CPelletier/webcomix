@@ -22,7 +22,7 @@ def test_get_media_requests_returns_good_request_when_file_not_present(mocker):
     pipeline = ComicPipeline(store_uri="foo")
     elements = list(
         pipeline.get_media_requests(
-            ComicPage(url=expected_url_image, page=1), mock_spider_info
+            ComicPage(url=expected_url_image, page=1, alt_text=None), mock_spider_info
         )
     )
     request = elements[0]
@@ -41,7 +41,8 @@ def test_get_media_requests_drops_item_when_file_present(mocker):
     with pytest.raises(DropItem):
         list(
             pipeline.get_media_requests(
-                ComicPage(url=expected_url_image, page=1), mock_spider_info
+                ComicPage(url=expected_url_image, page=1, alt_text=None),
+                mock_spider_info,
             )
         )
     os.rmdir("foo")
@@ -61,7 +62,8 @@ def test_get_media_requests_drops_item_when_file_present_in_zip(mocker):
     with pytest.raises(DropItem):
         list(
             pipeline.get_media_requests(
-                ComicPage(url=expected_url_image, page=1), mock_spider_info
+                ComicPage(url=expected_url_image, page=1, alt_text=None),
+                mock_spider_info,
             )
         )
     os.rmdir("foo")
