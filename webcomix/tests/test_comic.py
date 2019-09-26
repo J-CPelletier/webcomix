@@ -144,6 +144,30 @@ def test_verify_xpath():
     ]
 
 
+def test_verify_xpath_with_alt_text():
+    comic = Comic("xkcd", *supported_comics["xkcd_alt"])
+    assert comic.verify_xpath() == [
+        {
+            "page": 1,
+            "url": "https://xkcd.com/1/",
+            "image_urls": ["https://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"],
+            "alt_text": "Don't we all.",
+        },
+        {
+            "page": 2,
+            "url": "https://xkcd.com/2/",
+            "image_urls": ["https://imgs.xkcd.com/comics/tree_cropped_(1).jpg"],
+            "alt_text": "'Petit' being a reference to Le Petit Prince, which I only thought about halfway through the sketch",
+        },
+        {
+            "page": 3,
+            "url": "https://xkcd.com/3/",
+            "image_urls": ["https://imgs.xkcd.com/comics/island_color.jpg"],
+            "alt_text": "Hello, island",
+        },
+    ]
+
+
 def test_verify_xpath_only_verifies_one_page_with_single_page(one_webpage_uri):
     comic = Comic("test", one_webpage_uri, "//img/@src", "//a/@href", True)
     actual = comic.verify_xpath()
