@@ -32,6 +32,33 @@ def test_print_verification(capfd):
     )
 
 
+def test_print_verification_with_alt_text(capfd):
+    comic = Comic("xkcd", *supported_comics["xkcd_alt"])
+    verification = comic.verify_xpath()
+    cli.print_verification(verification)
+    out, err = capfd.readouterr()
+    assert out == (
+        "Page 1:\n"
+        "Page URL: https://xkcd.com/1/\n"
+        "Image URLs:\n"
+        "https://imgs.xkcd.com/comics/barrel_cropped_(1).jpg\n"
+        "Alt text: Don't we all.\n"
+        "\n"
+        "Page 2:\n"
+        "Page URL: https://xkcd.com/2/\n"
+        "Image URLs:\n"
+        "https://imgs.xkcd.com/comics/tree_cropped_(1).jpg\n"
+        "Alt text: 'Petit' being a reference to Le Petit Prince, which I only thought about halfway through the sketch\n"
+        "\n"
+        "Page 3:\n"
+        "Page URL: https://xkcd.com/3/\n"
+        "Image URLs:\n"
+        "https://imgs.xkcd.com/comics/island_color.jpg\n"
+        "Alt text: Hello, island\n"
+        "\n"
+    )
+
+
 def test_comics():
     runner = CliRunner()
     result = runner.invoke(cli.comics)

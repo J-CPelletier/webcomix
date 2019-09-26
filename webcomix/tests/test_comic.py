@@ -6,7 +6,11 @@ import pytest
 
 from webcomix.comic import Comic, SPLASH_SETTINGS
 from webcomix.supported_comics import supported_comics
-from webcomix.tests.fake_websites.fixture import three_webpages_uri, one_webpage_uri
+from webcomix.tests.fake_websites.fixture import (
+    three_webpages_uri,
+    three_webpages_alt_text_uri,
+    one_webpage_uri,
+)
 
 
 @pytest.fixture
@@ -98,6 +102,23 @@ def test_download_saves_the_files(cleanup_test_directories, three_webpages_uri):
     comic.download()
     path, dirs, files = next(os.walk("test"))
     assert len(files) == 2
+
+
+def test_download_with_alt_text_saves_the_text(
+    cleanup_test_directories, three_webpages_alt_text_uri
+):
+    comic = Comic(
+        "test",
+        three_webpages_alt_text_uri,
+        "//img/@src",
+        "//a/@href",
+        False,
+        False,
+        "//img/@title",
+    )
+    comic.download()
+    path, dirs, files = next(os.walk("test"))
+    assert len(files) == 4
 
 
 def test_download_does_not_add_crawlers_in_main_process(
