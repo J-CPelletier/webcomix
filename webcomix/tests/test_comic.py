@@ -68,6 +68,15 @@ def test_save_image_location():
     assert Comic.save_image_location("", 1, "bar") == "bar/1"
 
 
+def test_save_image_filename_with_title_present():
+    assert (
+        Comic.save_image_filename(
+            "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", 1, True, "foo"
+        )
+        == "foo-1.jpg"
+    )
+
+
 def test_make_cbz(fake_downloaded_xkcd_comic):
     fake_downloaded_xkcd_comic.convert_to_cbz()
     with ZipFile("xkcd.cbz") as cbz_file:
@@ -98,7 +107,7 @@ def test_download_runs_the_worker(mocker, cleanup_test_directories):
 
 
 def test_download_saves_the_files(cleanup_test_directories, three_webpages_uri):
-    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href", False)
+    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href")
     comic.download()
     path, dirs, files = next(os.walk("test"))
     assert len(files) == 2
@@ -108,13 +117,7 @@ def test_download_with_alt_text_saves_the_text(
     cleanup_test_directories, three_webpages_alt_text_uri
 ):
     comic = Comic(
-        "test",
-        three_webpages_alt_text_uri,
-        "//img/@src",
-        "//a/@href",
-        False,
-        False,
-        "//img/@title",
+        "test", three_webpages_alt_text_uri, "//img/@src", "//a/@href", "//img/@title"
     )
     comic.download()
     path, dirs, files = next(os.walk("test"))
@@ -126,7 +129,7 @@ def test_download_does_not_add_crawlers_in_main_process(
 ):
     mocker.patch("webcomix.scrapy.crawler_worker.CrawlerWorker.start")
     mock_add_to_crawl = mocker.patch("scrapy.crawler.Crawler.crawl")
-    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href", False)
+    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href")
     comic.download()
     assert mock_add_to_crawl.call_count == 0
 
@@ -134,7 +137,7 @@ def test_download_does_not_add_crawlers_in_main_process(
 def test_convert_to_cbz_adds_all_files_to_cbz(
     cleanup_test_directories, three_webpages_uri
 ):
-    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href", False)
+    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href")
     comic.download()
     comic.convert_to_cbz()
     with ZipFile("{}.cbz".format(comic.name), mode="r") as cbz_file:
@@ -190,7 +193,7 @@ def test_verify_xpath_with_alt_text():
 
 
 def test_verify_xpath_only_verifies_one_page_with_single_page(one_webpage_uri):
-    comic = Comic("test", one_webpage_uri, "//img/@src", "//a/@href", True)
+    comic = Comic("test", one_webpage_uri, "//img/@src", "//a/@href", single_page=True)
     actual = comic.verify_xpath()
     assert len(actual) == 1
     assert len(actual[0]["image_urls"]) == 2
@@ -199,7 +202,9 @@ def test_verify_xpath_only_verifies_one_page_with_single_page(one_webpage_uri):
 def test_download_will_run_javascript_settings_if_javascript(mocker):
     mocker.patch("os.path.isdir")
     mock_crawler_worker = mocker.patch("webcomix.comic.CrawlerWorker")
-    comic = Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, True)
+    comic = Comic(
+        mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, True
+    )
     comic.download()
     settings = mock_crawler_worker.call_args_list[0][0][0]
     assert all(setting in settings for setting in SPLASH_SETTINGS)
@@ -208,7 +213,7 @@ def test_download_will_run_javascript_settings_if_javascript(mocker):
 def test_download_will_not_run_javascript_settings_if_not_javascript(mocker):
     mocker.patch("os.path.isdir")
     mock_crawler_worker = mocker.patch("webcomix.comic.CrawlerWorker")
-    comic = Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, False)
+    comic = Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY)
     comic.download()
     settings = mock_crawler_worker.call_args_list[0][0][0]
     assert all(setting not in settings for setting in SPLASH_SETTINGS)
@@ -217,7 +222,9 @@ def test_download_will_not_run_javascript_settings_if_not_javascript(mocker):
 def test_verify_xpath_will_run_javascript_settings_if_javascript(mocker):
     mocker.patch("os.path.isdir")
     mock_crawler_worker = mocker.patch("webcomix.comic.CrawlerWorker")
-    comic = Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, True)
+    comic = Comic(
+        mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, True
+    )
     comic.verify_xpath()
     settings = mock_crawler_worker.call_args_list[0][0][0]
     assert all(setting in settings for setting in SPLASH_SETTINGS)

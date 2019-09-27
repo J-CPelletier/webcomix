@@ -18,6 +18,7 @@ class ComicSpider(Spider):
         self.directory = kwargs.get("directory", None)
         javascript = kwargs.get("javascript", False)
         self.alt_text = kwargs.get("alt_text", None)
+        self.title = kwargs.get("title", False)
         self.request_factory = RequestFactory(javascript)
         super(ComicSpider, self).__init__(*args, **kwargs)
 
@@ -35,6 +36,7 @@ class ComicSpider(Spider):
             yield ComicPage(
                 url=urljoin(response.url, comic_image_url.strip()),
                 page=page + index,
+                title=self.title,
                 alt_text=alt_text,
             )
         if not comic_image_urls:

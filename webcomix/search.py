@@ -19,9 +19,10 @@ possible_attributes_next = [".", "text()", "@class", "@id", "@alt", "@rel"]
 def discovery(
     name: str,
     url: str,
+    alt_text: str = None,
     single_page: bool = False,
     javascript: bool = False,
-    alt_text: str = None,
+    title: bool = False,
 ) -> Tuple[Optional[Comic], Optional[List[Mapping]]]:
     def to_lower_case(attribute):
         return (
@@ -63,9 +64,10 @@ def discovery(
                 url,
                 image_xpath,
                 next_page_xpath,
+                alt_text,
                 single_page,
                 javascript,
-                alt_text,
+                title,
             )
             first_pages = comic.verify_xpath()
             check_first_pages(first_pages)

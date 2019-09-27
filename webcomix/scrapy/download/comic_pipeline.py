@@ -13,9 +13,11 @@ from webcomix.comic import Comic
 class ComicPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
         click.echo("Saving image {}".format(item.get("url")))
-        url, page, alt_text = itemgetter("url", "page", "alt_text")(item)
+        url, page, title, alt_text = itemgetter("url", "page", "title", "alt_text")(
+            item
+        )
         image_path_directory = Comic.save_image_location(
-            url, page, info.spider.directory
+            url, page, info.spider.directory, title
         )
         if os.path.isfile(image_path_directory) or self.image_in_zipfile(
             item, info.spider.directory
@@ -30,8 +32,8 @@ class ComicPipeline(FilesPipeline):
         yield scrapy.Request(
             item.get("url"),
             meta={
-                "image_file_name": Comic.save_image_location(
-                    item.get("url"), item.get("page")
+                "image_file_name": Comic.save_image_filename(
+                    item.get("url"), item.get("page"), title, info.spider.directory
                 )
             },
         )

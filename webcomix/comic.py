@@ -31,17 +31,19 @@ class Comic:
         start_url: str,
         comic_image_selector: str,
         next_page_selector: str,
+        alt_text: str = None,
         single_page: bool = False,
         javascript: bool = False,
-        alt_text: str = None,
+        title: bool = False,
     ):
         self.name = name
         self.start_url = start_url
         self.next_page_selector = next_page_selector
         self.comic_image_selector = comic_image_selector
+        self.alt_text = alt_text
         self.single_page = single_page
         self.javascript = javascript
-        self.alt_text = alt_text
+        self.title = title
 
     def download(self) -> None:
         """
@@ -75,6 +77,7 @@ class Comic:
             next_page_selector=self.next_page_selector,
             directory=self.name,
             javascript=self.javascript,
+            title=self.title,
             alt_text=self.alt_text,
         )
 
@@ -127,19 +130,33 @@ class Comic:
         return verification
 
     @staticmethod
-    def save_image_location(url: str, page: int, directory_name: str = "") -> str:
+    def save_image_location(
+        url: str, page: int, directory_name: str = "", title: bool = False
+    ) -> str:
         """
         Returns the relative location in the filesystem under which the
         webcomic will be saved. If directory_name is specified, it will be
         relative to the current directory; if not specified, it will return
         the name relative to the directory in which it is downloaded.
         """
+        file_name = Comic.save_image_filename(url, page, title, directory_name)
+        return os.path.join(directory_name, file_name)
+
+    @staticmethod
+    def save_image_filename(
+        url: str, page: int, title_present: bool = False, comic_name: str = ""
+    ) -> str:
+        """
+        Returns the filename of the comic image depending on whether or not we
+        want it the comic's name to be present.
+        """
         if url.count(".") <= 1:
             # No file extension (only dot in url is domain name)
-            file_name = str(page)
+            return str(page)
+        elif title_present:
+            return "{}-{}{}".format(comic_name, page, url[url.rindex(".") :])
         else:
-            file_name = "{}{}".format(page, url[url.rindex(".") :])
-        return os.path.join(directory_name, file_name)
+            return "{}{}".format(page, url[url.rindex(".") :])
 
     @staticmethod
     def save_alt_text_location(page: int, directory_name: str = "") -> str:

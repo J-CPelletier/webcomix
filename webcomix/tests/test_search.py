@@ -9,7 +9,6 @@ def test_search_searchable_website(mocker):
         "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
         "//*[contains(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'comic')]//@src",
         "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'next')]//@href",
-        False,
     )
     mocker.patch("webcomix.search.possible_image_xpath", ["comic"])
     mocker.patch("webcomix.search.possible_next_page_xpath", ["next"])
@@ -19,9 +18,7 @@ def test_search_searchable_website(mocker):
     mocker.patch("webcomix.search.possible_attributes_next", ["@class"])
     mocker.patch("webcomix.util.check_first_pages")
     comic, result = discovery(
-        "Blindsprings",
-        "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
-        False,
+        "Blindsprings", "http://www.blindsprings.com/comic/blindsprings-cover-book-one"
     )
     assert result == [
         {
@@ -99,7 +96,7 @@ def test_can_find_single_page_correctly_while_searching(
     mocker.patch("webcomix.search.possible_attributes_image", ["@class"])
     mocker.patch("webcomix.search.possible_attributes_next", ["."])
 
-    comic, result = discovery("test", one_webpage_searchable_uri, True)
+    comic, result = discovery("test", one_webpage_searchable_uri, single_page=True)
 
     validation = comic.verify_xpath()
 
