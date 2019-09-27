@@ -10,7 +10,8 @@ from webcomix.supported_comics import supported_comics
 first_comic = list(sorted(supported_comics.values()))[0]
 
 expected_url_image = "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"
-expected_image_location = "1.jpg"
+expected_image_location = "test/1.jpg"
+expected_image_filename = "1.jpg"
 
 
 def test_get_media_requests_returns_good_request_when_file_not_present(mocker):
@@ -18,6 +19,9 @@ def test_get_media_requests_returns_good_request_when_file_not_present(mocker):
     mock_spider_info = mocker.patch("scrapy.pipelines.media.MediaPipeline.SpiderInfo")
     mocker.patch(
         "webcomix.comic.Comic.save_image_location", return_value=expected_image_location
+    )
+    mocker.patch(
+        "webcomix.comic.Comic.save_image_filename", return_value=expected_image_filename
     )
     pipeline = ComicPipeline(store_uri="foo")
     elements = list(
@@ -28,7 +32,7 @@ def test_get_media_requests_returns_good_request_when_file_not_present(mocker):
     )
     request = elements[0]
     assert request.url == expected_url_image
-    assert request.meta["image_file_name"] == expected_image_location
+    assert request.meta["image_file_name"] == expected_image_filename
     os.rmdir("foo")
 
 
