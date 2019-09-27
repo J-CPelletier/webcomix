@@ -68,6 +68,15 @@ def test_save_image_location():
     assert Comic.save_image_location("", 1, "bar") == "bar/1"
 
 
+def test_save_image_filename_with_title_present():
+    assert (
+        Comic.save_image_filename(
+            "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg", 1, True, "foo"
+        )
+        == "foo-1.jpg"
+    )
+
+
 def test_make_cbz(fake_downloaded_xkcd_comic):
     fake_downloaded_xkcd_comic.convert_to_cbz()
     with ZipFile("xkcd.cbz") as cbz_file:
