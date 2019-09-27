@@ -91,7 +91,7 @@ def search(name, start_url, cbz, single_page, javascript, title, alt_text, yes):
     Downloads a webcomic using a general XPath
     """
     comic, validation = discovery(
-        name, start_url, single_page, javascript, title, alt_text
+        name, start_url, alt_text, single_page, javascript, title
     )
     if comic is not None:
         print_verification(validation)
@@ -177,10 +177,10 @@ def custom(
         start_url,
         image_xpath,
         next_page_xpath,
+        alt_text,
         single_page,
         javascript,
         title,
-        alt_text,
     )
     try:
         validation = comic.verify_xpath()

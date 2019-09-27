@@ -8,9 +8,6 @@ supported_comics = {
         "https://xkcd.com/1/",
         "//div[@id='comic']//img/@src",
         "//a[@rel='next']/@href",
-        False,
-        False,
-        False,
         "//div[@id='comic']//img/@title",
     ),
     "Nedroid": (

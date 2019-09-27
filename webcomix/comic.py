@@ -31,19 +31,19 @@ class Comic:
         start_url: str,
         comic_image_selector: str,
         next_page_selector: str,
+        alt_text: str = None,
         single_page: bool = False,
         javascript: bool = False,
         title: bool = False,
-        alt_text: str = None,
     ):
         self.name = name
         self.start_url = start_url
         self.next_page_selector = next_page_selector
         self.comic_image_selector = comic_image_selector
+        self.alt_text = alt_text
         self.single_page = single_page
         self.javascript = javascript
         self.title = title
-        self.alt_text = alt_text
 
     def download(self) -> None:
         """
