@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="webcomix",
-    version="3.1.2",
+    version="3.2",
     description="Webcomic downloader",
     long_description="webcomix is a webcomic downloader that can additionally create a .cbz file once downloaded.",
     url="https://github.com/J-CPelletier/webcomix",
@@ -30,7 +30,14 @@ setup(
         "scrapy-splash",
     ],
     extras_require={
-        "dev": ["pytest", "pytest-cov==2.5.1", "pytest-mock", "coveralls", "pre-commit", "mypy"]
+        "dev": [
+            "pytest",
+            "pytest-cov==2.5.1",
+            "pytest-mock",
+            "coveralls",
+            "pre-commit",
+            "mypy",
+        ]
     },
     python_requires=">=3.5",
     entry_points="""
