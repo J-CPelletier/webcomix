@@ -114,6 +114,7 @@ def test_download_with_alt_text_saves_the_text(
         "//a/@href",
         False,
         False,
+        False,
         "//img/@title",
     )
     comic.download()

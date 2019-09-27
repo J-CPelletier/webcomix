@@ -10,7 +10,7 @@ from webcomix.supported_comics import supported_comics
 first_comic = list(sorted(supported_comics.values()))[0]
 
 expected_url_image = "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"
-expected_image_location = "test/1.jpg"
+expected_image_location = "1.jpg"
 
 
 def test_get_media_requests_returns_good_request_when_file_not_present(mocker):
@@ -22,7 +22,8 @@ def test_get_media_requests_returns_good_request_when_file_not_present(mocker):
     pipeline = ComicPipeline(store_uri="foo")
     elements = list(
         pipeline.get_media_requests(
-            ComicPage(url=expected_url_image, page=1, alt_text=None), mock_spider_info
+            ComicPage(url=expected_url_image, page=1, title=False, alt_text=None),
+            mock_spider_info,
         )
     )
     request = elements[0]
@@ -41,7 +42,7 @@ def test_get_media_requests_drops_item_when_file_present(mocker):
     with pytest.raises(DropItem):
         list(
             pipeline.get_media_requests(
-                ComicPage(url=expected_url_image, page=1, alt_text=None),
+                ComicPage(url=expected_url_image, page=1, title=False, alt_text=None),
                 mock_spider_info,
             )
         )
@@ -62,7 +63,7 @@ def test_get_media_requests_drops_item_when_file_present_in_zip(mocker):
     with pytest.raises(DropItem):
         list(
             pipeline.get_media_requests(
-                ComicPage(url=expected_url_image, page=1, alt_text=None),
+                ComicPage(url=expected_url_image, page=1, title=False, alt_text=None),
                 mock_spider_info,
             )
         )

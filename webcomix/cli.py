@@ -32,12 +32,15 @@ def comics():
 @click.option(
     "--cbz", is_flag=True, default=False, help="Outputs the comic as a cbz file"
 )
-def download(name, cbz):
+@click.option(
+    "--title", is_flag=True, default=False, help="Add title of comic in image names"
+)
+def download(name, cbz, title):
     """
     Downloads a predefined comic by name
     """
     if name in list(supported_comics.keys()):
-        comic = Comic(name, *supported_comics[name])
+        comic = Comic(name, *supported_comics[name], title=title)
         comic.download()
         if cbz:
             comic.convert_to_cbz()
@@ -71,6 +74,9 @@ def download(name, cbz):
     help="Renders javascript in the page (slower)",
 )
 @click.option(
+    "--title", is_flag=True, default=False, help="Add title of comic in image names"
+)
+@click.option(
     "--alt-text",
     "-a",
     default=None,
@@ -80,11 +86,13 @@ def download(name, cbz):
 @click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
-def search(name, start_url, cbz, single_page, javascript, alt_text, yes):
+def search(name, start_url, cbz, single_page, javascript, title, alt_text, yes):
     """
     Downloads a webcomic using a general XPath
     """
-    comic, validation = discovery(name, start_url, single_page, javascript, alt_text)
+    comic, validation = discovery(
+        name, start_url, single_page, javascript, title, alt_text
+    )
     if comic is not None:
         print_verification(validation)
         click.echo("Verify that the links above are correct.")
@@ -137,6 +145,9 @@ def search(name, start_url, cbz, single_page, javascript, alt_text, yes):
     help="Renders javascript in the page (slower)",
 )
 @click.option(
+    "--title", is_flag=True, default=False, help="Add title of comic in image names"
+)
+@click.option(
     "--alt-text",
     "-a",
     default=None,
@@ -154,6 +165,7 @@ def custom(
     cbz,
     single_page,
     javascript,
+    title,
     alt_text,
     yes,
 ):
@@ -161,7 +173,14 @@ def custom(
     Downloads a user-defined webcomic
     """
     comic = Comic(
-        name, start_url, image_xpath, next_page_xpath, single_page, javascript, alt_text
+        name,
+        start_url,
+        image_xpath,
+        next_page_xpath,
+        single_page,
+        javascript,
+        title,
+        alt_text,
     )
     try:
         validation = comic.verify_xpath()

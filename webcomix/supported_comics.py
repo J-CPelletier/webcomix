@@ -10,6 +10,7 @@ supported_comics = {
         "//a[@rel='next']/@href",
         False,
         False,
+        False,
         "//div[@id='comic']//img/@title",
     ),
     "Nedroid": (
