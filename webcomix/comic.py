@@ -1,5 +1,6 @@
 import os
 from typing import List, Mapping
+from urllib.parse import urlparse
 from zipfile import ZipFile, BadZipFile
 
 import click
@@ -153,10 +154,13 @@ class Comic:
         if url.count(".") <= 1:
             # No file extension (only dot in url is domain name)
             return str(page)
-        elif title_present:
-            return "{}-{}{}".format(comic_name, page, url[url.rindex(".") :])
+
+        parsed_filepath = urlparse(url).path
+        file_extension = parsed_filepath[parsed_filepath.rindex(".") :]
+        if title_present:
+            return "{}-{}{}".format(comic_name, page, file_extension)
         else:
-            return "{}{}".format(page, url[url.rindex(".") :])
+            return "{}{}".format(page, file_extension)
 
     @staticmethod
     def save_alt_text_location(page: int, directory_name: str = "") -> str:
