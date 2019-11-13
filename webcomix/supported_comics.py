@@ -75,4 +75,9 @@ supported_comics = {
         "//img[@class='comicnormal']/@src",
         "//a[img[contains(@src, 'next')]]/@href",
     ),
+    "SchlockMercenary": (
+        "https://www.schlockmercenary.com/2000-06-12",
+        "//div[@class='strip-images']//img/@src",
+        "//a[@class='next-strip']/@href",
+    ),
 }

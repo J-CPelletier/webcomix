@@ -66,6 +66,12 @@ def test_save_image_location():
         == "foo/1.jpg"
     )
     assert Comic.save_image_location("", 1, "bar") == "bar/1"
+    assert (
+        Comic.save_image_location(
+            "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg?q=123", 1, "foo"
+        )
+        == "foo/1.jpg"
+    )
 
 
 def test_save_image_filename_with_title_present():
