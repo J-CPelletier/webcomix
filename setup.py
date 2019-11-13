@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="webcomix",
-    version="3.2",
+    version="3.2.1",
     description="Webcomic downloader",
     long_description="webcomix is a webcomic downloader that can additionally create a .cbz file once downloaded.",
     url="https://github.com/J-CPelletier/webcomix",
