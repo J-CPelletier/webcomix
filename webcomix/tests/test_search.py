@@ -6,7 +6,7 @@ from webcomix.tests.fake_websites.fixture import one_webpage_searchable_uri
 def test_search_searchable_website(mocker):
     expected = Comic(
         "Blindsprings",
-        "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
+        "https://blindsprings.com/comic/blindsprings-cover-book-one",
         "//*[contains(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'comic')]//@src",
         "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'next')]//@href",
     )
@@ -18,28 +18,28 @@ def test_search_searchable_website(mocker):
     mocker.patch("webcomix.search.possible_attributes_next", ["@class"])
     mocker.patch("webcomix.util.check_first_pages")
     comic, result = discovery(
-        "Blindsprings", "http://www.blindsprings.com/comic/blindsprings-cover-book-one"
+        "Blindsprings", "https://blindsprings.com/comic/blindsprings-cover-book-one"
     )
     assert result == [
         {
             "page": 1,
-            "url": "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
-            "image_urls": ["http://www.blindsprings.com/comics/cover.jpg"],
+            "url": "https://blindsprings.com/comic/blindsprings-cover-book-one",
+            "image_urls": ["https://www.blindsprings.com/comics/cover.jpg"],
             "alt_text": None,
         },
         {
             "page": 2,
-            "url": "http://www.blindsprings.com/comic/blindsprings-page-one",
+            "url": "https://blindsprings.com/comic/blindsprings-page-one",
             "image_urls": [
-                "http://www.blindsprings.com/comics/1430199037-TB_01_001.jpg"
+                "https://www.blindsprings.com/comics/1430199037-TB_01_001.jpg"
             ],
             "alt_text": None,
         },
         {
             "page": 3,
-            "url": "http://www.blindsprings.com/comic/blindsprings-page-two",
+            "url": "https://blindsprings.com/comic/blindsprings-page-two",
             "image_urls": [
-                "http://www.blindsprings.com/comics/1430198957-TB_01_002.jpg"
+                "https://www.blindsprings.com/comics/1430198957-TB_01_002.jpg"
             ],
             "alt_text": None,
         },
@@ -64,7 +64,7 @@ def test_search_unsearchable_website(mocker):
 def test_stopping_searching(mocker):
     expected = Comic(
         "Blindsprings",
-        "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
+        "https://www.blindsprings.com/comic/blindsprings-cover-book-one",
         "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'next')]//@href",
         "//*[contains(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'comic')]//@src",
         False,
@@ -79,7 +79,7 @@ def test_stopping_searching(mocker):
     mocker.patch("webcomix.comic.Comic.verify_xpath", side_effect=KeyboardInterrupt)
     result = discovery(
         "Blindsprings",
-        "http://www.blindsprings.com/comic/blindsprings-cover-book-one",
+        "https://www.blindsprings.com/comic/blindsprings-cover-book-one",
         False,
     )
     assert exit_called.call_count == 1
