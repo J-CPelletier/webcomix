@@ -86,7 +86,7 @@ def test_predefined_unknown_comic_does_not_download(mocker):
     mock_download = mocker.patch("webcomix.comic.Comic.download")
 
     result = runner.invoke(cli.download, ["foo"])
-    assert result.exit_code == 0
+    assert result.exit_code == 2
     assert mock_download.call_count == 0
 
 
@@ -115,7 +115,7 @@ def test_predefined_unknown_comic_does_not_make_the_cbz_file(mocker):
     mock_convert_to_cbz = mocker.patch("webcomix.comic.Comic.convert_to_cbz")
 
     result = runner.invoke(cli.download, ["foo", "--cbz"])
-    assert result.exit_code == 0
+    assert result.exit_code == 2
     assert mock_convert_to_cbz.call_count == 0
 
 
