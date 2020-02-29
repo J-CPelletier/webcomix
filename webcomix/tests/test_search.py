@@ -2,6 +2,7 @@ from webcomix.comic import Comic
 from webcomix.search import discovery
 from webcomix.tests.fake_websites.fixture import (
     one_webpage_searchable_uri,
+    three_webpages_uri,
     three_webpages_classes_uri,
 )
 
@@ -50,25 +51,18 @@ def test_search_searchable_website(mocker, three_webpages_classes_uri):
     assert comic.comic_image_selector == expected.comic_image_selector
 
 
-def test_search_unsearchable_website(mocker):
-    mocker.patch("webcomix.search.possible_image_xpath", [])
-    mocker.patch("webcomix.search.possible_next_page_xpath", [])
-    mocker.patch("webcomix.search.possible_tags_image", [])
-    mocker.patch("webcomix.search.possible_tags_next", [])
-    mocker.patch("webcomix.search.possible_attributes_image", [])
-    mocker.patch("webcomix.search.possible_attributes_next", [])
+def test_search_unsearchable_website(mocker, three_webpages_uri):
+    mocker.patch("webcomix.search.possible_image_xpath", ["comic"])
+    mocker.patch("webcomix.search.possible_next_page_xpath", ["next"])
+    mocker.patch("webcomix.search.possible_tags_image", ["*"])
+    mocker.patch("webcomix.search.possible_tags_next", ["*"])
+    mocker.patch("webcomix.search.possible_attributes_image", ["@class"])
+    mocker.patch("webcomix.search.possible_attributes_next", ["@class"])
 
-    assert discovery("comic_name", "test", True) == (None, None)
+    assert discovery("test", three_webpages_uri) == (None, None)
 
 
-def test_stopping_searching(mocker):
-    expected = Comic(
-        "Blindsprings",
-        "https://www.blindsprings.com/comic/blindsprings-cover-book-one",
-        "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'next')]//@href",
-        "//*[contains(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'comic')]//@src",
-        False,
-    )
+def test_can_stop_searching(mocker, three_webpages_classes_uri):
     mocker.patch("webcomix.search.possible_image_xpath", ["comic"])
     mocker.patch("webcomix.search.possible_next_page_xpath", ["next"])
     mocker.patch("webcomix.search.possible_tags_image", ["div"])
@@ -77,11 +71,7 @@ def test_stopping_searching(mocker):
     mocker.patch("webcomix.search.possible_attributes_next", ["@class"])
     exit_called = mocker.patch("sys.exit")
     mocker.patch("webcomix.comic.Comic.verify_xpath", side_effect=KeyboardInterrupt)
-    result = discovery(
-        "Blindsprings",
-        "https://www.blindsprings.com/comic/blindsprings-cover-book-one",
-        False,
-    )
+    result = discovery("test", three_webpages_classes_uri)
     assert exit_called.call_count == 1
     assert result == (None, None)
 
