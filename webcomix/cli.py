@@ -28,7 +28,9 @@ def comics():
 
 
 @cli.command()
-@click.argument("name", type=click.STRING)
+@click.argument(
+    "name", type=click.Choice([k for k, v in sorted(supported_comics.items())])
+)
 @click.option(
     "--cbz", is_flag=True, default=False, help="Outputs the comic as a cbz file"
 )
