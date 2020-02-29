@@ -150,50 +150,62 @@ def test_convert_to_cbz_adds_all_files_to_cbz(
         assert len(cbz_file.infolist()) == 2
 
 
-def test_verify_xpath():
-    comic = Comic("xkcd", *supported_comics["xkcd"])
+def test_verify_xpath(three_webpages_uri):
+    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href")
+
+    three_webpages_folder = three_webpages_uri.strip("1.html")
+
     assert comic.verify_xpath() == [
         {
             "page": 1,
-            "url": "https://xkcd.com/1/",
-            "image_urls": ["https://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"],
+            "url": three_webpages_uri,
+            "image_urls": [three_webpages_folder + "1.jpeg"],
             "alt_text": None,
         },
         {
             "page": 2,
-            "url": "https://xkcd.com/2/",
-            "image_urls": ["https://imgs.xkcd.com/comics/tree_cropped_(1).jpg"],
+            "url": three_webpages_folder + "2.html",
+            "image_urls": [three_webpages_folder + "2.jpeg"],
             "alt_text": None,
         },
         {
             "page": 3,
-            "url": "https://xkcd.com/3/",
-            "image_urls": ["https://imgs.xkcd.com/comics/island_color.jpg"],
+            "url": three_webpages_folder + "3.html",
+            "image_urls": [],
             "alt_text": None,
         },
     ]
 
 
-def test_verify_xpath_with_alt_text():
-    comic = Comic("xkcd", *supported_comics["xkcd_alt"])
+def test_verify_xpath_with_alt_text(three_webpages_alt_text_uri):
+    comic = Comic(
+        "test_alt",
+        three_webpages_alt_text_uri,
+        "//img/@src",
+        "//a/@href",
+        "//img/@title",
+    )
+
+    three_webpages_alt_text_folder = three_webpages_alt_text_uri.strip("1.html")
+
     assert comic.verify_xpath() == [
         {
             "page": 1,
-            "url": "https://xkcd.com/1/",
-            "image_urls": ["https://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"],
-            "alt_text": "Don't we all.",
+            "url": three_webpages_alt_text_uri,
+            "image_urls": [three_webpages_alt_text_folder + "1.jpeg"],
+            "alt_text": "First page",
         },
         {
             "page": 2,
-            "url": "https://xkcd.com/2/",
-            "image_urls": ["https://imgs.xkcd.com/comics/tree_cropped_(1).jpg"],
-            "alt_text": "'Petit' being a reference to Le Petit Prince, which I only thought about halfway through the sketch",
+            "url": three_webpages_alt_text_folder + "2.html",
+            "image_urls": [three_webpages_alt_text_folder + "2.jpeg"],
+            "alt_text": "Second page",
         },
         {
             "page": 3,
-            "url": "https://xkcd.com/3/",
-            "image_urls": ["https://imgs.xkcd.com/comics/island_color.jpg"],
-            "alt_text": "Hello, island",
+            "url": three_webpages_alt_text_folder + "3.html",
+            "image_urls": [],
+            "alt_text": None,
         },
     ]
 

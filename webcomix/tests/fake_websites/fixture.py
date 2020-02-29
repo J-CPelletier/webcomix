@@ -26,6 +26,16 @@ def three_webpages_alt_text_uri():
 
 
 @pytest.fixture
+def three_webpages_classes_uri():
+    return str(
+        get_dir_path_of_script()
+        .joinpath("three_webpages_classes/1.html")
+        .resolve()
+        .as_uri()
+    )
+
+
+@pytest.fixture
 def one_webpage_uri():
     return str(
         get_dir_path_of_script().joinpath("one_webpage/1.html").resolve().as_uri()

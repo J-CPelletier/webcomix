@@ -1,46 +1,46 @@
 from webcomix.comic import Comic
 from webcomix.search import discovery
-from webcomix.tests.fake_websites.fixture import one_webpage_searchable_uri
+from webcomix.tests.fake_websites.fixture import (
+    one_webpage_searchable_uri,
+    three_webpages_classes_uri,
+)
 
 
-def test_search_searchable_website(mocker):
+def test_search_searchable_website(mocker, three_webpages_classes_uri):
     expected = Comic(
         "Blindsprings",
-        "https://blindsprings.com/comic/blindsprings-cover-book-one",
-        "//*[contains(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'comic')]//@src",
+        three_webpages_classes_uri,
+        "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'comic')]//@src",
         "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'next')]//@href",
     )
     mocker.patch("webcomix.search.possible_image_xpath", ["comic"])
     mocker.patch("webcomix.search.possible_next_page_xpath", ["next"])
     mocker.patch("webcomix.search.possible_tags_image", ["*"])
     mocker.patch("webcomix.search.possible_tags_next", ["*"])
-    mocker.patch("webcomix.search.possible_attributes_image", [".", "@src"])
+    mocker.patch("webcomix.search.possible_attributes_image", ["@class"])
     mocker.patch("webcomix.search.possible_attributes_next", ["@class"])
     mocker.patch("webcomix.util.check_first_pages")
-    comic, result = discovery(
-        "Blindsprings", "https://blindsprings.com/comic/blindsprings-cover-book-one"
-    )
+    comic, result = discovery("Blindsprings", three_webpages_classes_uri)
+
+    three_webpages_classes_folder = three_webpages_classes_uri.strip("1.html")
+
     assert result == [
         {
             "page": 1,
-            "url": "https://blindsprings.com/comic/blindsprings-cover-book-one",
-            "image_urls": ["https://www.blindsprings.com/comics/cover.jpg"],
+            "url": three_webpages_classes_uri,
+            "image_urls": [three_webpages_classes_folder + "1.jpeg"],
             "alt_text": None,
         },
         {
             "page": 2,
-            "url": "https://blindsprings.com/comic/blindsprings-page-one",
-            "image_urls": [
-                "https://www.blindsprings.com/comics/1430199037-TB_01_001.jpg"
-            ],
+            "url": three_webpages_classes_folder + "2.html",
+            "image_urls": [three_webpages_classes_folder + "2.jpeg"],
             "alt_text": None,
         },
         {
             "page": 3,
-            "url": "https://blindsprings.com/comic/blindsprings-page-two",
-            "image_urls": [
-                "https://www.blindsprings.com/comics/1430198957-TB_01_002.jpg"
-            ],
+            "url": three_webpages_classes_folder + "3.html",
+            "image_urls": [three_webpages_classes_folder + "3.jpeg"],
             "alt_text": None,
         },
     ]

@@ -5,57 +5,80 @@ from webcomix import cli
 from webcomix.comic import Comic
 from webcomix.exceptions import CrawlerBlocked, NextLinkNotFound
 from webcomix.supported_comics import supported_comics
+from webcomix.tests.fake_websites.fixture import (
+    three_webpages_uri,
+    three_webpages_alt_text_uri,
+)
 
 first_comic = list(sorted(supported_comics.keys()))[0]
 
 
-def test_print_verification(capfd):
-    comic = Comic("xkcd", *supported_comics["xkcd"])
+def test_print_verification(capfd, three_webpages_uri):
+    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href")
     verification = comic.verify_xpath()
     cli.print_verification(verification)
     out, err = capfd.readouterr()
+
+    three_webpages_folder = three_webpages_uri.strip("1.html")
+
     assert out == (
         "Page 1:\n"
-        "Page URL: https://xkcd.com/1/\n"
+        "Page URL: " + three_webpages_uri + "\n"
         "Image URLs:\n"
-        "https://imgs.xkcd.com/comics/barrel_cropped_(1).jpg\n"
+        "" + three_webpages_folder + "1.jpeg"
+        "\n"
         "\n"
         "Page 2:\n"
-        "Page URL: https://xkcd.com/2/\n"
+        "Page URL: " + three_webpages_folder + "2.html"
+        "\n"
         "Image URLs:\n"
-        "https://imgs.xkcd.com/comics/tree_cropped_(1).jpg\n"
+        "" + three_webpages_folder + "2.jpeg"
+        "\n"
         "\n"
         "Page 3:\n"
-        "Page URL: https://xkcd.com/3/\n"
+        "Page URL: " + three_webpages_folder + "3.html"
+        "\n"
         "Image URLs:\n"
-        "https://imgs.xkcd.com/comics/island_color.jpg\n"
+        "\n"
         "\n"
     )
 
 
-def test_print_verification_with_alt_text(capfd):
-    comic = Comic("xkcd", *supported_comics["xkcd_alt"])
+def test_print_verification_with_alt_text(capfd, three_webpages_alt_text_uri):
+    comic = Comic(
+        "test_alt",
+        three_webpages_alt_text_uri,
+        "//img/@src",
+        "//a/@href",
+        "//img/@title",
+    )
     verification = comic.verify_xpath()
     cli.print_verification(verification)
     out, err = capfd.readouterr()
+
+    three_webpages_alt_text_folder = three_webpages_alt_text_uri.strip("1.html")
+
     assert out == (
         "Page 1:\n"
-        "Page URL: https://xkcd.com/1/\n"
+        "Page URL: " + three_webpages_alt_text_uri + "\n"
         "Image URLs:\n"
-        "https://imgs.xkcd.com/comics/barrel_cropped_(1).jpg\n"
-        "Alt text: Don't we all.\n"
+        "" + three_webpages_alt_text_folder + "1.jpeg"
+        "\n"
+        "Alt text: First page\n"
         "\n"
         "Page 2:\n"
-        "Page URL: https://xkcd.com/2/\n"
+        "Page URL: " + three_webpages_alt_text_folder + "2.html"
+        "\n"
         "Image URLs:\n"
-        "https://imgs.xkcd.com/comics/tree_cropped_(1).jpg\n"
-        "Alt text: 'Petit' being a reference to Le Petit Prince, which I only thought about halfway through the sketch\n"
+        "" + three_webpages_alt_text_folder + "2.jpeg"
+        "\n"
+        "Alt text: Second page\n"
         "\n"
         "Page 3:\n"
-        "Page URL: https://xkcd.com/3/\n"
+        "Page URL: " + three_webpages_alt_text_folder + "3.html"
+        "\n"
         "Image URLs:\n"
-        "https://imgs.xkcd.com/comics/island_color.jpg\n"
-        "Alt text: Hello, island\n"
+        "\n"
         "\n"
     )
 
