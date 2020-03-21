@@ -19,6 +19,7 @@ This program is for personal use only. Please be aware that by making the downlo
 * fake-useragent
 * scrapy (Some additional steps might be required to include this package and can be found [here](https://doc.scrapy.org/en/latest/intro/install.html#intro-install-platform-notes))
 * scrapy-splash
+* PyDispatcher
 * tqdm
 
 ### Process
@@ -32,7 +33,8 @@ This program is for personal use only. Please be aware that by making the downlo
 
 1. Install [Python 3](https://www.python.org/downloads/)
 2. Clone this repository and open a terminal in its directory
-3. Download the dependencies by running `pip install -e .[dev]`
+3. Install [poetry](https://github.com/python-poetry/poetry) with `pip install poetry`
+3. Download the dependencies by running `poetry install`
 4. Install pre-commit hooks with `pre-commit install`
 
 ## Usage
@@ -108,4 +110,4 @@ The procedure depends on the type of contribution:
 
 ### Running the tests
 
-To run the tests, you have to get pytest(with `pip install -U pytest`) and use the `pytest` command in the webcomix folder.
+To run the tests, you have to use the `pytest` command in the webcomix folder.
