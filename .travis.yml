@@ -4,7 +4,7 @@ python:
 - '3.6'
 - '3.7'
 - '3.8'
-- '3.8-dev'
+- 3.8-dev
 install:
 - pip install poetry
 - poetry install
@@ -15,24 +15,25 @@ after_success:
 - poetry build
 - coveralls
 deploy:
-  - provider: releases
-    skip_cleanup: true
-    api_key:
-      secure: ucJXZbo9yUhloZrqP0uHWFs4Cw1wQOS0Lh97GuhTV1XXjNxFo/E3/TRNu+x+tdHntHlxBdrG97ONvlYle6NtNnDLMyZHD50eLEWEG99WLhR92Dy6ONEm8U2nV+YPYLD3U64LqMScuoXFBmwh6r/03ORjqddntlxRoJ9zf95PzkHxxNYdMf5BOVsR/d3IZVIIJG2lJzbFl2BXAuIiOPwc6UstEt1/A6I0Z6X3J3JHBwLdwW8sDPxTWK91+auzn+D4ApOpU6hLG1DVKqqTgbeFsBVBSvtRzLwFDpR0LteuUADsx1AHVGJjfI2chtd9aB6GGFOUI3syG4zsHtlTtddGmSVzWCGD4DU7pCBq+0cAU1OTJ9OS337W0tQtmipqSPrn0FSQXQAK1k2QnNwPK+xKH5ax8ssSNFl70ccCEsVcv7oWQEgAOsAx0yzsNbR6rGL2mDKGRluJLQ4OIogoVNDgJ351YTDxu3mhwIT5LumOQEIA0ROFu9zUSmKMnqMx1tywAMp2Es4rn5BKNGZB9+qmGAyB7mYBjJabbzv0zLSei+j9aFsakJopB9wAdyd0Q6GyP5wH1jX/URkqeLELCwnghbSJdanG0lfiUtbMblXP2vYnkVNS8cuE6fh/X3tjcKsEHqY7zFs6LX5rKh3VeUZydX2fmwwjJQh2JAPSsL9p9AM=
-    file_glob: true
-    file: dist/*
-    draft: true
-    on:
-      repo: J-CPelletier/webcomix
-      tags: true
-      python: '3.5'
-  - provider: pypi
-    skip_cleanup: true
-    username: J-CPelletier
-    password:
-      secure: kbSFdq/x8Z/n4A03KiO1wvPvYq1Sey7CW3C6+Ga+Z4irjme7IlwrIz+4Fe2KD3Tf09j8JSJRyMmhB90qFufZWJLDDB3ey4gNDCvHsm8vJiyCLZJGeGQv4ExeM2bcITDHFaIzYlz4hGqkvKV4he+CRKlO4FVp8ECorbYh9cwlRWiZ347VpZtuvT5Qx/r18V1NNJ8nBcd8Xi2fyXPrWTg1oDvNZYzBluVoDbqL9+mt4OsmGyCkghqIay35UYY2+rl/fkaeDLebZc1HT56phFVw89yrVEkbi6kNEnhlmIXtzRn5TByg9e+CAGSp8492WDYpW1tZCWxlhNjUC3aMeZYRM71RREZs6VLhl+0vg0uSCPvUretZq03TS0Xyq4OT9KX7o4qBWCb5ZS1TMwxTD/rQvUcb2ubYWk4oFp5MLcv6Z6kvU64BcZCKqAIMr8O0MGBnHlpDUUp31orKeVivgCDRUYgziFOm+ndbC2diX7Bt9t/Mbz0iEc8zw5B3LjLCoTwOvyWTbF283wCf92VPUQdsX1YIA1zGmAEJcOFUql+H35R+iO3Xmvirg4XCTG8fJ8y7Yy6cyk6ypROF72MW4R/df6qpx6LJGMctASK7DUUscN4CQ6sxni8s+FRD2F7kyQFU9T2s7rVIzW8s8Nqn56IeHBnfYLP8Ieb0DNPCZ5wO2rU=
-    distributions: "sdist bdist_wheel"
-    on:
-      tags: true
-      branch: master
-      python: '3.5'
+- provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: ucJXZbo9yUhloZrqP0uHWFs4Cw1wQOS0Lh97GuhTV1XXjNxFo/E3/TRNu+x+tdHntHlxBdrG97ONvlYle6NtNnDLMyZHD50eLEWEG99WLhR92Dy6ONEm8U2nV+YPYLD3U64LqMScuoXFBmwh6r/03ORjqddntlxRoJ9zf95PzkHxxNYdMf5BOVsR/d3IZVIIJG2lJzbFl2BXAuIiOPwc6UstEt1/A6I0Z6X3J3JHBwLdwW8sDPxTWK91+auzn+D4ApOpU6hLG1DVKqqTgbeFsBVBSvtRzLwFDpR0LteuUADsx1AHVGJjfI2chtd9aB6GGFOUI3syG4zsHtlTtddGmSVzWCGD4DU7pCBq+0cAU1OTJ9OS337W0tQtmipqSPrn0FSQXQAK1k2QnNwPK+xKH5ax8ssSNFl70ccCEsVcv7oWQEgAOsAx0yzsNbR6rGL2mDKGRluJLQ4OIogoVNDgJ351YTDxu3mhwIT5LumOQEIA0ROFu9zUSmKMnqMx1tywAMp2Es4rn5BKNGZB9+qmGAyB7mYBjJabbzv0zLSei+j9aFsakJopB9wAdyd0Q6GyP5wH1jX/URkqeLELCwnghbSJdanG0lfiUtbMblXP2vYnkVNS8cuE6fh/X3tjcKsEHqY7zFs6LX5rKh3VeUZydX2fmwwjJQh2JAPSsL9p9AM=
+  file_glob: true
+  file: dist/*
+  draft: true
+  on:
+    repo: J-CPelletier/webcomix
+    tags: true
+    python: '3.5'
+- provider: script
+  script: poetry publish --username J-CPelletier --password $PYPI_PASSWORD --build
+  skip_cleanup: true
+  on:
+    repo: J-CPelletier/webcomix
+    tags: true
+    branch: master
+    python: '3.5'
+env:
+  global:
+    secure: nSxIipu8xytPm1jclWe4HxXBNn4M0AgPqbHfv6+bJ/3G5xO4T02FDZOQr7KER/0fPVmskjC4KIO2fbye903LZNmsgTzJkZRDSCfrU7rBYeW7Vus0EMsea9NOzdnwwH2dEQJaQEJ4BX/y8lyJclQ3HylbFGqRRuaC18BA+XJQVu+XPk8s/PMFZx3SOll7CA4Jjn5UNEF/0/4wfBOPJCT7J8KNAtfJ87NTX+JkoeBuVeIbs/ycy03qKaBD2u2iAzfBpF9tsZLVNt9ZFczK6TYp3BB8SA0+CYwKd3qZRJgVnunxMFUQas81ZMDIuW0yiGq2EZPSjBxMfbiJVBMSENwHYla/2b+X014rH9JIkv/NT+gWjigUSm9mAwaxRLXgNfaqkem7P0WQ6e57fHurj72GIeCMzHJAjq8sJcMcjvKIqxQf0A0oYCd4RnRcedXd4tNOOThTQlDEDof1V1dLeyp7140yqr62gr6cCqcpYXxRKKrwKm4QiUCMZK1jKZMNuCGo3fY676xKxUZpCR8/qvkYr72MhFlSHEYu03NKE9/hBu3eBrhvq0roP6/YZXXpIbaW5GoFOHsm03TZRy/5nC8byaE6kWsH2Z0Azyd4TDHUI0B1isE5cQOmHp3QjY+V+VtjA/ThXqtHJGrEvCBFkCtXMHtPUJcIxH1bDL8b1xk19IM=
