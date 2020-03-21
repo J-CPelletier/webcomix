@@ -28,7 +28,7 @@ deploy:
     tags: true
     python: '3.5'
 - provider: script
-  script: poetry publish --username J-CPelletier --password $PYPI_PASSWORD --build
+  script: poetry publish --username J-CPelletier --password $PYPI_PASSWORD
   skip_cleanup: true
   on:
     repo: J-CPelletier/webcomix
