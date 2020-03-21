@@ -784,7 +784,6 @@ version = "0.1.8"
 [[package]]
 category = "dev"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-marker = "python_version < \"3.8\""
 name = "zipp"
 optional = false
 python-versions = ">=2.7"
@@ -811,7 +810,7 @@ test = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 
 [metadata]
-content-hash = "29028d3a1e1e125c1e29003dc2c9dec9d67213ed1b10ab81ef9738b472bca65a"
+content-hash = "196156eccded76417ce24c31ceec46e177272dab8edeb4250218dcf1ae676899"
 python-versions = "^3.5"
 
 [metadata.files]

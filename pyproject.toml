@@ -11,7 +11,6 @@ click = "^7.1.1"
 fake-useragent = "^0.1.11"
 scrapy = "^2.0.1"
 tqdm = "^4.43.0"
-PyDispatcher = "^2.0.5"
 scrapy-splash = "^0.7.2"
 
 [tool.poetry.dev-dependencies]
