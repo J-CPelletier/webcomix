@@ -22,6 +22,9 @@ coveralls = "^1.11.1"
 mypy = "^0.770"
 pre-commit = "1.18.1"
 
+[tool.poetry.scripts]
+webcomix = "webcomix.cli:cli"
+
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
