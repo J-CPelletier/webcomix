@@ -12,8 +12,9 @@ script:
 - py.test --check-supported-comics --cov=webcomix
 - mypy . --ignore-missing-imports
 after_success:
-- poetry build
 - coveralls
+before_deploy:
+- poetry build
 deploy:
 - provider: releases
   skip_cleanup: true
