@@ -1,5 +1,5 @@
 import os
-from typing import List, Mapping
+from typing import List, Mapping, Dict
 from urllib.parse import urlparse
 from zipfile import ZipFile, BadZipFile
 
@@ -62,7 +62,7 @@ class Comic:
         if not os.path.isdir(self.name):
             os.makedirs(self.name)
 
-        settings = {
+        settings: Dict = {
             **FAKE_USERAGENT_SETTINGS,
             "ITEM_PIPELINES": {
                 "webcomix.scrapy.download.comic_pipeline.ComicPipeline": 1,
@@ -116,7 +116,7 @@ class Comic:
         go three pages into the comic. It returns a tuple containing the url
         of each page and their respective image urls.
         """
-        settings = {**FAKE_USERAGENT_SETTINGS, "LOG_ENABLED": False}
+        settings: Dict = {**FAKE_USERAGENT_SETTINGS, "LOG_ENABLED": False}
 
         if self.javascript:
             settings.update(SPLASH_SETTINGS)
