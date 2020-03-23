@@ -62,7 +62,7 @@ class Comic:
         if not os.path.isdir(self.name):
             os.makedirs(self.name)
 
-        settings: Dict = {
+        settings = {
             **FAKE_USERAGENT_SETTINGS,
             "ITEM_PIPELINES": {
                 "webcomix.scrapy.download.comic_pipeline.ComicPipeline": 1,
@@ -71,7 +71,7 @@ class Comic:
             "LOG_ENABLED": False,
             "FILES_STORE": self.name,
             "MEDIA_ALLOW_REDIRECTS": True,
-        }
+        }  # type: Dict
 
         if self.javascript:
             settings.update(SPLASH_SETTINGS)
@@ -116,7 +116,7 @@ class Comic:
         go three pages into the comic. It returns a tuple containing the url
         of each page and their respective image urls.
         """
-        settings: Dict = {**FAKE_USERAGENT_SETTINGS, "LOG_ENABLED": False}
+        settings = {**FAKE_USERAGENT_SETTINGS, "LOG_ENABLED": False}  # type: Dict
 
         if self.javascript:
             settings.update(SPLASH_SETTINGS)
