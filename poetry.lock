@@ -625,6 +625,17 @@ w3lib = ">=1.17.0"
 
 [[package]]
 category = "main"
+description = "Use a random User-Agent provided by fake-useragent for every request"
+name = "scrapy-fake-useragent"
+optional = false
+python-versions = "*"
+version = "1.2.0"
+
+[package.dependencies]
+fake-useragent = "*"
+
+[[package]]
+category = "main"
 description = "JavaScript support for Scrapy using Splash"
 name = "scrapy-splash"
 optional = false
@@ -810,7 +821,7 @@ test = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 
 [metadata]
-content-hash = "196156eccded76417ce24c31ceec46e177272dab8edeb4250218dcf1ae676899"
+content-hash = "0233f6d6e4327f35cafd334041580ad2a238ad2238854e1d49fc7d5dfe6eeee2"
 python-versions = "^3.5"
 
 [metadata.files]
@@ -1161,6 +1172,10 @@ requests = [
 scrapy = [
     {file = "Scrapy-2.0.1-py2.py3-none-any.whl", hash = "sha256:7b0e207eae772dca55a56cce5182680b5d66b69a8e733edc59eee11ffb99300e"},
     {file = "Scrapy-2.0.1.tar.gz", hash = "sha256:85581a01f4160a103ca9906ffa4e44474f4ecd1685f0934728892c58ebf111f6"},
+]
+scrapy-fake-useragent = [
+    {file = "scrapy-fake-useragent-1.2.0.tar.gz", hash = "sha256:7480c9487304775601d8d1b81f89caf97dc2a664f2f42b7909b46d02d0f4aa0a"},
+    {file = "scrapy_fake_useragent-1.2.0-py2.py3-none-any.whl", hash = "sha256:8dcf4c8cffd745d669c88ce59fc5daab550945c5dbae4c2b50985e5d12d735c5"},
 ]
 scrapy-splash = [
     {file = "scrapy-splash-0.7.2.tar.gz", hash = "sha256:089188b11202813b14b88d3be008641a2b3d36e82fadd4a6c61f0af59b66e7b5"},

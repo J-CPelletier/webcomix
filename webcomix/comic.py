@@ -4,13 +4,10 @@ from urllib.parse import urlparse
 from zipfile import ZipFile, BadZipFile
 
 import click
-from fake_useragent import UserAgent
 
 from webcomix.scrapy.download.comic_spider import ComicSpider
 from webcomix.scrapy.verification.verification_spider import VerificationSpider
 from webcomix.scrapy.crawler_worker import CrawlerWorker
-
-user_agent = UserAgent()
 
 SPLASH_SETTINGS = {
     "SPLASH_URL": "http://0.0.0.0:8050",
@@ -22,6 +19,16 @@ SPLASH_SETTINGS = {
     "SPIDER_MIDDLEWARES": {"scrapy_splash.SplashDeduplicateArgsMiddleware": 100},
     "DUPEFILTER_CLASS": "scrapy_splash.SplashAwareDupeFilter",
     "HTTPCACHE_STORAGE": "scrapy_splash.SplashAwareFSCacheStorage",
+}
+
+FAKE_USERAGENT_SETTINGS = {
+    "DOWNLOADER_MIDDLEWARES": {
+        "scrapy.downloadermiddlewares.useragent.UserAgentMiddleware": None,
+        "scrapy.downloadermiddlewares.retry.RetryMiddleware": None,
+        "scrapy_fake_useragent.middleware.RandomUserAgentMiddleware": 400,
+        "scrapy_fake_useragent.middleware.RetryUserAgentMiddleware": 401,
+    },
+    "FAKEUSERAGENT_FALLBACK": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
 }
 
 
@@ -56,6 +63,7 @@ class Comic:
             os.makedirs(self.name)
 
         settings = {
+            **FAKE_USERAGENT_SETTINGS,
             "ITEM_PIPELINES": {
                 "webcomix.scrapy.download.comic_pipeline.ComicPipeline": 1,
                 "scrapy.pipelines.files.FilesPipeline": 500,
@@ -63,7 +71,6 @@ class Comic:
             "LOG_ENABLED": False,
             "FILES_STORE": self.name,
             "MEDIA_ALLOW_REDIRECTS": True,
-            "USER_AGENT": user_agent.chrome,
         }
 
         if self.javascript:
@@ -109,7 +116,7 @@ class Comic:
         go three pages into the comic. It returns a tuple containing the url
         of each page and their respective image urls.
         """
-        settings = {"LOG_ENABLED": False, "USER_AGENT": user_agent.chrome}
+        settings = {**FAKE_USERAGENT_SETTINGS, "LOG_ENABLED": False}
 
         if self.javascript:
             settings.update(SPLASH_SETTINGS)

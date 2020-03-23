@@ -217,7 +217,7 @@ def test_verify_xpath_only_verifies_one_page_with_single_page(one_webpage_uri):
     assert len(actual[0]["image_urls"]) == 2
 
 
-def test_download_will_run_javascript_settings_if_javascript(mocker):
+def test_download_will_run_splash_settings_if_javascript(mocker):
     mocker.patch("os.path.isdir")
     mock_crawler_worker = mocker.patch("webcomix.comic.CrawlerWorker")
     comic = Comic(
@@ -225,19 +225,19 @@ def test_download_will_run_javascript_settings_if_javascript(mocker):
     )
     comic.download()
     settings = mock_crawler_worker.call_args_list[0][0][0]
-    assert all(setting in settings for setting in SPLASH_SETTINGS)
+    assert all(setting in settings.items() for setting in SPLASH_SETTINGS.items())
 
 
-def test_download_will_not_run_javascript_settings_if_not_javascript(mocker):
+def test_download_will_not_run_splash_settings_if_not_javascript(mocker):
     mocker.patch("os.path.isdir")
     mock_crawler_worker = mocker.patch("webcomix.comic.CrawlerWorker")
     comic = Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY)
     comic.download()
     settings = mock_crawler_worker.call_args_list[0][0][0]
-    assert all(setting not in settings for setting in SPLASH_SETTINGS)
+    assert all(setting not in settings.items() for setting in SPLASH_SETTINGS.items())
 
 
-def test_verify_xpath_will_run_javascript_settings_if_javascript(mocker):
+def test_verify_xpath_will_run_splash_settings_if_javascript(mocker):
     mocker.patch("os.path.isdir")
     mock_crawler_worker = mocker.patch("webcomix.comic.CrawlerWorker")
     comic = Comic(
@@ -245,13 +245,13 @@ def test_verify_xpath_will_run_javascript_settings_if_javascript(mocker):
     )
     comic.verify_xpath()
     settings = mock_crawler_worker.call_args_list[0][0][0]
-    assert all(setting in settings for setting in SPLASH_SETTINGS)
+    assert all(setting in settings.items() for setting in SPLASH_SETTINGS.items())
 
 
-def test_verify_xpath_will_not_run_javascript_settings_if_not_javascript(mocker):
+def test_verify_xpath_will_not_run_splash_settings_if_not_javascript(mocker):
     mocker.patch("os.path.isdir")
     mock_crawler_worker = mocker.patch("webcomix.comic.CrawlerWorker")
     comic = Comic(mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, False)
     comic.verify_xpath()
     settings = mock_crawler_worker.call_args_list[0][0][0]
-    assert all(setting not in settings for setting in SPLASH_SETTINGS)
+    assert all(setting not in settings.items() for setting in SPLASH_SETTINGS.items())
