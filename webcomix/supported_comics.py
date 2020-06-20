@@ -88,6 +88,11 @@ supported_comics = {
     "EdisonRex": (
         "https://www.edisonrex.net/comic/issue-1-cover",
         "//div[@id='cc-comicbody']//img/@src",
-        "//a[@class='cc-next']//@href"
+        "//a[@class='cc-next']/@href"
+    ),
+    "Spinnerette": (
+        "https://www.spinnyverse.com/comic/02-09-2010",
+        "//div[@id='cc-comicbody']//img/@src",
+        "//a[@class='cc-next']/@href"
     ),
 }
