@@ -84,5 +84,10 @@ supported_comics = {
         "https://www.nerfnow.com/comic/4",
         "//div[@id='comic']//img/@src",
         "//li[@id='nav_next']//a/@href"
-    )
+    ),
+    "EdisonRex": (
+        "https://www.edisonrex.net/comic/issue-1-cover",
+        "//div[@id='cc-comicbody']//img/@src",
+        "//a[@class='cc-next']//@href"
+    ),
 }
