@@ -95,4 +95,9 @@ supported_comics = {
         "//div[@id='cc-comicbody']//img/@src",
         "//a[@class='cc-next']/@href"
     ),
+    "RyanMadeMistakes": (
+        "http://mistakes.ryanestrada.com/comic/0001",
+        "//img[@id='cc-comic']/@src",
+        "//a[@class='cc-next']/@href"
+    )
 }
