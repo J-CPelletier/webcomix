@@ -99,5 +99,10 @@ supported_comics = {
         "http://mistakes.ryanestrada.com/comic/0001",
         "//img[@id='cc-comic']/@src",
         "//a[@class='cc-next']/@href"
-    )
+    ),
+    "MissingMonday": (
+        "https://www.missingmondaycomic.com/comic/chapter-01-page-01",
+        "//img[@id='cc-comic']/@src",
+        "//a[@class='cc-next']/@href"
+    ),
 }
