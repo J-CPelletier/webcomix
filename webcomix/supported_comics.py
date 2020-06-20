@@ -105,4 +105,9 @@ supported_comics = {
         "//img[@id='cc-comic']/@src",
         "//a[@class='cc-next']/@href"
     ),
+    "StarTrip": (
+        "https://www.startripcomic.com/comic/chapter-1-cover",
+        "//img[@id='cc-comic']/@src",
+        "//a[@class='cc-next']/@href"
+    )
 }
