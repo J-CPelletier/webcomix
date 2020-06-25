@@ -109,5 +109,10 @@ supported_comics = {
         "https://www.startripcomic.com/comic/chapter-1-cover",
         "//img[@id='cc-comic']/@src",
         "//a[@class='cc-next']/@href"
+    ),
+    "StupidFox": (
+        "http://stupidfox.net/hello",
+        "//img[contains(@src, 'stupidfox.net/art/')]/@src",
+        "//span[@class='spriteNext']/parent::a/@href"
     )
 }
