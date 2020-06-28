@@ -43,7 +43,7 @@ def download(name, cbz, title):
     """
     if name in list(supported_comics.keys()):
         comic = Comic(name, *supported_comics[name], title=title)
-        download_webcomic(comic)
+        download_webcomic(comic, cbz)
 
 
 @cli.command()
@@ -106,7 +106,7 @@ def search(
         print_verification(validation)
         click.echo("Verify that the links above are correct.")
         if yes or click.confirm("Are you sure you want to proceed?"):
-            download_webcomic(comic)
+            download_webcomic(comic, cbz)
 
 
 @cli.command()
@@ -218,7 +218,7 @@ def custom(
         raise click.Abort()
     click.echo("Verify that the links above are correct.")
     if yes or click.confirm("Are you sure you want to proceed?"):
-        download_webcomic(comic)
+        download_webcomic(comic, cbz)
 
 
 def print_verification(validation):
@@ -236,7 +236,7 @@ def print_verification(validation):
         click.echo(output)
 
 
-def download_webcomic(comic):
+def download_webcomic(comic, cbz):
     try:
         comic.download()
         if cbz:

@@ -1,4 +1,7 @@
+import pytest
+
 from webcomix.scrapy.download.comic_spider import ComicSpider
+from webcomix.exceptions import CrawlerBlocked
 
 
 def test_parse_yields_good_page(mocker):
@@ -74,3 +77,13 @@ def test_parse_yields_no_pages(mocker):
     results = list(result)
     assert len(results) == 1
     assert results[0].url == "http://xkcd.com/3/"
+
+
+def test_parse_raise_crawler_blocked_if_forbidden(mocker):
+    mock_response = mocker.patch("scrapy.http.Response")
+    mock_response.status = 403
+    mock_response.url = "http://xkcd.com/2/"
+
+    spider = ComicSpider()
+    with pytest.raises(CrawlerBlocked):
+        list(spider.parse(mock_response))
