@@ -50,7 +50,7 @@ def test_print_verification_with_alt_text(capfd, three_webpages_alt_text_uri):
         three_webpages_alt_text_uri,
         "//img/@src",
         "//a/@href",
-        "//img/@title",
+        alt_text="//img/@title",
     )
     verification = comic.verify_xpath()
     cli.print_verification(verification)

@@ -58,6 +58,13 @@ def download(name, cbz, title):
     help="URL of the comic's first page",
 )
 @click.option(
+    "--start-page",
+    "--start_page",
+    type=click.INT,
+    default=1,
+    help="Number of comic's first page to be downloaded",
+)
+@click.option(
     "--cbz", default=False, is_flag=True, help="Outputs the comic as a cbz file"
 )
 @click.option(
@@ -88,12 +95,14 @@ def download(name, cbz, title):
 @click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
-def search(name, start_url, cbz, single_page, javascript, title, alt_text, yes):
+def search(
+    name, start_url, start_page, cbz, single_page, javascript, title, alt_text, yes
+):
     """
     Downloads a webcomic using a general XPath
     """
     comic, validation = discovery(
-        name, start_url, alt_text, single_page, javascript, title
+        name, start_url, start_page, alt_text, single_page, javascript, title
     )
     if comic is not None:
         print_verification(validation)
@@ -111,7 +120,14 @@ def search(name, start_url, cbz, single_page, javascript, title, alt_text, yes):
     "--start_url",
     prompt=True,
     type=click.STRING,
-    help="URL of the comic's first page",
+    help="URL of the comic's first page to be downloaded",
+)
+@click.option(
+    "--start-page",
+    "--start_page",
+    type=click.INT,
+    default=1,
+    help="Number of comic's first page to be downloaded",
 )
 @click.option(
     "--image-xpath",
@@ -162,6 +178,7 @@ def search(name, start_url, cbz, single_page, javascript, title, alt_text, yes):
 def custom(
     name,
     start_url,
+    start_page,
     next_page_xpath,
     image_xpath,
     cbz,
@@ -179,6 +196,7 @@ def custom(
         start_url,
         image_xpath,
         next_page_xpath,
+        start_page,
         alt_text,
         single_page,
         javascript,
