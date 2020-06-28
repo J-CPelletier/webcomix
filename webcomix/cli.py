@@ -43,9 +43,7 @@ def download(name, cbz, title):
     """
     if name in list(supported_comics.keys()):
         comic = Comic(name, *supported_comics[name], title=title)
-        comic.download()
-        if cbz:
-            comic.convert_to_cbz()
+        download_webcomic(comic)
 
 
 @cli.command()
@@ -108,9 +106,7 @@ def search(
         print_verification(validation)
         click.echo("Verify that the links above are correct.")
         if yes or click.confirm("Are you sure you want to proceed?"):
-            comic.download()
-            if cbz:
-                comic.convert_to_cbz()
+            download_webcomic(comic)
 
 
 @cli.command()
@@ -222,9 +218,7 @@ def custom(
         raise click.Abort()
     click.echo("Verify that the links above are correct.")
     if yes or click.confirm("Are you sure you want to proceed?"):
-        comic.download()
-        if cbz:
-            comic.convert_to_cbz()
+        download_webcomic(comic)
 
 
 def print_verification(validation):
@@ -240,3 +234,15 @@ def print_verification(validation):
         if item.get("alt_text") is not None:
             output += "Alt text: {}\n".format(item.get("alt_text"))
         click.echo(output)
+
+
+def download_webcomic(comic):
+    try:
+        comic.download()
+        if cbz:
+            comic.convert_to_cbz()
+    except CrawlerBlocked:
+        click.echo(
+            "Your download has been blocked by the hosting website. Please try again later."
+        )
+        raise click.Abort()

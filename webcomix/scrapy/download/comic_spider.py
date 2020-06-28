@@ -4,12 +4,14 @@ import click
 from scrapy import Spider
 
 from webcomix.scrapy.download.comic_page import ComicPage
+from webcomix.exceptions import CrawlerBlocked
 from webcomix.scrapy.request_factory import RequestFactory
 from webcomix.scrapy.util import is_not_end_of_comic
 
 
 class ComicSpider(Spider):
     name = "Comic Spider"
+    handle_httpstatus_list = [403]
 
     def __init__(self, *args, **kwargs):
         self.start_url = kwargs.get("start_url")
@@ -28,6 +30,8 @@ class ComicSpider(Spider):
 
     def parse(self, response):
         click.echo("Downloading page {}".format(response.url))
+        if response.status == 403:
+            raise CrawlerBlocked()
         comic_image_urls = response.xpath(self.comic_image_selector).getall()
         page = response.meta.get("page") or self.start_page
         alt_text = (
