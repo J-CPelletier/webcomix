@@ -324,4 +324,4 @@ def test_download_will_make_cbz_if_crawler_blocked_and_cbz_enabled(mocker):
 
     with pytest.raises(click.Abort):
         cli.download_webcomic(mock_comic, True)
-        assert mock_make_cbz.call_count == 1
+    assert mock_make_cbz.call_count == 1
