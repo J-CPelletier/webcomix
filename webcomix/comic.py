@@ -39,6 +39,7 @@ class Comic:
         start_url: str,
         comic_image_selector: str,
         next_page_selector: str,
+        start_page: int = 1,
         alt_text: str = None,
         single_page: bool = False,
         javascript: bool = False,
@@ -46,6 +47,7 @@ class Comic:
     ):
         self.name = name
         self.start_url = start_url
+        self.start_page = start_page
         self.next_page_selector = next_page_selector
         self.comic_image_selector = comic_image_selector
         self.alt_text = alt_text
@@ -81,6 +83,7 @@ class Comic:
             False,
             ComicSpider,
             start_url=self.start_url,
+            start_page=self.start_page,
             comic_image_selector=self.comic_image_selector,
             next_page_selector=self.next_page_selector,
             directory=self.name,

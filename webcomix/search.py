@@ -19,6 +19,7 @@ possible_attributes_next = [".", "text()", "@class", "@id", "@alt", "@rel"]
 def discovery(
     name: str,
     url: str,
+    start_page: int = 1,
     alt_text: str = None,
     single_page: bool = False,
     javascript: bool = False,
@@ -64,10 +65,11 @@ def discovery(
                 url,
                 image_xpath,
                 next_page_xpath,
-                alt_text,
-                single_page,
-                javascript,
-                title,
+                start_page=start_page,
+                alt_text=alt_text,
+                single_page=single_page,
+                javascript=javascript,
+                title=title,
             )
             first_pages = comic.verify_xpath()
             check_first_pages(first_pages)

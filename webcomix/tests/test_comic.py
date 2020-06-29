@@ -119,11 +119,24 @@ def test_download_saves_the_files(cleanup_test_directories, three_webpages_uri):
     assert len(files) == 2
 
 
+def test_download_saves_the_files_with_correct_first_item(
+    cleanup_test_directories, three_webpages_uri
+):
+    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href", start_page=10)
+    comic.download()
+    path, dirs, files = next(os.walk("test"))
+    assert files == ["10", "11"]
+
+
 def test_download_with_alt_text_saves_the_text(
     cleanup_test_directories, three_webpages_alt_text_uri
 ):
     comic = Comic(
-        "test", three_webpages_alt_text_uri, "//img/@src", "//a/@href", "//img/@title"
+        "test",
+        three_webpages_alt_text_uri,
+        "//img/@src",
+        "//a/@href",
+        alt_text="//img/@title",
     )
     comic.download()
     path, dirs, files = next(os.walk("test"))
@@ -183,7 +196,7 @@ def test_verify_xpath_with_alt_text(three_webpages_alt_text_uri):
         three_webpages_alt_text_uri,
         "//img/@src",
         "//a/@href",
-        "//img/@title",
+        alt_text="//img/@title",
     )
 
     three_webpages_alt_text_folder = three_webpages_alt_text_uri.strip("1.html")
@@ -221,7 +234,14 @@ def test_download_will_run_splash_settings_if_javascript(mocker):
     mocker.patch("os.path.isdir")
     mock_crawler_worker = mocker.patch("webcomix.comic.CrawlerWorker")
     comic = Comic(
-        mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, True
+        mocker.ANY,
+        mocker.ANY,
+        mocker.ANY,
+        mocker.ANY,
+        mocker.ANY,
+        mocker.ANY,
+        mocker.ANY,
+        True,
     )
     comic.download()
     settings = mock_crawler_worker.call_args_list[0][0][0]
@@ -241,7 +261,14 @@ def test_verify_xpath_will_run_splash_settings_if_javascript(mocker):
     mocker.patch("os.path.isdir")
     mock_crawler_worker = mocker.patch("webcomix.comic.CrawlerWorker")
     comic = Comic(
-        mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, mocker.ANY, True
+        mocker.ANY,
+        mocker.ANY,
+        mocker.ANY,
+        mocker.ANY,
+        mocker.ANY,
+        mocker.ANY,
+        mocker.ANY,
+        True,
     )
     comic.verify_xpath()
     settings = mock_crawler_worker.call_args_list[0][0][0]

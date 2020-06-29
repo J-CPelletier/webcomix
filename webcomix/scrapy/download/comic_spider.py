@@ -4,17 +4,20 @@ import click
 from scrapy import Spider
 
 from webcomix.scrapy.download.comic_page import ComicPage
+from webcomix.exceptions import CrawlerBlocked
 from webcomix.scrapy.request_factory import RequestFactory
 from webcomix.scrapy.util import is_not_end_of_comic
 
 
 class ComicSpider(Spider):
     name = "Comic Spider"
+    handle_httpstatus_list = [403]
 
     def __init__(self, *args, **kwargs):
         self.start_url = kwargs.get("start_url")
         self.next_page_selector = kwargs.get("next_page_selector", None)
         self.comic_image_selector = kwargs.get("comic_image_selector", None)
+        self.start_page = kwargs.get("start_page", 1)
         self.directory = kwargs.get("directory", None)
         javascript = kwargs.get("javascript", False)
         self.alt_text = kwargs.get("alt_text", None)
@@ -23,12 +26,14 @@ class ComicSpider(Spider):
         super(ComicSpider, self).__init__(*args, **kwargs)
 
     def start_requests(self):
-        yield self.request_factory.create(url=self.start_url, next_page=1)
+        yield self.request_factory.create(url=self.start_url, next_page=self.start_page)
 
     def parse(self, response):
         click.echo("Downloading page {}".format(response.url))
+        if response.status == 403:
+            raise CrawlerBlocked()
         comic_image_urls = response.xpath(self.comic_image_selector).getall()
-        page = response.meta.get("page") or 1
+        page = response.meta.get("page") or self.start_page
         alt_text = (
             response.xpath(self.alt_text).get() if self.alt_text is not None else None
         )

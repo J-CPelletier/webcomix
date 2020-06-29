@@ -1,3 +1,4 @@
+import click
 from click.testing import CliRunner
 import pytest
 
@@ -50,7 +51,7 @@ def test_print_verification_with_alt_text(capfd, three_webpages_alt_text_uri):
         three_webpages_alt_text_uri,
         "//img/@src",
         "//a/@href",
-        "//img/@title",
+        alt_text="//img/@title",
     )
     verification = comic.verify_xpath()
     cli.print_verification(verification)
@@ -306,3 +307,21 @@ def test_discovered_comic_makes_cbz_file(mocker):
     result = runner.invoke(cli.search, ["foo", "--start_url=good", "--cbz"], "y")
     assert result.exit_code == 0
     assert mock_convert_to_cbz.call_count == 1
+
+
+def test_download_will_abort_if_crawler_blocked(mocker):
+    mock_comic = mocker.patch("webcomix.comic.Comic")
+    mocker.patch("webcomix.comic.Comic.download", side_effect=CrawlerBlocked)
+
+    with pytest.raises(click.Abort):
+        cli.download_webcomic(mock_comic, False)
+
+
+def test_download_will_make_cbz_if_crawler_blocked_and_cbz_enabled(mocker):
+    mock_comic = mocker.patch("webcomix.comic.Comic")
+    mock_make_cbz = mocker.patch("webcomix.comic.Comic.convert_to_cbz")
+    mocker.patch("webcomix.comic.Comic.download", side_effect=CrawlerBlocked)
+
+    with pytest.raises(click.Abort):
+        cli.download_webcomic(mock_comic, True)
+    assert mock_make_cbz.call_count == 1
