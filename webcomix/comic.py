@@ -44,6 +44,7 @@ class Comic:
         single_page: bool = False,
         javascript: bool = False,
         title: bool = False,
+        debug: bool = False,
     ):
         self.name = name
         self.start_url = start_url
@@ -54,6 +55,7 @@ class Comic:
         self.single_page = single_page
         self.javascript = javascript
         self.title = title
+        self.debug = debug
 
     def download(self) -> None:
         """
@@ -70,7 +72,7 @@ class Comic:
                 "webcomix.scrapy.download.comic_pipeline.ComicPipeline": 1,
                 "scrapy.pipelines.files.FilesPipeline": 500,
             },
-            "LOG_ENABLED": False,
+            "LOG_ENABLED": self.debug,
             "FILES_STORE": self.name,
             "MEDIA_ALLOW_REDIRECTS": True,
         }  # type: Dict
@@ -119,7 +121,7 @@ class Comic:
         go three pages into the comic. It returns a tuple containing the url
         of each page and their respective image urls.
         """
-        settings = {**FAKE_USERAGENT_SETTINGS, "LOG_ENABLED": False}  # type: Dict
+        settings = {**FAKE_USERAGENT_SETTINGS, "LOG_ENABLED": self.debug}  # type: Dict
 
         if self.javascript:
             settings.update(SPLASH_SETTINGS)

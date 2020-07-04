@@ -37,12 +37,15 @@ def comics():
 @click.option(
     "--title", is_flag=True, default=False, help="Add title of comic in image names"
 )
-def download(name, cbz, title):
+@click.option(
+    "--verbose", "-v", is_flag=True, default=False, help="Add debugging output"
+)
+def download(name, cbz, title, verbose):
     """
     Downloads a predefined comic by name
     """
     if name in list(supported_comics.keys()):
-        comic = Comic(name, *supported_comics[name], title=title)
+        comic = Comic(name, *supported_comics[name], title=title, debug=verbose)
         download_webcomic(comic, cbz)
 
 
@@ -93,14 +96,26 @@ def download(name, cbz, title):
 @click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
+@click.option(
+    "--verbose", "-v", is_flag=True, default=False, help="Add debugging output"
+)
 def search(
-    name, start_url, start_page, cbz, single_page, javascript, title, alt_text, yes
+    name,
+    start_url,
+    start_page,
+    cbz,
+    single_page,
+    javascript,
+    title,
+    alt_text,
+    yes,
+    verbose,
 ):
     """
     Downloads a webcomic using a general XPath
     """
     comic, validation = discovery(
-        name, start_url, start_page, alt_text, single_page, javascript, title
+        name, start_url, start_page, alt_text, single_page, javascript, title, verbose
     )
     if comic is not None:
         print_verification(validation)
@@ -171,6 +186,9 @@ def search(
 @click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
+@click.option(
+    "--verbose", "-v", is_flag=True, default=False, help="Add debugging output"
+)
 def custom(
     name,
     start_url,
@@ -183,6 +201,7 @@ def custom(
     title,
     alt_text,
     yes,
+    verbose,
 ):
     """
     Downloads a user-defined webcomic
@@ -197,6 +216,7 @@ def custom(
         single_page,
         javascript,
         title,
+        verbose,
     )
     try:
         validation = comic.verify_xpath()

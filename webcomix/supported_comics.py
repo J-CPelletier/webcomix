@@ -83,36 +83,36 @@ supported_comics = {
     "Nerfnow": (
         "https://www.nerfnow.com/comic/4",
         "//div[@id='comic']//img/@src",
-        "//li[@id='nav_next']//a/@href"
+        "//li[@id='nav_next']//a/@href",
     ),
     "EdisonRex": (
         "https://www.edisonrex.net/comic/issue-1-cover",
         "//div[@id='cc-comicbody']//img/@src",
-        "//a[@class='cc-next']/@href"
+        "//a[@class='cc-next']/@href",
     ),
     "Spinnerette": (
         "https://www.spinnyverse.com/comic/02-09-2010",
         "//div[@id='cc-comicbody']//img/@src",
-        "//a[@class='cc-next']/@href"
+        "//a[@class='cc-next']/@href",
     ),
     "RyanMadeMistakes": (
         "http://mistakes.ryanestrada.com/comic/0001",
         "//img[@id='cc-comic']/@src",
-        "//a[@class='cc-next']/@href"
+        "//a[@class='cc-next']/@href",
     ),
     "MissingMonday": (
         "https://www.missingmondaycomic.com/comic/chapter-01-page-01",
         "//img[@id='cc-comic']/@src",
-        "//a[@class='cc-next']/@href"
+        "//a[@class='cc-next']/@href",
     ),
     "StarTrip": (
         "https://www.startripcomic.com/comic/chapter-1-cover",
         "//img[@id='cc-comic']/@src",
-        "//a[@class='cc-next']/@href"
+        "//a[@class='cc-next']/@href",
     ),
     "StupidFox": (
         "http://stupidfox.net/hello",
         "//img[contains(@src, 'stupidfox.net/art/')]/@src",
-        "//span[@class='spriteNext']/parent::a/@href"
-    )
+        "//span[@class='spriteNext']/parent::a/@href",
+    ),
 }

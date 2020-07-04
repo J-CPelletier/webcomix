@@ -24,6 +24,7 @@ def discovery(
     single_page: bool = False,
     javascript: bool = False,
     title: bool = False,
+    debug: bool = False,
 ) -> Tuple[Optional[Comic], Optional[List[Mapping]]]:
     def to_lower_case(attribute):
         return (
@@ -70,6 +71,7 @@ def discovery(
                 single_page=single_page,
                 javascript=javascript,
                 title=title,
+                debug=debug,
             )
             first_pages = comic.verify_xpath()
             check_first_pages(first_pages)
