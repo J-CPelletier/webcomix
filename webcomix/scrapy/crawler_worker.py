@@ -8,7 +8,7 @@ from scrapy.crawler import CrawlerProcess
 
 class CrawlerWorker(Process):
     def __init__(self, settings, return_items, *crawl_args, **crawl_kwargs):
-        super(CrawlerWorker, self).__init__()
+        super().__init__(daemon=True)
         self.result_queue = Queue()
         self.crawl_args = crawl_args
         self.crawl_kwargs = crawl_kwargs
@@ -33,9 +33,8 @@ class CrawlerWorker(Process):
         self.process.start()
 
     def start(self):
-        process = super(CrawlerWorker, self)
-        process.start()
-        process.join()
+        super().start()
+        super().join()
 
         result = []
         while not self.result_queue.empty():
@@ -43,7 +42,7 @@ class CrawlerWorker(Process):
 
         if self.kill_process:
             raise KeyboardInterrupt
-        if len(result) is 1 and isinstance(result[0], Exception):
+        if len(result) == 1 and isinstance(result[0], Exception):
             raise result[0]
         elif not result:
             return None
