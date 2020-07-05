@@ -22,6 +22,7 @@ class ComicSpider(Spider):
         javascript = kwargs.get("javascript", False)
         self.alt_text = kwargs.get("alt_text", None)
         self.title = kwargs.get("title", False)
+        self.result_queue = kwargs.get("result_queue")
         self.request_factory = RequestFactory(javascript)
         super(ComicSpider, self).__init__(*args, **kwargs)
 
@@ -31,7 +32,9 @@ class ComicSpider(Spider):
     def parse(self, response):
         click.echo("Downloading page {}".format(response.url))
         if response.status == 403:
-            raise CrawlerBlocked()
+            print(self.result_queue)
+            self.result_queue.put(CrawlerBlocked())
+            return
         comic_image_urls = response.xpath(self.comic_image_selector).getall()
         page = response.meta.get("page") or self.start_page
         alt_text = (

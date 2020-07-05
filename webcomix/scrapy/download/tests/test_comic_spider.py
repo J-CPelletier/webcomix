@@ -1,3 +1,5 @@
+from multiprocessing import Queue
+
 import pytest
 
 from webcomix.scrapy.download.comic_spider import ComicSpider
@@ -84,6 +86,7 @@ def test_parse_raise_crawler_blocked_if_forbidden(mocker):
     mock_response.status = 403
     mock_response.url = "http://xkcd.com/2/"
 
-    spider = ComicSpider()
-    with pytest.raises(CrawlerBlocked):
-        list(spider.parse(mock_response))
+    result_queue = Queue()
+    spider = ComicSpider(result_queue=result_queue)
+    list(spider.parse(mock_response))
+    assert isinstance(result_queue.get(), CrawlerBlocked)
