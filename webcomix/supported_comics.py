@@ -72,7 +72,7 @@ supported_comics = {
     ),
     "StandStillStaySilent": (
         "https://www.sssscomic.com/comic.php?page=1",
-        "//img[@class='comicnormal']/@src",
+        "//img[@class='comicnormal' and contains(@src, 'comicpages')]/@src",
         "//a[img[contains(@src, 'next')]]/@href",
     ),
     "SchlockMercenary": (
