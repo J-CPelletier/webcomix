@@ -25,9 +25,9 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.5"
+python = "^3.6"
 click = "^7.1.1"
-scrapy = "^2.0.1"
+scrapy = "^2.4.0"
 tqdm = "^4.43.0"
 scrapy-splash = "^0.7.2"
 scrapy-fake-useragent = "^1.2.0"
