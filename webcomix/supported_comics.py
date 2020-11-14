@@ -115,4 +115,9 @@ supported_comics = {
         "//img[contains(@src, 'stupidfox.net/art/')]/@src",
         "//span[@class='spriteNext']/parent::a/@href",
     ),
+    "GunnerkriggCourt": (
+        "https://www.gunnerkrigg.com/?p=1",
+        "//img[@class='comic_image']/@src",
+        "//a[img[contains(@src, 'next')]]/@href",
+    ),
 }
