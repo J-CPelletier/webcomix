@@ -26,7 +26,7 @@ deploy:
   on:
     repo: J-CPelletier/webcomix
     tags: true
-    python: '3.5'
+    python: '3.6'
 - provider: script
   script: poetry publish --username J-CPelletier --password $PYPI_PASSWORD
   skip_cleanup: true
@@ -34,7 +34,7 @@ deploy:
     repo: J-CPelletier/webcomix
     tags: true
     branch: master
-    python: '3.5'
+    python: '3.6'
 env:
   global:
     secure: nSxIipu8xytPm1jclWe4HxXBNn4M0AgPqbHfv6+bJ/3G5xO4T02FDZOQr7KER/0fPVmskjC4KIO2fbye903LZNmsgTzJkZRDSCfrU7rBYeW7Vus0EMsea9NOzdnwwH2dEQJaQEJ4BX/y8lyJclQ3HylbFGqRRuaC18BA+XJQVu+XPk8s/PMFZx3SOll7CA4Jjn5UNEF/0/4wfBOPJCT7J8KNAtfJ87NTX+JkoeBuVeIbs/ycy03qKaBD2u2iAzfBpF9tsZLVNt9ZFczK6TYp3BB8SA0+CYwKd3qZRJgVnunxMFUQas81ZMDIuW0yiGq2EZPSjBxMfbiJVBMSENwHYla/2b+X014rH9JIkv/NT+gWjigUSm9mAwaxRLXgNfaqkem7P0WQ6e57fHurj72GIeCMzHJAjq8sJcMcjvKIqxQf0A0oYCd4RnRcedXd4tNOOThTQlDEDof1V1dLeyp7140yqr62gr6cCqcpYXxRKKrwKm4QiUCMZK1jKZMNuCGo3fY676xKxUZpCR8/qvkYr72MhFlSHEYu03NKE9/hBu3eBrhvq0roP6/YZXXpIbaW5GoFOHsm03TZRy/5nC8byaE6kWsH2Z0Azyd4TDHUI0B1isE5cQOmHp3QjY+V+VtjA/ThXqtHJGrEvCBFkCtXMHtPUJcIxH1bDL8b1xk19IM=
