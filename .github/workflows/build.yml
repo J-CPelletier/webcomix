@@ -44,7 +44,4 @@ jobs:
         run: |
           PYTHONPATH=src/ poetry run python -m pytest --check-supported-comics --cov=webcomix
           PYTHONPATH=src/ poetry run python -m mypy . --ignore-missing-imports
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          PYTHONPATH=src/ poetry run python -m coveralls
