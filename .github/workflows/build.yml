@@ -27,14 +27,14 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install poetry
+          pip install poetry pytest mypy
           poetry install
       - name: Build
         run: poetry build
       - name: Run tests
         run: |
-          python -m pytest --check-supported-comics --cov=webcomix
-          python -m mypy . --ignore-missing-imports- name: Coveralls
+          pytest --check-supported-comics --cov=webcomix
+          mypy . --ignore-missing-imports- name: Coveralls
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
