@@ -1,3 +1,5 @@
+name: Build and Test
+
 on:
   push:
     branches:
@@ -26,7 +28,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install poetry
-          poetry install
+          poetry install --dev
       - name: Build
         run: poetry build
       - name: Run tests
