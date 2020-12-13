@@ -54,6 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - uses: actions/checkout@v2
       - name: Install Poetry
         uses: snok/install-poetry@v1.1.1
       - name: Cache Poetry virtualenv
