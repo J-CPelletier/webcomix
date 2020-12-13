@@ -94,6 +94,9 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: webcomix ${{ github.ref }}
+          body: |
+              ## Changelog
+              * Insert change here
           draft: true
           prerelease: false
       - name: Upload wheel
