@@ -52,6 +52,9 @@ jobs:
         run: PYTHONPATH=src/ poetry run python -m coveralls
   deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6]
     needs: build
     steps:
       - uses: actions/checkout@v2
