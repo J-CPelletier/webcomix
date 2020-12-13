@@ -31,9 +31,9 @@ supported_comics = {
         "//a[@class='cc-next']/@href",
     ),
     "TheAbominableCharlesChristopher": (
-        "https://abominable.cc/post/44164796353/episode-one",
-        "//div[@class='photo']//img/@src",
-        "//span[@class='next_post']//@href",
+        "https://karlkerschl.com/comic/episode-one/",
+        "//div[@id='comic']//img/@src",
+        "//a[contains(@class, 'comic-nav-next')]/@href",
     ),
     "GuildedAge": (
         "https://guildedage.net/comic/chapter-1-cover/",
