@@ -55,9 +55,12 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v2
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
       - name: Install Poetry
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         uses: snok/install-poetry@v1.1.1
       - name: Cache Poetry virtualenv
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         uses: actions/cache@v1
         id: cache
         with:
@@ -66,10 +69,12 @@ jobs:
           restore-keys: |
             poetry-$
       - name: Install dependencies
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         run: |
           pip install --upgrade pip
           poetry install
       - name: Build
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         run: poetry build
       - name: Publish package on PyPI
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
