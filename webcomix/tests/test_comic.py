@@ -124,8 +124,8 @@ def test_download_saves_the_files_with_correct_first_item(
 ):
     comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href", start_page=10)
     comic.download()
-    path, dirs, files = next(os.walk("test"))
-    assert files == ["10", "11"]
+    files = next(os.walk("test"))[2]
+    assert sorted(files) == ["10", "11"]
 
 
 def test_download_with_alt_text_saves_the_text(
