@@ -120,4 +120,9 @@ supported_comics = {
         "//img[@class='comic_image']/@src",
         "//a[img[contains(@src, 'next')]]/@href",
     ),
+    "Housepets": (
+        "https://www.housepetscomic.com/comic/2008/06/02/when-boredom-strikes/",
+        "//div[@id='comic']//img/@src",
+        "//div[@id='comic']//@href",
+    ),
 }
