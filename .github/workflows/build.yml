@@ -95,20 +95,16 @@ jobs:
           draft: true
           prerelease: false
       - name: Upload wheel
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: svenstaro/upload-release-action@v2
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/webcomix-${{ github.ref }}-py3-none-any.whl
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./dist/webcomix-${{ github.ref }}-py3-none-any.whl
           asset_name: webcomix-${{ github.ref }}-py3-none-any.whl
-          asset_content_type: application/x-wheel+zip
+          tag: ${{ github.ref }}
       - name: Upload tarball
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: svenstaro/upload-release-action@v2
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/webcomix-${{ github.ref }}.tar.gz
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./dist/webcomix-${{ github.ref }}.tar.gz
           asset_name: webcomix-${{ github.ref }}.tar.gz
-          asset_content_type: application/gzip
+          tag: ${{ github.ref }}
