@@ -28,6 +28,11 @@ FAKE_USERAGENT_SETTINGS = {
         "scrapy_fake_useragent.middleware.RandomUserAgentMiddleware": 400,
         "scrapy_fake_useragent.middleware.RetryUserAgentMiddleware": 401,
     },
+    "FAKEUSERAGENT_PROVIDERS": [
+        "scrapy_fake_useragent.providers.FakeUserAgentProvider",
+        "scrapy_fake_useragent.providers.FakerProvider",
+        "scrapy_fake_useragent.providers.FixedUserAgentProvider",
+    ],
     "FAKEUSERAGENT_FALLBACK": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
 }
 
@@ -75,6 +80,7 @@ class Comic:
             "LOG_ENABLED": self.debug,
             "FILES_STORE": self.name,
             "MEDIA_ALLOW_REDIRECTS": True,
+            "RETRY_HTTP_CODES": [500, 502, 503, 504, 522, 524, 403, 408, 429],
         }  # type: Dict
 
         if self.javascript:

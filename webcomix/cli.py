@@ -257,13 +257,6 @@ def print_verification(validation):
 
 
 def download_webcomic(comic, cbz):
-    try:
-        comic.download()
-    except CrawlerBlocked:
-        click.echo(
-            "Your download has been blocked by the hosting website. Please try again later."
-        )
-        raise click.Abort()
-    finally:
-        if cbz:
-            comic.convert_to_cbz()
+    comic.download()
+    if cbz:
+        comic.convert_to_cbz()
