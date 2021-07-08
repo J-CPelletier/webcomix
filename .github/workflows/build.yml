@@ -74,6 +74,8 @@ jobs:
         run: |
           pip install --upgrade pip
           poetry install
+      - name: Set RELEASE_VERSION
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Build
         run: poetry build
       - name: Publish package on PyPI
@@ -98,13 +100,13 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./dist/webcomix-${{ github.ref }}-py3-none-any.whl
-          asset_name: webcomix-${{ github.ref }}-py3-none-any.whl
+          file: ./dist/webcomix-${{ env.RELEASE_VERSION }}-py3-none-any.whl
+          asset_name: webcomix-${{ env.RELEASE_VERSION }}-py3-none-any.whl
           tag: ${{ github.ref }}
       - name: Upload tarball
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./dist/webcomix-${{ github.ref }}.tar.gz
-          asset_name: webcomix-${{ github.ref }}.tar.gz
+          file: ./dist/webcomix-${{ env.RELEASE_VERSION }}.tar.gz
+          asset_name: webcomix-${{ env.RELEASE_VERSION }}.tar.gz
           tag: ${{ github.ref }}
