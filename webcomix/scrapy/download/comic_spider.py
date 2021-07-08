@@ -31,10 +31,6 @@ class ComicSpider(Spider):
 
     def parse(self, response):
         click.echo("Downloading page {}".format(response.url))
-        if response.status == 403:
-            print(self.result_queue)
-            self.result_queue.put(CrawlerBlocked())
-            return
         comic_image_urls = response.xpath(self.comic_image_selector).getall()
         page = response.meta.get("page") or self.start_page
         alt_text = (

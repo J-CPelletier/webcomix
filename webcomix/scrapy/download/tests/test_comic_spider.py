@@ -79,14 +79,3 @@ def test_parse_yields_no_pages(mocker):
     results = list(result)
     assert len(results) == 1
     assert results[0].url == "http://xkcd.com/3/"
-
-
-def test_parse_raise_crawler_blocked_if_forbidden(mocker):
-    mock_response = mocker.patch("scrapy.http.Response")
-    mock_response.status = 403
-    mock_response.url = "http://xkcd.com/2/"
-
-    result_queue = Queue()
-    spider = ComicSpider(result_queue=result_queue)
-    list(spider.parse(mock_response))
-    assert isinstance(result_queue.get(), CrawlerBlocked)

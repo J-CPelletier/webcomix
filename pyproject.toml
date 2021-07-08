@@ -30,7 +30,7 @@ click = "^7.1.1"
 scrapy = "^2.4.0"
 tqdm = "^4.43.0"
 scrapy-splash = "^0.7.2"
-scrapy-fake-useragent = "^1.2.0"
+scrapy-fake-useragent = "^1.4.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.1"
