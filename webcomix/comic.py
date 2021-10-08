@@ -1,5 +1,5 @@
 import os
-from typing import List, Mapping, Dict
+from typing import List, Mapping, Dict, Any
 from urllib.parse import urlparse
 from zipfile import ZipFile, BadZipFile
 
@@ -8,6 +8,7 @@ import click
 from webcomix.scrapy.download.comic_spider import ComicSpider
 from webcomix.scrapy.verification.verification_spider import VerificationSpider
 from webcomix.scrapy.crawler_worker import CrawlerWorker
+from webcomix.scrapy.verification.web_page import WebPage
 
 SPLASH_SETTINGS = {
     "SPLASH_URL": "http://0.0.0.0:8050",
@@ -121,13 +122,13 @@ class Comic:
                     "Error while testing the archive; it might be corrupted."
                 )
 
-    def verify_xpath(self) -> List[Mapping]:
+    def verify_xpath(self) -> List[Mapping[str, WebPage]]:
         """
         Takes a url and the XPath expressions for the next_page and image to
         go three pages into the comic. It returns a tuple containing the url
         of each page and their respective image urls.
         """
-        settings = {**FAKE_USERAGENT_SETTINGS, "LOG_ENABLED": self.debug}  # type: Dict
+        settings = {**FAKE_USERAGENT_SETTINGS, "LOG_ENABLED": self.debug}  # type: Dict[str, Any]
 
         if self.javascript:
             settings.update(SPLASH_SETTINGS)
