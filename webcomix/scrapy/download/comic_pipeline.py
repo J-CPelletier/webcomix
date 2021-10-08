@@ -46,7 +46,7 @@ class ComicPipeline(FilesPipeline):
 
         return item
 
-    def file_path(self, request, response=None, info=None):
+    def file_path(self, request, response=None, info=None, *, item=None):
         return request.meta.get("image_file_name")
 
     @staticmethod
