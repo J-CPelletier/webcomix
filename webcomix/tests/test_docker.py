@@ -7,7 +7,7 @@ from webcomix.docker import DockerManager, CONTAINER_NAME
 def cleanup_container():
     yield None
     client = docker.from_env()
-    for container in client.containers().list():
+    for container in client.containers.list():
         if container.attrs["Config"]["Image"] == CONTAINER_NAME:
             container.kill()
 
