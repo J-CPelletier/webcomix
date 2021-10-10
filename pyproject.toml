@@ -28,10 +28,10 @@ packages = [
 python = "^3.6.1"
 click = "^7.1.1"
 tqdm = "^4.43.0"
+Scrapy = "^2.5.1"
 scrapy-splash = "^0.8.0"
 scrapy-fake-useragent = "^1.4.4"
 docker = "^5.0.3"
-Scrapy = "^2.5.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
