@@ -4,7 +4,7 @@ import pytest
 from webcomix.docker import DockerManager, CONTAINER_NAME
 
 @pytest.fixture
-def cleanup_container(test):
+def cleanup_container():
     yield None
     client = docker.from_env()
     for container in client.containers().list():
