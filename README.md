@@ -20,6 +20,7 @@ This program is for personal use only. Please be aware that by making the downlo
 * scrapy-splash
 * scrapy-fake-useragent
 * tqdm
+* [Docker](https://www.docker.com/) (To be able to download JavaScript-dependent websites with `-j` option)
 
 ### Process
 
@@ -62,7 +63,7 @@ Downloads a predefined comic. Supports the `--cbz` flag, which creates a .cbz ar
 
 #### search
 
-Searches for an XPath that can download the whole comic. Supports the `--cbz` flag, which creates a .cbz archive of the downloaded comic,`-s`, which verifies only the provided page of the comic, and `-y`, which skips the verification prompt.
+Searches for an XPath that can download the whole comic. Supports the `--cbz` flag, which creates a .cbz archive of the downloaded comic,`-s`, which verifies only the provided page of the comic, `-y`, which skips the verification prompt, and `-j`, which runs the javascript on pages before downloading.
 
 #### custom
 
@@ -90,14 +91,6 @@ To make sure your XPath is correct, you have to go into `scrapy shell`, which sh
 scrapy shell <website> --> Use the website's url to go to it.
 > response.body --> Will give you the html from the website.
 > response.xpath --> Test an xpath selection. If you get [], this means your XPath expression hasn't gotten anything from the webpage.
-```
-
-### Downloading comics on Javascript-heavy websites
-
-If the webcomic's website uses javascript to render its images, you won't be able to download it using the default configuration. webcomix now has an optional flag `-j` on both the `custom` and `search` command to execute the javascript using [scrapy-splash](https://github.com/scrapy-plugins/scrapy-splash). In order to use it, you'll need to have [Docker](https://www.docker.com/) installed and run the following command before trying to download the comic:
-
-```
-docker run -p 8050:8050 scrapinghub/splash
 ```
 
 ## Contribution
