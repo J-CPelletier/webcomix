@@ -128,7 +128,10 @@ class Comic:
         go three pages into the comic. It returns a tuple containing the url
         of each page and their respective image urls.
         """
-        settings = {**FAKE_USERAGENT_SETTINGS, "LOG_ENABLED": self.debug}  # type: Dict[str, Any]
+        settings = {
+            **FAKE_USERAGENT_SETTINGS,
+            "LOG_ENABLED": self.debug,
+        }  # type: Dict[str, Any]
 
         if self.javascript:
             settings.update(SPLASH_SETTINGS)

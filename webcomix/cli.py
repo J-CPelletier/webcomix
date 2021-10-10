@@ -117,7 +117,14 @@ def search(
     """
     with DockerManager(javascript):
         comic, validation = discovery(
-            name, start_url, start_page, alt_text, single_page, javascript, title, verbose
+            name,
+            start_url,
+            start_page,
+            alt_text,
+            single_page,
+            javascript,
+            title,
+            verbose,
         )
         if comic is not None:
             print_verification(validation)
@@ -229,7 +236,9 @@ def custom(
                     exception.failed_url, exception.next_page_xpath
                 )
             )
-            click.echo("Have you tried testing your XPath expression with 'scrapy shell'?")
+            click.echo(
+                "Have you tried testing your XPath expression with 'scrapy shell'?"
+            )
             raise click.Abort()
         try:
             print_verification(validation)
