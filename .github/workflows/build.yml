@@ -44,12 +44,12 @@ jobs:
         run: poetry build
       - name: Run tests
         run: |
-          PYTHONPATH=src/ poetry run python -m pytest --check-supported-comics --cov=webcomix
-          PYTHONPATH=src/ poetry run python -m mypy . --ignore-missing-imports
+          poetry run pytest --check-supported-comics --cov=webcomix
+          poetry run mypy . --ignore-missing-imports
       - name: Coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        run: PYTHONPATH=src/ poetry run python -m coveralls
+        run: poetry run coveralls
   deploy:
     runs-on: ubuntu-latest
     strategy:

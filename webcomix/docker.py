@@ -3,6 +3,7 @@ from time import sleep
 
 CONTAINER_NAME = "scrapinghub/splash"
 
+
 class DockerManager:
     def __init__(self, javascript):
         self.javascript = javascript
@@ -13,7 +14,9 @@ class DockerManager:
             running = self._container_running()
             if running:
                 return None
-            self.client.containers.run(CONTAINER_NAME, detach=True, ports={"8050/tcp": 8050})
+            self.client.containers.run(
+                CONTAINER_NAME, detach=True, ports={"8050/tcp": 8050}
+            )
             print("Container started")
             sleep(0.5)
             print("Container ready")
