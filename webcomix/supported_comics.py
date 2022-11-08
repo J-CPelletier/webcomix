@@ -111,16 +111,10 @@ supported_comics = {
         "//a[@class='cc-next']/@href",
     ),
     "StupidFox": (
-        "https://web.archive.org/web/20220520204126/http://stupidfox.net/hello",
-        "//img[contains(@src, 'stupidfox.net/art/')]/@src",
-        "//span[@class='spriteNext']/parent::a/@href",
+        "https://www.deviantart.com/eychanchan/art/StupidFox-1-95711881",
+        "//div[@data-hook='art_stage']//img[contains(@alt, 'StupidFox')]/@src",
+        "//a[contains(preceding-sibling::text()[1], 'Next')]/@href | //span[contains(preceding-sibling::text()[1], 'Next')]//a/@href",
     ),
-    # TODO: Use this instead
-    #  "StupidFox": (
-    #      "https://www.deviantart.com/eychanchan/art/StupidFox-1-95711881",
-    #      "//img[contains(@alt, 'StupidFox')]/@src",
-    #      "//*[contains(text(), 'Next']/following-sibling::a/@href",
-    #  ),
     "GunnerkriggCourt": (
         "https://www.gunnerkrigg.com/?p=1",
         "//img[@class='comic_image']/@src",
