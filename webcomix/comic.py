@@ -48,6 +48,7 @@ class Comic:
         start_page: int = 1,
         alt_text: str = None,
         single_page: bool = False,
+        delay: int = 0,
         javascript: bool = False,
         title: bool = False,
         debug: bool = False,
@@ -59,6 +60,7 @@ class Comic:
         self.comic_image_selector = comic_image_selector
         self.alt_text = alt_text
         self.single_page = single_page
+        self.delay = delay
         self.javascript = javascript
         self.title = title
         self.debug = debug
@@ -82,6 +84,7 @@ class Comic:
             "FILES_STORE": self.name,
             "MEDIA_ALLOW_REDIRECTS": True,
             "RETRY_HTTP_CODES": [500, 502, 503, 504, 522, 524, 403, 408, 429],
+            "DOWNLOAD_DELAY": self.delay,
         }  # type: Dict
 
         if self.javascript:

@@ -238,10 +238,7 @@ def test_download_will_run_splash_settings_if_javascript(mocker):
         mocker.ANY,
         mocker.ANY,
         mocker.ANY,
-        mocker.ANY,
-        mocker.ANY,
-        mocker.ANY,
-        True,
+        javascript=True,
     )
     comic.download()
     settings = mock_crawler_worker.call_args_list[0][0][0]
@@ -265,10 +262,7 @@ def test_verify_xpath_will_run_splash_settings_if_javascript(mocker):
         mocker.ANY,
         mocker.ANY,
         mocker.ANY,
-        mocker.ANY,
-        mocker.ANY,
-        mocker.ANY,
-        True,
+        javascript=True,
     )
     comic.verify_xpath()
     settings = mock_crawler_worker.call_args_list[0][0][0]
