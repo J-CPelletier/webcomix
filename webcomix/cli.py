@@ -21,7 +21,7 @@ def comics():
     Shows all predefined comics
     """
     comics_content = [
-        "{}: {}".format(key, value[0])
+        "{}: {}".format(key, value["start_url"])
         for key, value in sorted(supported_comics.items())
     ]
 
@@ -29,9 +29,7 @@ def comics():
 
 
 @cli.command()
-@click.argument(
-    "name", type=click.Choice([k for k, v in sorted(supported_comics.items())])
-)
+@click.argument("name", type=click.Choice(supported_comics.keys()))
 @click.option(
     "--cbz", is_flag=True, default=False, help="Outputs the comic as a cbz file"
 )
@@ -46,7 +44,7 @@ def download(name, cbz, title, verbose):
     Downloads a predefined comic by name
     """
     if name in list(supported_comics.keys()):
-        comic = Comic(name, *supported_comics[name], title=title, debug=verbose)
+        comic = Comic(**supported_comics[name], title=title, debug=verbose)
         download_webcomic(comic, cbz)
 
 

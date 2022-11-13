@@ -7,7 +7,7 @@ from webcomix.scrapy.download.comic_pipeline import ComicPipeline
 from webcomix.scrapy.download.comic_page import ComicPage
 from webcomix.supported_comics import supported_comics
 
-first_comic = list(sorted(supported_comics.values()))[0]
+first_comic = list(supported_comics.values())[0]
 
 expected_url_image = "http://imgs.xkcd.com/comics/barrel_cropped_(1).jpg"
 expected_image_location = "test/1.jpg"
