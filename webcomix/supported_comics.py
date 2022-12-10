@@ -132,13 +132,6 @@ supported_comics = {
         "comic_image_selector": "//img[@id='cc-comic']/@src",
         "next_page_selector": "//a[@class='cc-next']/@href",
     },
-    "StupidFox": {
-        "name": "StupidFox",
-        "start_url": "https://www.deviantart.com/eychanchan/art/StupidFox-1-95711881",
-        "comic_image_selector": "//div[@data-hook='art_stage']//img[contains(@alt, 'StupidFox')]/@src",
-        "next_page_selector": "//a[contains(preceding-sibling::text()[1], 'Next')]/@href | //span[contains(preceding-sibling::text()[1], 'Next')]//a/@href",
-        "delay": 1,
-    },
     "GunnerkriggCourt": {
         "name": "GunnerkriggCourt",
         "start_url": "https://www.gunnerkrigg.com/?p=1",
