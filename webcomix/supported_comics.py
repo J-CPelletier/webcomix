@@ -144,4 +144,10 @@ supported_comics = {
         "comic_image_selector": "//div[@id='comic']//img/@src",
         "next_page_selector": "//div[@id='comic']//@href",
     },
+    "Aurora": {
+        "name": "Aurora",
+        "start_url": "https://comicaurora.com/aurora/0-1-1/",
+        "comic_image_selector": "//div[contains(@class, 'webcomic-media')]//img/@src",
+        "next_page_selector": "//a[contains(@class, 'next-webcomic-link')]/@href",
+    },
 }

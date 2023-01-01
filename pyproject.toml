@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "webcomix"
-version = "3.6.3"
+version = "3.6.4"
 description = "Webcomic downloader"
 authors = ["Jean-Christophe Pelletier <pelletierj97@gmail.com>"]
 readme = "README.md"
