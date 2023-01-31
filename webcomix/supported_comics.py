@@ -69,7 +69,7 @@ supported_comics = {
     "Lackadaisy": {
         "name": "Lackadaisy",
         "start_url": "https://www.lackadaisycats.com/comic.php?comicid=1",
-        "comic_image_selector": "//div[@id='content']/img/@src",
+        "comic_image_selector": "//div[@id='exhibit']/img/@src",
         "next_page_selector": "//div[@class='next']/a/@href",
     },
     "WildeLife": {
