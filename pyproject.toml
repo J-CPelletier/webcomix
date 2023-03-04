@@ -45,5 +45,5 @@ pre-commit = "^2.15.0"
 webcomix = "webcomix.cli:cli"
 
 [build-system]
-requires = ["poetry>=1.1.0"]
+requires = ["poetry>=1.2.0"]
 build-backend = "poetry.masonry.api"
