@@ -15,8 +15,8 @@ supported_comics = {
     "Nedroid": {
         "name": "Nedroid",
         "start_url": "http://nedroid.com/2005/09/2210-whee/",
-        "comic_image_selector": "//div[@id='comic']/img/@src",
-        "next_page_selector": "//div[@class='nav-next']/a/@href",
+        "comic_image_selector": "//div[@id='comic']//img/@src",
+        "next_page_selector": "//a[contains(@class, 'comic-nav-next')]/@href",
     },
     "JL8": {
         "name": "JL8",
