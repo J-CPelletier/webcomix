@@ -25,13 +25,14 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6.1"
+python = "^3.7"
 click = "^7.1.1"
 tqdm = "^4.43.0"
 Scrapy = "^2.5.1"
-scrapy-splash = "^0.8.0"
+scrapy-splash = "^0.9.0"
 scrapy-fake-useragent = "^1.4.4"
 docker = "^5.0.3"
+pytest-rerunfailures = "^11.1.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
