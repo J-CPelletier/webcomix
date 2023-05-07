@@ -1229,14 +1229,14 @@ faker = "*"
 
 [[package]]
 name = "scrapy-splash"
-version = "0.8.0"
+version = "0.9.0"
 description = "JavaScript support for Scrapy using Splash"
 category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "scrapy-splash-0.8.0.tar.gz", hash = "sha256:a7c17735415151ae01f07b03c7624e7276a343779b3c5f4546f655f6133df42f"},
-    {file = "scrapy_splash-0.8.0-py2.py3-none-any.whl", hash = "sha256:f35986fbe916d4b7878f4d303ca6a9d4f013157ab2bae13d85f14da78d211193"},
+    {file = "scrapy-splash-0.9.0.tar.gz", hash = "sha256:ecf130264dc08e0c461c8607ecad777468a64ad01dedb2629c0f81bd5fcd7295"},
+    {file = "scrapy_splash-0.9.0-py2.py3-none-any.whl", hash = "sha256:1dc8f8a1c4c4e4341b73987d28c17f82f6a5afeaf585f23449c695e5dcfd8b39"},
 ]
 
 [[package]]
@@ -1605,4 +1605,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "a0717ec1350316312e92975c70f15b710bb017329163879798c7e406239ba8fd"
+content-hash = "424a5b3c814105c6f0329500aca28becb1b21836fc5777a4fec86f649417e39c"
