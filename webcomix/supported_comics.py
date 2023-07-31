@@ -14,7 +14,7 @@ supported_comics = {
     },
     "Nedroid": {
         "name": "Nedroid",
-        "start_url": "http://nedroid.com/2005/09/2210-whee/",
+        "start_url": "https://nedroid.com/?1",
         "comic_image_selector": "//div[@id='comic']//img/@src",
         "next_page_selector": "//a[contains(@class, 'comic-nav-next')]/@href",
     },
