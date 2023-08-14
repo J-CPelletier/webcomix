@@ -36,6 +36,9 @@ class DockerManager:
     def _get_container(self):
         containers = self.client.containers.list()
         for container in containers:
-            if container.attrs["Config"]["Image"] == CONTAINER_NAME:
+            if (
+                container.attrs["Config"]["Image"] == CONTAINER_NAME
+                and container.status == "running"
+            ):
                 return container
         return None
