@@ -20,7 +20,7 @@ def discovery(
     name: str,
     url: str,
     start_page: int = 1,
-    alt_text: str = None,
+    alt_text: Optional[str] = None,
     single_page: bool = False,
     javascript: bool = False,
     title: bool = False,

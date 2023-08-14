@@ -1,5 +1,5 @@
 import os
-from typing import List, Mapping, Dict, Any
+from typing import Optional, List, Mapping, Dict, Any
 from urllib.parse import urlparse
 from zipfile import ZipFile, BadZipFile
 
@@ -46,7 +46,7 @@ class Comic:
         comic_image_selector: str,
         next_page_selector: str,
         start_page: int = 1,
-        alt_text: str = None,
+        alt_text: Optional[str] = None,
         single_page: bool = False,
         delay: int = 0,
         javascript: bool = False,
