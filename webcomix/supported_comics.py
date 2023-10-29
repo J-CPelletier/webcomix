@@ -44,9 +44,9 @@ supported_comics = {
     },
     "GuildedAge": {
         "name": "GuildedAge",
-        "start_url": "https://guildedage.net/comic/chapter-1-cover/",
+        "start_url": "http://guildedage.net/comic/chapter-1-cover/",
         "comic_image_selector": "//div[@id='comic']//img/@src",
-        "next_page_selector": "//a[@class='navi comic-nav-next navi-next']/@href",
+        "next_page_selector": "//a[contains(@class, 'comic-nav-next')]/@href",
     },
     "TalesOfElysium": {
         "name": "TalesOfElysium",
