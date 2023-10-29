@@ -2,7 +2,7 @@ from urllib.parse import urljoin
 
 from scrapy import Spider
 
-from webcomix.exceptions import CrawlerBlocked, NextLinkNotFound
+from webcomix.exceptions import NextLinkNotFound
 from webcomix.scrapy.request_factory import RequestFactory
 from webcomix.scrapy.util import is_not_end_of_comic
 from webcomix.scrapy.verification.web_page import WebPage
