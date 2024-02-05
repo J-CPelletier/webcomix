@@ -87,28 +87,15 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
       - name: Publish package on GitHub Releases
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # TODO: Update to v2 once node 20 update is live
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: webcomix ${{ github.ref }}
+          name: webcomix ${{ github.ref }}
           body: |
               ## Changelog
               * Insert change here
           draft: true
           prerelease: false
-      - name: Upload wheel
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./dist/webcomix-${{ env.RELEASE_VERSION }}-py3-none-any.whl
-          asset_name: webcomix-${{ env.RELEASE_VERSION }}-py3-none-any.whl
-          tag: ${{ github.ref }}
-      - name: Upload tarball
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./dist/webcomix-${{ env.RELEASE_VERSION }}.tar.gz
-          asset_name: webcomix-${{ env.RELEASE_VERSION }}.tar.gz
-          tag: ${{ github.ref }}
+          files: |
+            ./dist/webcomix-${{ github.ref }}-py3-none-any.whl
+            ./dist/webcomix-${{ github.ref }}.tar.gz
