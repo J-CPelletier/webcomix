@@ -162,6 +162,13 @@ def search(
     help="XPath expression giving the url to the next page",
 )
 @click.option(
+    "--block-xpath",
+    "--block_xpath",
+    "-x",
+    type=click.STRING,
+    multiple=True,
+)
+@click.option(
     "--cbz", default=False, is_flag=True, help="Outputs the comic as a cbz file"
 )
 @click.option(
@@ -202,6 +209,7 @@ def custom(
     start_page,
     next_page_xpath,
     image_xpath,
+    block_xpath,
     cbz,
     single_page,
     javascript,
