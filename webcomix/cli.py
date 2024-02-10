@@ -227,6 +227,7 @@ def custom(
             start_url,
             image_xpath,
             next_page_xpath,
+            block_xpath,
             start_page,
             alt_text,
             single_page,

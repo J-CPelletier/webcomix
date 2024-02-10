@@ -4,7 +4,7 @@ from scrapy import Spider
 
 from webcomix.exceptions import NextLinkNotFound
 from webcomix.scrapy.request_factory import RequestFactory
-from webcomix.scrapy.util import is_not_end_of_comic
+from webcomix.scrapy.util import is_not_end_of_comic, get_comic_images
 from webcomix.scrapy.verification.web_page import WebPage
 
 
@@ -15,6 +15,7 @@ class VerificationSpider(Spider):
         self.start_url = kwargs.get("start_url")
         self.next_page_selector = kwargs.get("next_page_selector", None)
         self.comic_image_selector = kwargs.get("comic_image_selector", None)
+        self.block_selectors = kwargs.get("block_selectors", [])
         self.number_of_pages_to_check = kwargs.get("number_of_pages_to_check", 3)
         javascript = kwargs.get("javascript", False)
         self.alt_text_selector = kwargs.get("alt_text")
@@ -26,7 +27,7 @@ class VerificationSpider(Spider):
         yield self.request_factory.create(url=self.start_url, next_page=1)
 
     def parse(self, response):
-        comic_image_urls = response.xpath(self.comic_image_selector).getall()
+        comic_image_urls = get_comic_images(response, self.comic_image_selector, self.block_selectors)
         page = response.meta.get("page") or 1
         image_urls = [
             urljoin(response.url, image_element_url.strip())

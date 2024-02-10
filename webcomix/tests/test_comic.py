@@ -143,6 +143,23 @@ def test_download_with_alt_text_saves_the_text(
     assert len(files) == 4
 
 
+def test_download_xpath_blocks_images(cleanup_test_directories, three_webpages_uri):
+    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href", ["//img/@src"])
+    comic.download()
+    path, dirs, files = next(os.walk("test"))
+    assert len(files) == 0
+
+
+def test_download_xpath_blocks_keep_filecount(cleanup_test_directories, three_webpages_uri):
+    comic = Comic(
+        "test", three_webpages_uri, "//img/@src", "//a/@href", ["//img[@src='1.jpeg']"]
+    )
+    comic.download()
+    path, dirs, files = next(os.walk("test"))
+    assert len(files) == 1
+    assert sorted(files) == ["1"]
+
+
 def test_download_does_not_add_crawlers_in_main_process(
     mocker, cleanup_test_directories, three_webpages_uri
 ):
@@ -228,6 +245,33 @@ def test_verify_xpath_only_verifies_one_page_with_single_page(one_webpage_uri):
     actual = comic.verify_xpath()
     assert len(actual) == 1
     assert len(actual[0]["image_urls"]) == 2
+
+
+def test_verify_xpath_blocks_images(three_webpages_uri):
+    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href", ["//img/@src"])
+
+    three_webpages_folder = three_webpages_uri.strip("1.html")
+
+    assert comic.verify_xpath() == [
+        {
+            "page": 1,
+            "url": three_webpages_uri,
+            "image_urls": [],
+            "alt_text": None,
+        },
+        {
+            "page": 2,
+            "url": three_webpages_folder + "2.html",
+            "image_urls": [],
+            "alt_text": None,
+        },
+        {
+            "page": 3,
+            "url": three_webpages_folder + "3.html",
+            "image_urls": [],
+            "alt_text": None,
+        },
+    ]
 
 
 def test_download_will_run_splash_settings_if_javascript(mocker):

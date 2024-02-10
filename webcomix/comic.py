@@ -45,6 +45,7 @@ class Comic:
         start_url: str,
         comic_image_selector: str,
         next_page_selector: str,
+        block_selectors: List[str] = [],
         start_page: int = 1,
         alt_text: Optional[str] = None,
         single_page: bool = False,
@@ -58,6 +59,7 @@ class Comic:
         self.start_page = start_page
         self.next_page_selector = next_page_selector
         self.comic_image_selector = comic_image_selector
+        self.block_selectors = block_selectors
         self.alt_text = alt_text
         self.single_page = single_page
         self.delay = delay
@@ -98,6 +100,7 @@ class Comic:
             start_page=self.start_page,
             comic_image_selector=self.comic_image_selector,
             next_page_selector=self.next_page_selector,
+            block_selectors=self.block_selectors,
             directory=self.name,
             javascript=self.javascript,
             title=self.title,
@@ -146,6 +149,7 @@ class Comic:
             start_url=self.start_url,
             comic_image_selector=self.comic_image_selector,
             next_page_selector=self.next_page_selector,
+            block_selectors=self.block_selectors,
             number_of_pages_to_check=1 if self.single_page else 3,
             javascript=self.javascript,
             alt_text=self.alt_text,

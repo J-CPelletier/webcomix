@@ -4,9 +4,8 @@ import click
 from scrapy import Spider
 
 from webcomix.scrapy.download.comic_page import ComicPage
-from webcomix.exceptions import CrawlerBlocked
 from webcomix.scrapy.request_factory import RequestFactory
-from webcomix.scrapy.util import is_not_end_of_comic
+from webcomix.scrapy.util import is_not_end_of_comic, get_comic_images
 
 
 class ComicSpider(Spider):
@@ -17,6 +16,7 @@ class ComicSpider(Spider):
         self.start_url = kwargs.get("start_url")
         self.next_page_selector = kwargs.get("next_page_selector", None)
         self.comic_image_selector = kwargs.get("comic_image_selector", None)
+        self.block_selectors = kwargs.get("block_selectors", [])
         self.start_page = kwargs.get("start_page", 1)
         self.directory = kwargs.get("directory", None)
         javascript = kwargs.get("javascript", False)
@@ -31,7 +31,9 @@ class ComicSpider(Spider):
 
     def parse(self, response):
         click.echo("Downloading page {}".format(response.url))
-        comic_image_urls = response.xpath(self.comic_image_selector).getall()
+        comic_image_urls = get_comic_images(
+            response, self.comic_image_selector, self.block_selectors
+        )
         page = response.meta.get("page") or self.start_page
         alt_text = (
             response.xpath(self.alt_text).get() if self.alt_text is not None else None
