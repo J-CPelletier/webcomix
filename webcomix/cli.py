@@ -29,7 +29,7 @@ def comics():
 
 
 @cli.command()
-@click.argument("name", type=click.Choice(supported_comics.keys()))
+@click.argument("name", type=click.Choice(list(supported_comics.keys())))
 @click.option(
     "--cbz", is_flag=True, default=False, help="Outputs the comic as a cbz file"
 )
@@ -162,6 +162,13 @@ def search(
     help="XPath expression giving the url to the next page",
 )
 @click.option(
+    "--block-xpath",
+    "--block_xpath",
+    "-x",
+    type=click.STRING,
+    multiple=True,
+)
+@click.option(
     "--cbz", default=False, is_flag=True, help="Outputs the comic as a cbz file"
 )
 @click.option(
@@ -202,6 +209,7 @@ def custom(
     start_page,
     next_page_xpath,
     image_xpath,
+    block_xpath,
     cbz,
     single_page,
     javascript,
@@ -219,6 +227,7 @@ def custom(
             start_url,
             image_xpath,
             next_page_xpath,
+            block_xpath,
             start_page,
             alt_text,
             single_page,
