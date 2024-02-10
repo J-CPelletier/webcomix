@@ -27,7 +27,9 @@ class VerificationSpider(Spider):
         yield self.request_factory.create(url=self.start_url, next_page=1)
 
     def parse(self, response):
-        comic_image_urls = get_comic_images(response, self.comic_image_selector, self.block_selectors)
+        comic_image_urls = get_comic_images(
+            response, self.comic_image_selector, self.block_selectors
+        )
         page = response.meta.get("page") or 1
         image_urls = [
             urljoin(response.url, image_element_url.strip())

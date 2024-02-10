@@ -29,7 +29,7 @@ def comics():
 
 
 @cli.command()
-@click.argument("name", type=click.Choice(supported_comics.keys()))
+@click.argument("name", type=click.Choice(list(supported_comics.keys())))
 @click.option(
     "--cbz", is_flag=True, default=False, help="Outputs the comic as a cbz file"
 )
