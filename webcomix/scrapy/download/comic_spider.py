@@ -14,6 +14,7 @@ class ComicSpider(Spider):
 
     def __init__(self, *args, **kwargs):
         self.start_url = kwargs.get("start_url")
+        self.end_url = kwargs.get("end_url", None)
         self.next_page_selector = kwargs.get("next_page_selector", None)
         self.comic_image_selector = kwargs.get("comic_image_selector", None)
         self.block_selectors = kwargs.get("block_selectors", [])
@@ -48,7 +49,7 @@ class ComicSpider(Spider):
         if not comic_image_urls:
             click.echo("Could not find comic image.")
         next_page_url = response.xpath(self.next_page_selector).get()
-        if is_not_end_of_comic(next_page_url):
+        if is_not_end_of_comic(next_page_url) and response.url != self.end_url:
             yield self.request_factory.create(
                 url=response.urljoin(next_page_url).strip(),
                 next_page=page + len(comic_image_urls),

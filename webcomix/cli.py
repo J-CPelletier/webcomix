@@ -141,6 +141,13 @@ def search(
     help="URL of the comic's first page to be downloaded",
 )
 @click.option(
+    "--end-url",
+    "--end_url",
+    prompt=False,
+    type=click.STRING,
+    help="URL of the last comic's page to be downloaded",
+)
+@click.option(
     "--start-page",
     "--start_page",
     type=click.INT,
@@ -167,6 +174,7 @@ def search(
     "-x",
     type=click.STRING,
     multiple=True,
+    help="XPath expressions that block the download of an image when any expression has elements",
 )
 @click.option(
     "--cbz", default=False, is_flag=True, help="Outputs the comic as a cbz file"
@@ -206,6 +214,7 @@ def search(
 def custom(
     name,
     start_url,
+    end_url,
     start_page,
     next_page_xpath,
     image_xpath,
@@ -225,6 +234,7 @@ def custom(
         comic = Comic(
             name,
             start_url,
+            end_url,
             image_xpath,
             next_page_xpath,
             block_xpath,

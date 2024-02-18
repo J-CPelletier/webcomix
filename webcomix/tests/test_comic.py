@@ -5,7 +5,6 @@ from zipfile import ZipFile, BadZipFile
 import pytest
 
 from webcomix.comic import Comic, SPLASH_SETTINGS
-from webcomix.supported_comics import supported_comics
 from webcomix.tests.fake_websites.fixture import (
     three_webpages_uri,
     three_webpages_alt_text_uri,
@@ -144,15 +143,30 @@ def test_download_with_alt_text_saves_the_text(
 
 
 def test_download_xpath_blocks_images(cleanup_test_directories, three_webpages_uri):
-    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href", ["//img/@src"])
+    comic = Comic(
+        "test",
+        three_webpages_uri,
+        "//img/@src",
+        "//a/@href",
+        block_selectors=["//img/@src"],
+    )
     comic.download()
     path, dirs, files = next(os.walk("test"))
     assert len(files) == 0
 
 
-def test_download_xpath_blocks_keep_filecount(cleanup_test_directories, three_webpages_uri):
+# TODO: Add test for end_url
+
+
+def test_download_xpath_blocks_keep_filecount(
+    cleanup_test_directories, three_webpages_uri
+):
     comic = Comic(
-        "test", three_webpages_uri, "//img/@src", "//a/@href", ["//img[@src='1.jpeg']"]
+        "test",
+        three_webpages_uri,
+        "//img/@src",
+        "//a/@href",
+        block_selectors=["//img[@src='1.jpeg']"],
     )
     comic.download()
     path, dirs, files = next(os.walk("test"))
@@ -248,7 +262,13 @@ def test_verify_xpath_only_verifies_one_page_with_single_page(one_webpage_uri):
 
 
 def test_verify_xpath_blocks_images(three_webpages_uri):
-    comic = Comic("test", three_webpages_uri, "//img/@src", "//a/@href", ["//img/@src"])
+    comic = Comic(
+        "test",
+        three_webpages_uri,
+        "//img/@src",
+        "//a/@href",
+        block_selectors=["//img/@src"],
+    )
 
     three_webpages_folder = three_webpages_uri.strip("1.html")
 
@@ -272,6 +292,9 @@ def test_verify_xpath_blocks_images(three_webpages_uri):
             "alt_text": None,
         },
     ]
+
+
+# TODO: Add test for end_url
 
 
 def test_download_will_run_splash_settings_if_javascript(mocker):
