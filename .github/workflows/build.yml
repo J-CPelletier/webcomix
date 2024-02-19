@@ -91,12 +91,12 @@ jobs:
         # TODO: Update to v2 once node 20 update is live
         uses: softprops/action-gh-release@v1
         with:
-          name: webcomix ${{ github.ref }}
+          name: webcomix ${{ github.ref_name }}
           body: |
               ## Changelog
               * Insert change here
           draft: true
           prerelease: false
           files: |
-            ./dist/webcomix-${{ github.ref }}-py3-none-any.whl
-            ./dist/webcomix-${{ github.ref }}.tar.gz
+            ./dist/*.whl
+            ./dist/*.tar.gz
