@@ -8,6 +8,7 @@ from webcomix.comic import Comic, SPLASH_SETTINGS
 from webcomix.tests.fake_websites.fixture import (
     three_webpages_uri,
     three_webpages_alt_text_uri,
+    three_webpages_classes_uri,
     one_webpage_uri,
 )
 
@@ -155,7 +156,18 @@ def test_download_xpath_blocks_images(cleanup_test_directories, three_webpages_u
     assert len(files) == 0
 
 
-# TODO: Add test for end_url
+def test_download_end_url_stops_image_download(cleanup_test_directories, three_webpages_classes_uri):
+    three_webpages_folder = three_webpages_classes_uri.strip("1.html")
+    comic = Comic(
+        "test",
+        three_webpages_classes_uri,
+        "//img/@src",
+        "//a/@href",
+        end_url=three_webpages_folder + "2.html"
+    )
+    comic.download()
+    path, dirs, files = next(os.walk("test"))
+    assert len(files) == 2
 
 
 def test_download_xpath_blocks_keep_filecount(
@@ -294,7 +306,36 @@ def test_verify_xpath_blocks_images(three_webpages_uri):
     ]
 
 
-# TODO: Add test for end_url
+def test_verify_xpath_will_not_stop_with_end_url(three_webpages_uri):
+    three_webpages_folder = three_webpages_uri.strip("1.html")
+    comic = Comic(
+        "test",
+        three_webpages_uri,
+        "//img/@src",
+        "//a/@href",
+        end_url=three_webpages_folder + "2.html"
+    )
+
+    assert comic.verify_xpath() == [
+        {
+            "page": 1,
+            "url": three_webpages_uri,
+            "image_urls": [three_webpages_folder + "1.jpeg"],
+            "alt_text": None,
+        },
+        {
+            "page": 2,
+            "url": three_webpages_folder + "2.html",
+            "image_urls": [three_webpages_folder + "2.jpeg"],
+            "alt_text": None,
+        },
+        {
+            "page": 3,
+            "url": three_webpages_folder + "3.html",
+            "image_urls": [],
+            "alt_text": None,
+        },
+    ]
 
 
 def test_download_will_run_splash_settings_if_javascript(mocker):
