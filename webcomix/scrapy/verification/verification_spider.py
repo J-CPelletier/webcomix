@@ -13,7 +13,6 @@ class VerificationSpider(Spider):
 
     def __init__(self, *args, **kwargs):
         self.start_url = kwargs.get("start_url")
-        self.end_url = kwargs.get("end_url", None)
         self.next_page_selector = kwargs.get("next_page_selector", None)
         self.comic_image_selector = kwargs.get("comic_image_selector", None)
         self.block_selectors = kwargs.get("block_selectors", [])
@@ -51,7 +50,7 @@ class VerificationSpider(Spider):
                     alt_text=alt_text,
                 )
             )
-        elif is_not_end_of_comic(next_page_url) and response.url != self.end_url:
+        elif is_not_end_of_comic(next_page_url):
             self.result_queue.put(
                 WebPage(
                     url=response.url,
