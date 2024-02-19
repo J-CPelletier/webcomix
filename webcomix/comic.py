@@ -1,5 +1,5 @@
 import os
-from typing import Optional, List, Mapping
+from typing import Optional, List, Mapping, Dict, Any
 from urllib.parse import urlparse
 from zipfile import ZipFile, BadZipFile
 
