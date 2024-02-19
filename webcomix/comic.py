@@ -45,6 +45,7 @@ class Comic:
         start_url: str,
         comic_image_selector: str,
         next_page_selector: str,
+        end_url: Optional[str] = None,
         block_selectors: List[str] = [],
         start_page: int = 1,
         alt_text: Optional[str] = None,
@@ -59,6 +60,7 @@ class Comic:
         self.start_page = start_page
         self.next_page_selector = next_page_selector
         self.comic_image_selector = comic_image_selector
+        self.end_url = end_url
         self.block_selectors = block_selectors
         self.alt_text = alt_text
         self.single_page = single_page
@@ -92,6 +94,8 @@ class Comic:
         if self.javascript:
             settings.update(SPLASH_SETTINGS)
 
+        print(self.end_url)
+        print(self.block_selectors)
         worker = CrawlerWorker(
             settings,
             False,
@@ -100,6 +104,7 @@ class Comic:
             start_page=self.start_page,
             comic_image_selector=self.comic_image_selector,
             next_page_selector=self.next_page_selector,
+            end_url=self.end_url,
             block_selectors=self.block_selectors,
             directory=self.name,
             javascript=self.javascript,
@@ -149,6 +154,7 @@ class Comic:
             start_url=self.start_url,
             comic_image_selector=self.comic_image_selector,
             next_page_selector=self.next_page_selector,
+            end_url=self.end_url,
             block_selectors=self.block_selectors,
             number_of_pages_to_check=1 if self.single_page else 3,
             javascript=self.javascript,
