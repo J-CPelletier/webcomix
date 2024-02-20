@@ -10,6 +10,7 @@ from webcomix.tests.fake_websites.fixture import (
     three_webpages_uri,
     three_webpages_alt_text_uri,
 )
+from webcomix.tests.test_comic import cleanup_test_directories
 
 first_comic = list(sorted(supported_comics.keys()))[0]
 
@@ -284,6 +285,23 @@ def test_custom_comic_downloads_comic_with_multiple_xpath_blocklist_entries(mock
             "--image_xpath=image",
             "--block_xpath=block",
             "--block_xpath=block2",
+        ],
+        "yes",
+    )
+
+    assert result.exit_code == 0
+
+
+def test_custom_comic_integration(cleanup_test_directories, three_webpages_uri):
+    runner = CliRunner()
+
+    result = runner.invoke(
+        cli.custom,
+        [
+            "foo",
+            "--start_url=" + three_webpages_uri,
+            "--next_page_xpath=//a/@href",
+            "--image_xpath=//img/@src",
         ],
         "yes",
     )
