@@ -298,7 +298,7 @@ def test_custom_comic_integration(cleanup_test_directories, three_webpages_uri):
     result = runner.invoke(
         cli.custom,
         [
-            "foo",
+            "xkcd",
             "--start_url=" + three_webpages_uri,
             "--next_page_xpath=//a/@href",
             "--image_xpath=//img/@src",

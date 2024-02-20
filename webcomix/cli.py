@@ -234,9 +234,9 @@ def custom(
         comic = Comic(
             name,
             start_url,
-            end_url,
             image_xpath,
             next_page_xpath,
+            end_url,
             block_xpath,
             start_page,
             alt_text,
