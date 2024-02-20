@@ -51,6 +51,32 @@ def test_search_searchable_website(mocker, three_webpages_classes_uri):
     assert comic.comic_image_selector == expected.comic_image_selector
 
 
+def test_search_searchable_website_adds_end_url(mocker, three_webpages_classes_uri):
+    three_webpages_classes_folder = three_webpages_classes_uri.strip("1.html")
+
+    expected = Comic(
+        "Blindsprings",
+        three_webpages_classes_uri,
+        "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'comic')]//@src",
+        "//*[contains(translate(@class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'next')]//@href",
+        end_url=three_webpages_classes_folder + "2.html",
+    )
+    mocker.patch("webcomix.search.possible_image_xpath", ["comic"])
+    mocker.patch("webcomix.search.possible_next_page_xpath", ["next"])
+    mocker.patch("webcomix.search.possible_tags_image", ["*"])
+    mocker.patch("webcomix.search.possible_tags_next", ["*"])
+    mocker.patch("webcomix.search.possible_attributes_image", ["@class"])
+    mocker.patch("webcomix.search.possible_attributes_next", ["@class"])
+    mocker.patch("webcomix.util.check_first_pages")
+    comic, result = discovery(
+        "Blindsprings",
+        three_webpages_classes_uri,
+        end_url=three_webpages_classes_folder + "2.html",
+    )
+
+    assert comic.end_url == expected.end_url
+
+
 def test_search_unsearchable_website(mocker, three_webpages_uri):
     mocker.patch("webcomix.search.possible_image_xpath", ["comic"])
     mocker.patch("webcomix.search.possible_next_page_xpath", ["next"])

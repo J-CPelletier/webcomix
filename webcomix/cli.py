@@ -58,6 +58,13 @@ def download(name, cbz, title, verbose):
     help="URL of the comic's first page",
 )
 @click.option(
+    "--end-url",
+    "--end_url",
+    prompt=False,
+    type=click.STRING,
+    help="URL of the comic's last page",
+)
+@click.option(
     "--start-page",
     "--start_page",
     type=click.INT,
@@ -101,6 +108,7 @@ def download(name, cbz, title, verbose):
 def search(
     name,
     start_url,
+    end_url,
     start_page,
     cbz,
     single_page,
@@ -117,6 +125,7 @@ def search(
         comic, validation = discovery(
             name,
             start_url,
+            end_url=end_url,
             start_page=start_page,
             alt_text=alt_text,
             single_page=single_page,

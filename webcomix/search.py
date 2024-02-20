@@ -19,6 +19,7 @@ possible_attributes_next = [".", "text()", "@class", "@id", "@alt", "@rel"]
 def discovery(
     name: str,
     url: str,
+    end_url: Optional[str] = None,
     start_page: int = 1,
     alt_text: Optional[str] = None,
     single_page: bool = False,
@@ -66,6 +67,7 @@ def discovery(
                 url,
                 image_xpath,
                 next_page_xpath,
+                end_url=end_url,
                 start_page=start_page,
                 alt_text=alt_text,
                 single_page=single_page,
