@@ -117,12 +117,12 @@ def search(
         comic, validation = discovery(
             name,
             start_url,
-            start_page,
-            alt_text,
-            single_page,
-            javascript,
-            title,
-            verbose,
+            start_page=start_page,
+            alt_text=alt_text,
+            single_page=single_page,
+            javascript=javascript,
+            title=title,
+            debug=verbose,
         )
         if comic is not None:
             print_verification(validation)
@@ -236,14 +236,14 @@ def custom(
             start_url,
             image_xpath,
             next_page_xpath,
-            end_url,
-            block_xpath,
-            start_page,
-            alt_text,
-            single_page,
-            javascript,
-            title,
-            verbose,
+            end_url=end_url,
+            block_selectors=block_xpath,
+            start_page=start_page,
+            alt_text=alt_text,
+            single_page=single_page,
+            javascript=javascript,
+            title=title,
+            debug=verbose,
         )
         try:
             validation = comic.verify_xpath()
