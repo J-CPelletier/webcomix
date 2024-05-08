@@ -58,12 +58,6 @@ supported_comics = {
         "comic_image_selector": "//div[@id='ImageComicContainer']//img[contains(@src, 'comic')]/@src",
         "next_page_selector": "//a[button/@id='next10Button']/@href",
     },
-    "AmazingSuperPowers": {
-        "name": "AmazingSuperPowers",
-        "start_url": "https://www.amazingsuperpowers.com/2007/09/heredity/",
-        "comic_image_selector": "//div[@class='comicpane']/img/@src",
-        "next_page_selector": "//a[@class='navi navi-next']/@href",
-    },
     "Gunshow": {
         "name": "Gunshow",
         "start_url": "https://gunshowcomic.com/1",
