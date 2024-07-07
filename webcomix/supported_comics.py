@@ -38,13 +38,13 @@ supported_comics = {
     },
     "TheAbominableCharlesChristopher": {
         "name": "TheAbominableCharlesChristopher",
-        "start_url": "https://abominablecc.tumblr.com/page/453",
-        "comic_image_selector": "//div[@class='photo']//img/@src",
-        "next_page_selector": "//span[@class='next_post']/a/@href",
+        #  "start_url": "https://abominablecc.tumblr.com/page/453",
+        #  "comic_image_selector": "//div[@class='photo']//img/@src",
+        #  "next_page_selector": "//span[@class='next_post']/a/@href",
         # TODO: Update once website comes back up
-        #  "start_url": "https://karlkerschl.com/comic/episode-one/",
-        #  "comic_image_selector": "//div[@id='comic']//img/@src",
-        #  "next_page_selector": "//a[contains(@class, 'comic-nav-next')]/@href",
+        "start_url": "https://karlkerschl.com/comic/episode-one/",
+        "comic_image_selector": "//div[@id='comic']//img/@src",
+        "next_page_selector": "//a[contains(@class, 'comic-nav-next')]/@href",
     },
     "GuildedAge": {
         "name": "GuildedAge",
