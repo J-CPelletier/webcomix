@@ -94,8 +94,6 @@ class Comic:
         if self.javascript:
             settings.update(SPLASH_SETTINGS)
 
-        print(self.end_url)
-        print(self.block_selectors)
         worker = CrawlerWorker(
             settings,
             False,
