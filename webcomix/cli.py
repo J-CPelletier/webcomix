@@ -220,6 +220,7 @@ def search(
 @click.option(
     "--verbose", "-v", is_flag=True, default=False, help="Add debugging output"
 )
+# TODO: Add option to add multiple cookies with name/value pairs as tuples (https://click.palletsprojects.com/en/8.1.x/options/)
 def custom(
     name,
     start_url,
