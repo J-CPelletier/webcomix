@@ -110,9 +110,10 @@ supported_comics = {
     },
     "RyanMadeMistakes": {
         "name": "RyanMadeMistakes",
-        "start_url": "http://mistakes.ryanestrada.com/comic/0001",
-        "comic_image_selector": "//img[@id='cc-comic']/@src",
+        "start_url": "https://ryanestrada.com/2024/Ryan%20Made%20Mistakes/index.html",
+        "comic_image_selector": "//p/img/@src",
         "next_page_selector": "//a[@class='cc-next']/@href",
+        "single_page": True,
     },
     "MissingMonday": {
         "name": "MissingMonday",
