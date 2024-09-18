@@ -1,5 +1,5 @@
 import os
-from typing import Optional, List, Mapping, Dict, Any
+from typing import Optional, List, Mapping, Dict, Any, Tuple
 from urllib.parse import urlparse
 from zipfile import ZipFile, BadZipFile
 
@@ -53,6 +53,7 @@ class Comic:
         delay: int = 0,
         javascript: bool = False,
         title: bool = False,
+        cookies: List[Tuple[str, str]] = [],
         debug: bool = False,
     ):
         self.name = name
@@ -67,6 +68,7 @@ class Comic:
         self.delay = delay
         self.javascript = javascript
         self.title = title
+        self.cookies = cookies
         self.debug = debug
 
     def download(self) -> None:
@@ -107,6 +109,7 @@ class Comic:
             directory=self.name,
             javascript=self.javascript,
             title=self.title,
+            cookies=self.cookies,
             alt_text=self.alt_text,
         )
 
@@ -156,6 +159,7 @@ class Comic:
             block_selectors=self.block_selectors,
             number_of_pages_to_check=1 if self.single_page else 3,
             javascript=self.javascript,
+            cookies=self.cookies,
             alt_text=self.alt_text,
         )
 

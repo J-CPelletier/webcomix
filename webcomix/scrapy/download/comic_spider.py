@@ -23,11 +23,13 @@ class ComicSpider(Spider):
         javascript = kwargs.get("javascript", False)
         self.alt_text = kwargs.get("alt_text", None)
         self.title = kwargs.get("title", False)
+        self.cookies = kwargs.get("cookies", [])
         self.result_queue = kwargs.get("result_queue")
         self.request_factory = RequestFactory(javascript)
         super(ComicSpider, self).__init__(*args, **kwargs)
 
     def start_requests(self):
+        # TODO: Send cookies: https://stackoverflow.com/a/32624137
         yield self.request_factory.create(url=self.start_url, next_page=self.start_page)
 
     def parse(self, response):
@@ -50,6 +52,7 @@ class ComicSpider(Spider):
             click.echo("Could not find comic image.")
         next_page_url = response.xpath(self.next_page_selector).get()
         if is_not_end_of_comic(next_page_url) and response.url != self.end_url:
+            # TODO: Send cookies: https://stackoverflow.com/a/32624137
             yield self.request_factory.create(
                 url=response.urljoin(next_page_url).strip(),
                 next_page=page + len(comic_image_urls),

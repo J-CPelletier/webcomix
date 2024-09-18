@@ -215,12 +215,19 @@ def search(
     help="XPath to fetch an additionnal text while scraping",
 )
 @click.option(
+    "--cookie",
+    "-c",
+    default=[],
+    type=click.Tuple([str, str]),
+    multiple=True,
+    help="Value of cookie to add to the requests",
+)
+@click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
 @click.option(
     "--verbose", "-v", is_flag=True, default=False, help="Add debugging output"
 )
-# TODO: Add option to add multiple cookies with name/value pairs as tuples (https://click.palletsprojects.com/en/8.1.x/options/)
 def custom(
     name,
     start_url,
@@ -234,6 +241,7 @@ def custom(
     javascript,
     title,
     alt_text,
+    cookie,
     yes,
     verbose,
 ):
@@ -253,6 +261,7 @@ def custom(
             single_page=single_page,
             javascript=javascript,
             title=title,
+            cookies=cookie,
             debug=verbose,
         )
         try:

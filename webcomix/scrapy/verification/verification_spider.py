@@ -20,6 +20,7 @@ class VerificationSpider(Spider):
         javascript = kwargs.get("javascript", False)
         self.alt_text_selector = kwargs.get("alt_text")
         self.result_queue = kwargs.get("result_queue")
+        self.cookies = kwargs.get("cookies", [])
         self.request_factory = RequestFactory(javascript)
         super(VerificationSpider, self).__init__(*args, **kwargs)
 
