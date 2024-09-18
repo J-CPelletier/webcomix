@@ -23,9 +23,9 @@ class ComicSpider(Spider):
         javascript = kwargs.get("javascript", False)
         self.alt_text = kwargs.get("alt_text", None)
         self.title = kwargs.get("title", False)
-        self.cookies = kwargs.get("cookies", [])
+        cookies = kwargs.get("cookies", [])
         self.result_queue = kwargs.get("result_queue")
-        self.request_factory = RequestFactory(javascript)
+        self.request_factory = RequestFactory(javascript, cookies)
         super(ComicSpider, self).__init__(*args, **kwargs)
 
     def start_requests(self):
