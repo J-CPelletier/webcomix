@@ -292,6 +292,51 @@ def test_custom_comic_downloads_comic_with_multiple_xpath_blocklist_entries(mock
     assert result.exit_code == 0
 
 
+def test_custom_comic_downloads_comic_with_cookies(mocker):
+    runner = CliRunner()
+    mock_download = mocker.patch("webcomix.comic.Comic.download")
+    mock_verify_xpath = mocker.patch("webcomix.comic.Comic.verify_xpath")
+    mock_print_verification = mocker.patch("webcomix.cli.print_verification")
+
+    result = runner.invoke(
+        cli.custom,
+        [
+            "foo",
+            "--start_url=url",
+            "--next_page_xpath=next_page",
+            "--image_xpath=image",
+            "--cookie",
+            "foo",
+            "bar",
+        ],
+        "yes",
+    )
+
+    assert result.exit_code == 0
+
+
+def test_custom_comic_downloads_comic_with_multiple_cookies_entries(mocker):
+    runner = CliRunner()
+    mock_download = mocker.patch("webcomix.comic.Comic.download")
+    mock_verify_xpath = mocker.patch("webcomix.comic.Comic.verify_xpath")
+    mock_print_verification = mocker.patch("webcomix.cli.print_verification")
+
+    result = runner.invoke(
+        cli.custom,
+        [
+            "foo",
+            "--start_url=url",
+            "--next_page_xpath=next_page",
+            "--image_xpath=image",
+            "--cookie=foo bar",
+            "--cookie=bar baz"
+        ],
+        "yes",
+    )
+
+    assert result.exit_code == 0
+
+
 def test_custom_comic_integration(cleanup_test_directories, three_webpages_uri):
     runner = CliRunner()
 

@@ -215,6 +215,14 @@ def search(
     help="XPath to fetch an additionnal text while scraping",
 )
 @click.option(
+    "--cookie",
+    "-c",
+    default=[],
+    type=click.Tuple([str, str]),
+    multiple=True,
+    help="Value of cookie to add to the requests",
+)
+@click.option(
     "--yes", "-y", default=False, is_flag=True, help="Skips the verification prompt"
 )
 @click.option(
@@ -233,6 +241,7 @@ def custom(
     javascript,
     title,
     alt_text,
+    cookie,
     yes,
     verbose,
 ):
@@ -252,6 +261,7 @@ def custom(
             single_page=single_page,
             javascript=javascript,
             title=title,
+            cookies=cookie,
             debug=verbose,
         )
         try:
