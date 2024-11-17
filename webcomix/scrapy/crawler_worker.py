@@ -40,6 +40,8 @@ class CrawlerWorker(Process):
         while not self.result_queue.empty():
             result.append(self.result_queue.get())
 
+        print(result)
+
         if self.kill_process:
             raise KeyboardInterrupt
         if len(result) == 1 and isinstance(result[0], Exception):
