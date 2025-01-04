@@ -7,7 +7,7 @@ from webcomix.util import check_first_pages
 
 supported_comics_ignored = {
     k: v
-    for k, v in supported_comics
+    for k, v in supported_comics.items()
     if k == "TheAbominableCharlesChristopher" or k == "Lackadaisy"
 }
 
