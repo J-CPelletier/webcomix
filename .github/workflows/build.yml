@@ -47,7 +47,8 @@ jobs:
         run: poetry build
       - name: Run tests
         run: |
-          poetry run pytest --check-supported-comics --cov=webcomix
+          poetry run pytest --cov=webcomix
+          poetry run pytest -n auto -m "slow" --check-supported-comics
           poetry run mypy . --ignore-missing-imports
       - name: Coveralls
         env:
