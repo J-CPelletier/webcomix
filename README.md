@@ -1,6 +1,6 @@
 # webcomix
 
-[![Build Status](https://github.com/J-CPelletier/webcomix/workflows/Build/badge.svg?branch=master)](https://github.com/J-CPelletier/webcomix/actions)[![Coverage Status](https://coveralls.io/repos/github/J-CPelletier/webcomix/badge.svg?branch=master)](https://coveralls.io/github/J-CPelletier/webcomix?branch=master)[![PyPI version](https://badge.fury.io/py/webcomix.svg)](https://badge.fury.io/py/webcomix)
+[![Build](https://github.com/J-CPelletier/webcomix/actions/workflows/build.yml/badge.svg)](https://github.com/J-CPelletier/webcomix/actions/workflows/build.yml)[![Coverage Status](https://coveralls.io/repos/github/J-CPelletier/webcomix/badge.svg?branch=master)](https://coveralls.io/github/J-CPelletier/webcomix?branch=master)[![PyPI version](https://badge.fury.io/py/webcomix.svg)](https://badge.fury.io/py/webcomix)
 
 ## Description
 
