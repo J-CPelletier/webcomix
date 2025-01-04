@@ -9,7 +9,7 @@ supported_comics_ignored = {
     k: v
     for k, v in supported_comics.items()
     if not (k == "TheAbominableCharlesChristopher" or k == "Lackadaisy")
-}
+} # TODO: Handle 403 errors
 
 
 @pytest.mark.flaky(reruns=5, reruns_delay=60)
