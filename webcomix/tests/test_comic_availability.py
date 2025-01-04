@@ -14,7 +14,7 @@ supported_comics_ignored = {
 
 @pytest.mark.flaky(reruns=5, reruns_delay=60)
 @pytest.mark.slow
-@pytest.mark.parametrize("comic_name", supported_comics_ignored.keys())
+@pytest.mark.parametrize("comic_name", supported_comics.keys())
 def test_supported_comics(comic_name):
     comic = Comic(**supported_comics[comic_name], debug=True)
     first_pages = comic.verify_xpath()
