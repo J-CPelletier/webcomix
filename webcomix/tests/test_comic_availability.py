@@ -1,4 +1,5 @@
 import pytest
+import os
 
 from webcomix.comic import Comic
 from webcomix.supported_comics import supported_comics
@@ -9,7 +10,10 @@ from webcomix.util import check_first_pages
 supported_comics_ignored = {
     k: v
     for k, v in supported_comics.items()
-    if not (k == "TheAbominableCharlesChristopher" or k == "Lackadaisy")
+    if not (
+        (k == "TheAbominableCharlesChristopher" or k == "Lackadaisy")
+        and os.environ.get("CI", False)
+    )
 }
 
 

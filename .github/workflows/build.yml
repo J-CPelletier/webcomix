@@ -55,6 +55,8 @@ jobs:
         run: poetry run coveralls
   supported_comics:
     runs-on: ubuntu-latest
+    env:
+      CI: true
     strategy:
       matrix:
         python-version: ["3.9"]
