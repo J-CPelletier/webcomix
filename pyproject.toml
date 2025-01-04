@@ -25,7 +25,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 click = "^8.0.0"
 tqdm = "^4.66.1"
 Scrapy = "2.11.2"
@@ -38,6 +38,7 @@ docker = "^7.1.0"
 pytest = "^7.4.4"
 pytest-cov = "^4.1.0"
 pytest-mock = "^3.6.1"
+pytest-xdist = "^3.6.1"
 coveralls = "^3.2.0"
 mypy = "^1.5.0"
 pre-commit = "^2.15.0"

@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
         poetry-version: ["1.4.0"]
 
     steps:
@@ -47,18 +47,52 @@ jobs:
         run: poetry build
       - name: Run tests
         run: |
-          poetry run pytest --check-supported-comics --cov=webcomix
+          poetry run pytest --cov=webcomix
           poetry run mypy . --ignore-missing-imports
       - name: Coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         run: poetry run coveralls
+  supported_comics:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9"]
+        poetry-version: ["1.4.0"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+      - name: Cache Poetry virtualenv
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: ~/.virtualenvs
+          key: poetry-$
+          restore-keys: |
+            poetry-$
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          poetry install
+      - name: Build
+        run: poetry build
+      - name: Run tests
+        run: |
+          poetry run pytest -n auto -m "slow" --check-supported-comics
   deploy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8"]
-    needs: build
+        python-version: ["3.9"]
+    needs: [build, supported_comics]
     permissions:
       id-token: write
       contents: write
