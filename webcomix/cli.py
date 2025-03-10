@@ -9,7 +9,7 @@ from webcomix.supported_comics import supported_comics
 from webcomix.docker import DockerManager
 
 
-@click.group(windows_expand_args=False)
+@click.group()
 @click.version_option()
 def cli():
     pass
@@ -288,6 +288,9 @@ def custom(
         if yes or click.confirm("Are you sure you want to proceed?"):
             download_webcomic(comic, cbz)
 
+
+def main():
+    cli(windows_expand_args=False)
 
 def print_verification(validation):
     """
