@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "webcomix"
-version = "3.11.1"
+version = "3.11.2"
 description = "Webcomic downloader"
 authors = ["Jean-Christophe Pelletier <pelletierj97@gmail.com>"]
 readme = "README.md"
@@ -28,8 +28,8 @@ packages = [
 python = "^3.9"
 click = "^8.0.0"
 tqdm = "^4.66.1"
-Scrapy = "2.11.2"
-scrapy-splash = "^0.9.0"
+Scrapy = "^2.11.2"
+scrapy-splash = "^0.10.0"
 scrapy-fake-useragent = "^1.4.4"
 pytest-rerunfailures = "^11.1.2"
 docker = "^7.1.0"
