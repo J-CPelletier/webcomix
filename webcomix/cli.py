@@ -9,7 +9,7 @@ from webcomix.supported_comics import supported_comics
 from webcomix.docker import DockerManager
 
 
-@click.group()
+@click.group(windows_expand_args=False)
 @click.version_option()
 def cli():
     pass
