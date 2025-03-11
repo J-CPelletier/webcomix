@@ -289,6 +289,9 @@ def custom(
             download_webcomic(comic, cbz)
 
 
+def main():
+    cli(windows_expand_args=False)
+
 def print_verification(validation):
     """
     Prints the verification given by the verify_xpath function
