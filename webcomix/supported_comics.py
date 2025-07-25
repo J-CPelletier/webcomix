@@ -12,6 +12,12 @@ supported_comics = {
         "next_page_selector": "//a[@rel='next']/@href",
         "alt_text": "//div[@id='comic']//img/@title",
     },
+    "Atomic Robo": {
+        "name": "Atomic Robo",
+        "start_url": "https://www.atomic-robo.com/atomicrobo/v1ch1-cover",
+        "comic_image_selector": "//div[@id='cc-comicbody']//img/@src",
+        "next_page_selector": "//a[@class='cc-next']/@href",
+    },
     "Nedroid": {
         "name": "Nedroid",
         "start_url": "https://nedroid.com/?1",
