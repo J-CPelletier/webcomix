@@ -211,4 +211,46 @@ supported_comics = {
         "comic_image_selector": "//h3//img[contains(@src, 'SO')]/@src",
         "next_page_selector": "(//a[img[contains(@alt, 'NEXT')]]/@href)[last()]",
     },
+    "TheSwordInterval": {
+        "name": "TheSwordInterval",
+        "start_url": "https://swordinterval.thecomicseries.com/comics/1/#content-start",
+        "comic_image_selector": "//img[@id='comicimage']/@src",
+        "next_page_selector": "//a[contains(@rel, 'next')]//@href",
+    },
+    "QuestionableContent": {
+        "name": "QuestionableContent",
+        "start_url": "https://questionablecontent.net/view.php?comic=1",
+        "comic_image_selector": "//img[@id='strip']/@src",
+        "next_page_selector": "//a[contains(text(), 'Next')]//@href",
+    },
+    "VGCats": {
+        "name": "VGCats",
+        "start_url": "https://www.vgcats.com/comics/?strip_id=0",
+        "comic_image_selector": "(//table//img[contains(@src, 'images')]/@src)[1]",
+        "next_page_selector": "//table//a[img[contains(@src, 'next')]]/@href",
+    },
+    "SuperEffective": {
+        "name": "SuperEffective",
+        "start_url": "https://vgcats.com/super/index.php?strip_id=0",
+        "comic_image_selector": "(//table//img[contains(@src, 'images')]/@src)[1]",
+        "next_page_selector": "//table//a[img[contains(@src, 'next')]]/@href",
+    },
+    "RivalQuickies": {
+        "name": "RivalQuickies",
+        "start_url": "https://vgcats.com/rivals/?strip_id=0",
+        "comic_image_selector": "(//table//img[contains(@src, 'images')]/@src)[1]",
+        "next_page_selector": "//table//a[img[contains(@src, 'next')]]/@href",
+    },
+    "VisionHaze": {
+        "name": "VisionHaze",
+        "start_url": "https://www.visionhaze.com/index.php?p=1",
+        "comic_image_selector": "//div[@class='page']//img/@src",
+        "next_page_selector": "//div[@class='navbutton']//a[contains(text(), '›')]/@href",
+    },
+    "TheJunkHyenasDiner": {
+        "name": "TheJunkHyenasDiner",
+        "start_url": "https://junkhyenasdiner.com/comic/intro/",
+        "comic_image_selector": "//div[@id='comic']//img/@src",
+        "next_page_selector": "//a[@class='navi comic-nav-next navi-next']/@href",
+    },
 }
