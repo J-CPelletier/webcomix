@@ -205,4 +205,10 @@ supported_comics = {
         "comic_image_selector": "((//div[@id='middle']//center)[1]//img/@src)[5]",
         "next_page_selector": "(//div[@id='middle']//center)[2]//a[img[contains(@src, 'http://www.stationv3.com/images/next2.gif')]]/@href",
     },
+    "SabrinaOnline": {
+        "name": "SabrinaOnline",
+        "start_url": "https://www.sabrina-online.com/1996-01.html",
+        "comic_image_selector": "//h3//img[contains(@src, 'SO')]/@src",
+        "next_page_selector": "(//a[img[contains(@alt, 'NEXT')]]/@href)[last()]",
+    },
 }
