@@ -187,4 +187,22 @@ supported_comics = {
         "comic_image_selector": "//div[@id='comicimagewrap']//img/@src",
         "next_page_selector": "//a[contains(@rel, 'next')]//@href",
     },
+    "ArtificialIncident": {
+        "name": "ArtificialIncident",
+        "start_url": "https://www.artificialincident.com/comic/issue-one-life-changing/",
+        "comic_image_selector": "(//div[@class='webcomic-image']//img/@src)[1]",
+        "next_page_selector": "//div[@class='webcomic-image']//a/@href",
+    },
+    "Yosh": {
+        "name": "Yosh",
+        "start_url": "https://www.yoshsaga.com/comic/introduction/",
+        "comic_image_selector": "(//div[@class='webcomic-image']//img/@src)[1]",
+        "next_page_selector": "//div[@class='webcomic-image']//a/@href",
+    },
+    "StationV3": {
+        "name": "StationV3",
+        "start_url": "https://www.stationv3.com/d3/20170101.html",
+        "comic_image_selector": "((//div[@id='middle']//center)[1]//img/@src)[5]",
+        "next_page_selector": "(//div[@id='middle']//center)[2]//a[img[contains(@src, 'http://www.stationv3.com/images/next2.gif')]]/@href",
+    },
 }
