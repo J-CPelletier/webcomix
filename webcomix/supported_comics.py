@@ -169,4 +169,22 @@ supported_comics = {
         "comic_image_selector": "//div[@id='cc-comicbody']//img/@src",
         "next_page_selector": "//div[@id='cc-comicbody']//a/@href",
     },
+    "LasLindas": {
+        "name": "LasLindas",
+        "start_url": "https://laslindas.kemono.cafe/comic/ll0001/",
+        "comic_image_selector": "//div[@id='comic']//img/@src",
+        "next_page_selector": "//div[@id='comic']//a/@href",
+    },
+    "Rain": {
+        "name": "Rain",
+        "start_url": "https://rain.thecomicseries.com/comics/1/#content-start",
+        "comic_image_selector": "//div[@id='comicimagewrap']//img/@src",
+        "next_page_selector": "//a[contains(@rel, 'next')]//@href",
+    },
+    "MyImpossibleSoulmate": {
+        "name": "MyImpossibleSoulmate",
+        "start_url": "https://mis.thecomicseries.com/comics/2/#content-start",
+        "comic_image_selector": "//div[@id='comicimagewrap']//img/@src",
+        "next_page_selector": "//a[contains(@rel, 'next')]//@href",
+    },
 }
