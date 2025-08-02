@@ -211,4 +211,10 @@ supported_comics = {
         "comic_image_selector": "//h3//img[contains(@src, 'SO')]/@src",
         "next_page_selector": "(//a[img[contains(@alt, 'NEXT')]]/@href)[last()]",
     },
+    "PennyArcade": {
+        "name": "PennyArcade",
+        "start_url": "https://www.penny-arcade.com/comic/1998/11/25/john-romero-artiste",
+        "comic_image_selector": "//div[@class='comic-panel']//img/@src",
+        "next_page_selector": "//a[@class='orange-btn newer']/@href",
+    },
 }
