@@ -253,4 +253,10 @@ supported_comics = {
         "comic_image_selector": "//div[@id='comic']//img/@src",
         "next_page_selector": "//a[@class='navi comic-nav-next navi-next']/@href",
     },
+    "JackRabbit": {
+        "name": "JackRabbit",
+        "start_url": "https://jackrabbit.thecomicseries.com/comics/1/#content-start",
+        "comic_image_selector": "//img[@id='comicimage']/@src",
+        "next_page_selector": "//a[contains(@rel, 'Next')]//@href",
+    },
 }
