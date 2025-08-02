@@ -21,7 +21,6 @@ This program is for personal use only. Please be aware that by making the downlo
 * scrapy-fake-useragent
 * tqdm
 * [Docker](https://www.docker.com/) (To be able to download JavaScript-dependent websites with `-j` option)
-* pillow (to be able to join panels in linear strips using individual images)
 
 ### Process
 
