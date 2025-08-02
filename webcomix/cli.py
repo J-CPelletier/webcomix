@@ -7,7 +7,6 @@ from webcomix.exceptions import CrawlerBlocked, NextLinkNotFound
 from webcomix.search import discovery
 from webcomix.supported_comics import supported_comics
 from webcomix.docker import DockerManager
-from webcomix.join_panels
 
 
 @click.group()
