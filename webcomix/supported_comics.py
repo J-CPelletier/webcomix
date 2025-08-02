@@ -151,4 +151,22 @@ supported_comics = {
         "comic_image_selector": "//div[contains(@class, 'webcomic-media')]//img/@src",
         "next_page_selector": "//a[contains(@class, 'next-webcomic-link')]/@href",
     },
+    "TwoKinds": {
+        "name": "TwoKinds",
+        "start_url": "https://twokinds.keenspot.com/comic/1/",
+        "comic_image_selector": "//article[contains(@class, 'comic')]//img/@src",
+        "next_page_selector": "//a[contains(@class, 'navarrow navnext')]//@href",
+    },
+    "Freefall": {
+        "name": "Freefall",
+        "start_url": "http://freefall.purrsia.com/ff100/fv00001.htm",
+        "comic_image_selector": "(//body//img/@src)[1]",
+        "next_page_selector": "//a[text()='Next']//@href",
+    },
+    "SlightlyDamned": {
+        "name": "SlightlyDamned",
+        "start_url": "https://www.sdamned.com/comic/prologue",
+        "comic_image_selector": "//div[@id='cc-comicbody']//img/@src",
+        "next_page_selector": "//div[@id='cc-comicbody']//a/@href",
+    },
 }
