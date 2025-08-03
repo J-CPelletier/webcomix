@@ -208,22 +208,24 @@ class Comic:
             if "?" in url:
                 if "&" in parts.query:
                     parsed_queries = parts.query.split("&")
-                    print(parsed_queries)
                     for current_query in parsed_queries:
-                        print(current_query)
                         try:
                             file_extension = current_query[current_query.rindex(".") :]
                             break
                         except:
-                            print("trying another query parameter")
+                            # nothing, loop again
+                            dummy_var = ""
                 else:
                     try:
                         file_extension = parts.query[parts.query.rindex(".") :]
                     except:
-                        print("file not in parameters, setting 'unknown'")
+                        print(
+                            "File extension unknown; setting as '.unknown' to preserve data"
+                        )
                         file_extension = ".unknown"
             else:
                 # worst case we can't identify the extension, setting 'unknown' to allow saving file for evaluation
+                print("File extension unknown; setting as '.unknown' to preserve data")
                 file_extension = ".unknown"
 
         if title_present:
