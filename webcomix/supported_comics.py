@@ -257,6 +257,18 @@ supported_comics = {
         "name": "JackRabbit",
         "start_url": "https://jackrabbit.thecomicseries.com/comics/1/#content-start",
         "comic_image_selector": "//img[@id='comicimage']/@src",
-        "next_page_selector": "//a[contains(@rel, 'next')]//@href",
+        "next_page_selector": "//a[img[contains(@rel, 'next')]]//@href",
+    },
+    "InkBlot": {
+        "name": "InkBlot",
+        "start_url": "https://www.inkboltcomic.com/index.php?page=1",
+        "comic_image_selector": "//img[@alt='Comic Image']/@src",
+        "next_page_selector": "//a[img[@alt='Next Page']]//@href",
+    },
+    "QuantumVibe": {
+        "name": "QuantumVibe",
+        "start_url": "https://quantumvibe.com/strip?page=1",
+        "comic_image_selector": "//a[contains(@href, 'strip?page=')]//img[contains(@src, 'disppage')]/@src",
+        "next_page_selector": "//a[img[contains(@src, 'nav/NextStrip2.gif')]]/@href",
     },
 }
