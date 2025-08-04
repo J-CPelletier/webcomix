@@ -257,6 +257,6 @@ supported_comics = {
         "name": "JackRabbit",
         "start_url": "https://jackrabbit.thecomicseries.com/comics/1/#content-start",
         "comic_image_selector": "//img[@id='comicimage']/@src",
-        "next_page_selector": "//a[contains(@rel, 'next')]//@href",
+        "next_page_selector": "//a[@rel='next']//@href",
     },
 }
