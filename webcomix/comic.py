@@ -26,15 +26,16 @@ FAKE_USERAGENT_SETTINGS = {
     "DOWNLOADER_MIDDLEWARES": {
         "scrapy.downloadermiddlewares.useragent.UserAgentMiddleware": None,
         "scrapy.downloadermiddlewares.retry.RetryMiddleware": None,
-        "scrapy_fake_useragent.middleware.RandomUserAgentMiddleware": 400,
-        "scrapy_fake_useragent.middleware.RetryUserAgentMiddleware": 401,
+        "scrapy_fake_useragent.middleware.RandomUserAgentMiddleware": 500,
+        "scrapy_fake_useragent.middleware.RetryUserAgentMiddleware": 501,
+        "webcomix.scrapy.custom_cloudflare_middleware.CustomCloudflareMiddleware": 543,
     },
     "FAKEUSERAGENT_PROVIDERS": [
         "scrapy_fake_useragent.providers.FakeUserAgentProvider",
         "scrapy_fake_useragent.providers.FakerProvider",
         "scrapy_fake_useragent.providers.FixedUserAgentProvider",
     ],
-    "FAKEUSERAGENT_FALLBACK": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+    "FAKEUSERAGENT_FALLBACK": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
 }
 
 

@@ -21,7 +21,7 @@ supported_comics = {
     "Nedroid": {
         "name": "Nedroid",
         "start_url": "https://nedroid.com/?1",
-        "comic_image_selector": "//img[@class='comic']/@src",
+        "comic_image_selector": "//img[@class='comic_img']/@src",
         "next_page_selector": "//a[text()='NEXT>']/@href",
     },
     "JL8": {
@@ -120,12 +120,6 @@ supported_comics = {
         "comic_image_selector": "//p/img/@src",
         "next_page_selector": "//a[@class='cc-next']/@href",
         "single_page": True,
-    },
-    "MissingMonday": {
-        "name": "MissingMonday",
-        "start_url": "https://www.missingmondaycomic.com/comic/chapter-01-page-01",
-        "comic_image_selector": "//img[@id='cc-comic']/@src",
-        "next_page_selector": "//a[@class='cc-next']/@href",
     },
     "StarTrip": {
         "name": "StarTrip",
