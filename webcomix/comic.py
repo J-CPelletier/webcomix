@@ -193,8 +193,42 @@ class Comic:
             # No file extension (only dot in url is domain name)
             return str(page)
 
-        parsed_filepath = urlparse(url).path
-        file_extension = parsed_filepath[parsed_filepath.rindex(".") :]
+        """
+        Checking if we have the extension in the URL path or in a query parameter
+        Some comics use query parameters to identify content
+        This can cause an exception in rindex as the path won't have the file nor extension
+        Thus, we try the path first, followed by the query broken down into component parameters
+        """
+        file_extension = ""
+        parts = urlparse(url)
+
+        try:
+            parsed_filepath = parts.path
+            file_extension = parsed_filepath[parsed_filepath.rindex(".") :]
+        except:
+            if "?" in url:
+                if "&" in parts.query:
+                    parsed_queries = parts.query.split("&")
+                    for current_query in parsed_queries:
+                        try:
+                            file_extension = current_query[current_query.rindex(".") :]
+                            break
+                        except:
+                            # nothing, loop again
+                            dummy_var = ""
+                else:
+                    try:
+                        file_extension = parts.query[parts.query.rindex(".") :]
+                    except:
+                        print(
+                            "File extension unknown; setting as '.unknown' to preserve data"
+                        )
+                        file_extension = ".unknown"
+            else:
+                # worst case we can't identify the extension, setting 'unknown' to allow saving file for evaluation
+                print("File extension unknown; setting as '.unknown' to preserve data")
+                file_extension = ".unknown"
+
         if title_present:
             return "{}-{}{}".format(comic_name, page, file_extension)
         else:
