@@ -21,7 +21,7 @@ supported_comics = {
     "Nedroid": {
         "name": "Nedroid",
         "start_url": "https://nedroid.com/?1",
-        "comic_image_selector": "//img[@class='comic']/@src",
+        "comic_image_selector": "//img[@class='comic_img']/@src",
         "next_page_selector": "//a[text()='NEXT>']/@href",
     },
     "JL8": {
