@@ -28,6 +28,7 @@ FAKE_USERAGENT_SETTINGS = {
         "scrapy.downloadermiddlewares.retry.RetryMiddleware": None,
         "scrapy_fake_useragent.middleware.RandomUserAgentMiddleware": 500,
         "scrapy_fake_useragent.middleware.RetryUserAgentMiddleware": 501,
+        "webcomix.scrapy.custom_cloudflare_middleware.CustomCloudflareMiddleware": 543,
     },
     "FAKEUSERAGENT_PROVIDERS": [
         "scrapy_fake_useragent.providers.FakeUserAgentProvider",

@@ -33,6 +33,7 @@ scrapy-splash = "^0.10.0"
 scrapy-fake-useragent = "^1.4.4"
 pytest-rerunfailures = "^11.1.2"
 docker = "^7.1.0"
+cloudscraper = "^1.2.71"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.4.4"
