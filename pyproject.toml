@@ -1,11 +1,10 @@
-[tool.poetry]
+[project]
 name = "webcomix"
 version = "3.12.0"
 description = "Webcomic downloader"
-authors = ["Jean-Christophe Pelletier <pelletierj97@gmail.com>"]
+authors = [{ name = "Jean-Christophe Pelletier", email = "pelletierj97@gmail.com" }]
+requires-python = ">=3.9,<4"
 readme = "README.md"
-repository = "https://github.com/J-CPelletier/webcomix"
-homepage = "https://github.com/J-CPelletier/webcomix"
 license = "MIT"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -20,34 +19,42 @@ classifiers = [
     "Operating System :: OS Independent",
     "Framework :: Scrapy",
 ]
-packages = [
-    { include = "webcomix" },
+dependencies = [
+    "click>=8.0.0,<9",
+    "tqdm>=4.66.1,<5",
+    "Scrapy>=2.11.2,<3",
+    "scrapy-splash>=0.10.0,<0.11",
+    "scrapy-fake-useragent>=1.4.4,<2",
+    "pytest-rerunfailures>=11.1.2,<12",
+    "docker>=7.1.0,<8",
+    "cloudscraper>=1.2.71,<2",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-click = "^8.0.0"
-tqdm = "^4.66.1"
-Scrapy = "^2.11.2"
-scrapy-splash = "^0.10.0"
-scrapy-fake-useragent = "^1.4.4"
-pytest-rerunfailures = "^11.1.2"
-docker = "^7.1.0"
-cloudscraper = "^1.2.71"
+[project.urls]
+Homepage = "https://github.com/J-CPelletier/webcomix"
+Repository = "https://github.com/J-CPelletier/webcomix"
 
-[tool.poetry.dev-dependencies]
-pytest = "^7.4.4"
-pytest-cov = "^4.1.0"
-pytest-mock = "^3.6.1"
-pytest-xdist = "^3.6.1"
-coveralls = "^3.2.0"
-mypy = "^1.5.0"
-pre-commit = "^2.15.0"
-black = "^24.3.0"
-
-[tool.poetry.scripts]
+[project.scripts]
 webcomix = "webcomix.cli:main"
 
+[dependency-groups]
+dev = [
+    "pytest>=7.4.4,<8",
+    "pytest-cov>=4.1.0,<5",
+    "pytest-mock>=3.6.1,<4",
+    "pytest-xdist>=3.6.1,<4",
+    "coveralls>=3.2.0,<4",
+    "mypy>=1.5.0,<2",
+    "pre-commit>=2.15.0,<3",
+    "black>=24.3.0,<25",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["webcomix"]
+
+[tool.hatch.build.targets.wheel]
+include = ["webcomix"]
+
 [build-system]
-requires = ["poetry>=1.2.0"]
-build-backend = "poetry.masonry.api"
+requires = ["uv_build>=0.9.18,<0.10.0"]
+build-backend = "uv_build"
