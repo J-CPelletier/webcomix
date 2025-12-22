@@ -121,12 +121,12 @@ supported_comics = {
         "next_page_selector": "//a[@class='cc-next']/@href",
         "single_page": True,
     },
-    "StarTrip": {
-        "name": "StarTrip",
-        "start_url": "https://www.startripcomic.com/comic/chapter-1-cover",
-        "comic_image_selector": "//img[@id='cc-comic']/@src",
-        "next_page_selector": "//a[@class='cc-next']/@href",
-    },
+    # "StarTrip": {
+    #     "name": "StarTrip",
+    #     "start_url": "https://www.startripcomic.com/comic/chapter-1-cover",
+    #     "comic_image_selector": "//img[@id='cc-comic']/@src",
+    #     "next_page_selector": "//a[@class='cc-next']/@href",
+    # },
     "GunnerkriggCourt": {
         "name": "GunnerkriggCourt",
         "start_url": "https://www.gunnerkrigg.com/?p=1",
