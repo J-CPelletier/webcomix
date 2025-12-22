@@ -56,5 +56,5 @@ include = ["webcomix"]
 include = ["webcomix"]
 
 [build-system]
-requires = ["poetry>=1.2.0"]
-build-backend = "poetry.masonry.api"
+requires = ["uv_build>=0.9.18,<0.10.0"]
+build-backend = "uv_build"
