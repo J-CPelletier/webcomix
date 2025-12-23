@@ -27,14 +27,14 @@ This program is for personal use only. Please be aware that by making the downlo
 #### End user
 
 1. Install [Python 3](https://www.python.org/downloads/)
-2. Install the command line interface tool with `pip install webcomix`
+2. Install the command line interface tool with `pip install webcomix` or use `uvx`
 
 #### Developer
 
 1. Install [Python 3](https://www.python.org/downloads/)
 2. Clone this repository and open a terminal in its directory
-3. Install [poetry](https://github.com/python-poetry/poetry) with `pip install poetry`
-3. Download the dependencies by running `poetry install`
+3. Install [uv](https://docs.astral.sh/uv/) with `pip install uv`
+3. Download the dependencies by running `uv sync`
 4. Install pre-commit hooks with `pre-commit install`
 
 ## Usage
