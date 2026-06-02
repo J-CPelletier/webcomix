@@ -3,7 +3,7 @@ name = "webcomix"
 version = "3.12.0"
 description = "Webcomic downloader"
 authors = [{ name = "Jean-Christophe Pelletier", email = "pelletierj97@gmail.com" }]
-requires-python = ">=3.9,<4"
+requires-python = ">=3.10,<4"
 readme = "README.md"
 license = "MIT"
 classifiers = [
@@ -22,11 +22,10 @@ classifiers = [
 dependencies = [
     "click>=8.0.0,<9",
     "tqdm>=4.66.1,<5",
-    "Scrapy>=2.11.2,<3",
-    "scrapy-splash>=0.10.0,<0.11",
+    "Scrapy>=2.16,<3",
+    "scrapy-playwright>=0.0.30,<1",
     "scrapy-fake-useragent>=1.4.4,<2",
     "pytest-rerunfailures>=11.1.2,<12",
-    "docker>=7.1.0,<8",
     "cloudscraper>=1.2.71,<2",
 ]
 

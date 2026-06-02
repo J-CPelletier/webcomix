@@ -24,6 +24,10 @@ class VerificationSpider(Spider):
         self.request_factory = RequestFactory(javascript, cookies)
         super(VerificationSpider, self).__init__(*args, **kwargs)
 
+    async def start(self):
+        yield self.request_factory.create(url=self.start_url, next_page=1)
+
+    # Backward compatibility with Scrapy < 2.13
     def start_requests(self):
         yield self.request_factory.create(url=self.start_url, next_page=1)
 

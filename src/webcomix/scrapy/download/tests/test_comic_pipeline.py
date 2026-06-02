@@ -1,11 +1,20 @@
 import os
 
 from scrapy.exceptions import DropItem
+from scrapy.settings import Settings
+from scrapy.settings import default_settings
 import pytest
 
 from webcomix.scrapy.download.comic_pipeline import ComicPipeline
 from webcomix.scrapy.download.comic_page import ComicPage
 from webcomix.supported_comics import supported_comics
+
+
+def make_crawler(store_uri, mocker):
+    settings = Settings()
+    settings.setmodule(default_settings)
+    settings.set("FILES_STORE", store_uri)
+    return mocker.Mock(settings=settings)
 
 first_comic = list(supported_comics.values())[0]
 
@@ -23,7 +32,7 @@ def test_get_media_requests_returns_good_request_when_file_not_present(mocker):
     mocker.patch(
         "webcomix.comic.Comic.save_image_filename", return_value=expected_image_filename
     )
-    pipeline = ComicPipeline(store_uri="foo")
+    pipeline = ComicPipeline(store_uri="foo", crawler=make_crawler("foo", mocker))
     elements = list(
         pipeline.get_media_requests(
             ComicPage(url=expected_url_image, page=1, title=False, alt_text=None),
@@ -42,7 +51,7 @@ def test_get_media_requests_drops_item_when_file_present(mocker):
     mocker.patch(
         "webcomix.comic.Comic.save_image_location", return_value=expected_image_location
     )
-    pipeline = ComicPipeline(store_uri="foo")
+    pipeline = ComicPipeline(store_uri="foo", crawler=make_crawler("foo", mocker))
     with pytest.raises(DropItem):
         list(
             pipeline.get_media_requests(
@@ -63,7 +72,7 @@ def test_get_media_requests_drops_item_when_file_present_in_zip(mocker):
     mocker.patch(
         "webcomix.comic.Comic.save_image_location", return_value=expected_image_location
     )
-    pipeline = ComicPipeline(store_uri="foo")
+    pipeline = ComicPipeline(store_uri="foo", crawler=make_crawler("foo", mocker))
     with pytest.raises(DropItem):
         list(
             pipeline.get_media_requests(
@@ -77,7 +86,7 @@ def test_get_media_requests_drops_item_when_file_present_in_zip(mocker):
 def test_item_completed_returns_item_when_file_downloaded(mocker):
     results = [(True, {"path": expected_image_location})]
     item = ComicPage()
-    pipeline = ComicPipeline(store_uri="foo")
+    pipeline = ComicPipeline(store_uri="foo", crawler=make_crawler("foo", mocker))
 
     result = pipeline.item_completed(results, item, mocker.ANY)
 
@@ -88,7 +97,7 @@ def test_item_completed_returns_item_when_file_downloaded(mocker):
 def test_item_completed_returns_drops_when_file_not_downloaded(mocker):
     results = [(False, {})]
     item = ComicPage()
-    pipeline = ComicPipeline(store_uri="foo")
+    pipeline = ComicPipeline(store_uri="foo", crawler=make_crawler("foo", mocker))
 
     with pytest.raises(DropItem):
         pipeline.item_completed(results, item, mocker.ANY)
@@ -98,7 +107,7 @@ def test_item_completed_returns_drops_when_file_not_downloaded(mocker):
 def test_file_path_is_image_path(mocker):
     mock_request = mocker.patch("scrapy.http.Request")
     mock_request.meta = {"image_file_name": expected_image_location}
-    pipeline = ComicPipeline(store_uri="foo")
+    pipeline = ComicPipeline(store_uri="foo", crawler=make_crawler("foo", mocker))
     file_path = pipeline.file_path(mock_request)
     assert file_path == expected_image_location
     os.rmdir("foo")
