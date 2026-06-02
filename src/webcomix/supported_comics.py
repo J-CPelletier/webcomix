@@ -45,7 +45,7 @@ supported_comics = {
     "TheAbominableCharlesChristopher": {
         "name": "TheAbominableCharlesChristopher",
         "start_url": "https://karlkerschl.com/comic/episode-one/",
-        "comic_image_selector": "//div[@id='comic']//img/@src",
+        "comic_image_selector": "//div[@class='comic']//img/@src",
         "next_page_selector": "//a[contains(@class, 'comic-nav-next')]/@href",
     },
     "GuildedAge": {
@@ -211,12 +211,13 @@ supported_comics = {
         "comic_image_selector": "//img[@id='comicimage']/@src",
         "next_page_selector": "//a[contains(@rel, 'next')]//@href",
     },
-    "QuestionableContent": {
-        "name": "QuestionableContent",
-        "start_url": "https://questionablecontent.net/view.php?comic=1",
-        "comic_image_selector": "//img[@id='strip']/@src",
-        "next_page_selector": "//a[contains(text(), 'Next')]//@href",
-    },
+    # Disabled for now due to the site having been deleted as of June 2nd
+    #  "QuestionableContent": {
+        #  "name": "QuestionableContent",
+        #  "start_url": "https://questionablecontent.net/view.php?comic=1",
+        #  "comic_image_selector": "//img[@id='strip']/@src",
+        #  "next_page_selector": "//a[contains(text(), 'Next')]//@href",
+    #  },
     "VGCats": {
         "name": "VGCats",
         "start_url": "https://www.vgcats.com/comics/?strip_id=0",
@@ -238,8 +239,8 @@ supported_comics = {
     "VisionHaze": {
         "name": "VisionHaze",
         "start_url": "https://www.visionhaze.com/index.php?p=1",
-        "comic_image_selector": "//div[@class='page']//img/@src",
-        "next_page_selector": "//div[@class='navbutton']//a[contains(text(), '›')]/@href",
+        "comic_image_selector": "//div[@class='content']//img/@src",
+        "next_page_selector": "//div[@class='navbutton']//a[img[contains(@src, 'navbutton/forward.png')]]/@href",
     },
     "TheJunkHyenasDiner": {
         "name": "TheJunkHyenasDiner",

@@ -17,7 +17,7 @@ from webcomix.util import check_first_pages
 #  }
 
 
-@pytest.mark.flaky(reruns=5, reruns_delay=60)
+@pytest.mark.flaky(reruns=2, reruns_delay=5)
 @pytest.mark.slow
 @pytest.mark.parametrize("comic_name", supported_comics.keys())
 def test_supported_comics(comic_name):
