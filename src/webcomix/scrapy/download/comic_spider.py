@@ -28,8 +28,12 @@ class ComicSpider(Spider):
         self.request_factory = RequestFactory(javascript, cookies)
         super(ComicSpider, self).__init__(*args, **kwargs)
 
-    def start_requests(self):
+    async def start(self):
         # TODO: Send cookies: https://stackoverflow.com/a/32624137
+        yield self.request_factory.create(url=self.start_url, next_page=self.start_page)
+
+    # Backward compatibility with Scrapy < 2.13
+    def start_requests(self):
         yield self.request_factory.create(url=self.start_url, next_page=self.start_page)
 
     def parse(self, response):

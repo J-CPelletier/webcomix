@@ -1,5 +1,6 @@
 import os
 
+from scrapy.settings import Settings, default_settings
 import pytest
 from scrapy.exceptions import DropItem
 from scrapy.utils.test import get_crawler
@@ -7,6 +8,14 @@ from scrapy.utils.test import get_crawler
 from webcomix.scrapy.download.comic_pipeline import ComicPipeline
 from webcomix.scrapy.download.comic_page import ComicPage
 from webcomix.supported_comics import supported_comics
+
+
+def make_crawler(store_uri, mocker):
+    settings = Settings()
+    settings.setmodule(default_settings)
+    settings.set("FILES_STORE", store_uri)
+    return mocker.Mock(settings=settings)
+
 
 first_comic = list(supported_comics.values())[0]
 

@@ -17,10 +17,10 @@ This program is for personal use only. Please be aware that by making the downlo
 * Python (3.10 or newer)
 * click
 * scrapy (Some additional steps might be required to include this package and can be found [here](https://doc.scrapy.org/en/latest/intro/install.html#intro-install-platform-notes))
-* scrapy-splash
+* scrapy-playwright
 * scrapy-fake-useragent
 * tqdm
-* [Docker](https://www.docker.com/) (To be able to download JavaScript-dependent websites with `-j` option)
+* Playwright browsers (for JavaScript-dependent websites with `-j` option): run `python -m playwright install chromium`
 
 ### Process
 

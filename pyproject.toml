@@ -23,11 +23,10 @@ classifiers = [
 dependencies = [
     "click>=8.0.0,<9",
     "tqdm>=4.66.1,<5",
-    "Scrapy>=2.15,<2.16",
-    "scrapy-splash>=0.10.0,<0.11",
+    "Scrapy>=2.16,<3",
+    "scrapy-playwright>=0.0.30,<1",
     "scrapy-fake-useragent>=1.4.4,<2",
     "pytest-rerunfailures>=11.1.2,<12",
-    "docker>=7.1.0,<8",
     "cloudscraper>=1.2.71,<2",
 ]
 
@@ -40,14 +39,14 @@ webcomix = "webcomix.cli:main"
 
 [dependency-groups]
 dev = [
-    "pytest>=7.4.4,<8",
+    "pytest>=7.4.4,<10",
     "pytest-cov>=4.1.0,<5",
     "pytest-mock>=3.6.1,<4",
     "pytest-xdist>=3.6.1,<4",
     "coveralls>=3.2.0,<4",
     "mypy>=1.5.0,<2",
     "pre-commit>=2.15.0,<3",
-    "black>=24.3.0,<25",
+    "black>=24.3.0,<27",
 ]
 
 [tool.hatch.build.targets.sdist]
