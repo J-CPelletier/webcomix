@@ -111,8 +111,8 @@ supported_comics = {
     "Spinnerette": {
         "name": "Spinnerette",
         "start_url": "https://www.spinnyverse.com/comic/02-09-2010",
-        "comic_image_selector": "//div[@id='cc-comicbody']//img/@src",
-        "next_page_selector": "//a[@class='cc-next']/@href",
+        "comic_image_selector": "//div[@class='comic-holder']//img/@src",
+        "next_page_selector": "//a[@class='next']/@href",
     },
     "RyanMadeMistakes": {
         "name": "RyanMadeMistakes",
@@ -135,9 +135,9 @@ supported_comics = {
     },
     "Housepets": {
         "name": "Housepets",
-        "start_url": "https://www.housepetscomic.com/comic/2008/06/02/when-boredom-strikes/",
-        "comic_image_selector": "//div[@id='comic']//img/@src",
-        "next_page_selector": "//div[@id='comic']//@href",
+        "start_url": "https://rickgriffinstudios.com/housepets/comic/0001/",
+        "comic_image_selector": "//img[@id='comic-image']/@src",
+        "next_page_selector": "//a[@id='next-button']//@href",
     },
     "Aurora": {
         "name": "Aurora",
@@ -218,29 +218,11 @@ supported_comics = {
         #  "comic_image_selector": "//img[@id='strip']/@src",
         #  "next_page_selector": "//a[contains(text(), 'Next')]//@href",
     #  },
-    "VGCats": {
-        "name": "VGCats",
-        "start_url": "https://www.vgcats.com/comics/?strip_id=0",
-        "comic_image_selector": "(//table//img[contains(@src, 'images')]/@src)[1]",
-        "next_page_selector": "//table//a[img[contains(@src, 'next')]]/@href",
-    },
-    "SuperEffective": {
-        "name": "SuperEffective",
-        "start_url": "https://vgcats.com/super/index.php?strip_id=0",
-        "comic_image_selector": "(//table//img[contains(@src, 'images')]/@src)[1]",
-        "next_page_selector": "//table//a[img[contains(@src, 'next')]]/@href",
-    },
-    "RivalQuickies": {
-        "name": "RivalQuickies",
-        "start_url": "https://vgcats.com/rivals/?strip_id=0",
-        "comic_image_selector": "(//table//img[contains(@src, 'images')]/@src)[1]",
-        "next_page_selector": "//table//a[img[contains(@src, 'next')]]/@href",
-    },
     "VisionHaze": {
         "name": "VisionHaze",
         "start_url": "https://www.visionhaze.com/index.php?p=1",
         "comic_image_selector": "//div[@class='content']//img/@src",
-        "next_page_selector": "//div[@class='navbutton']//a[img[contains(@src, 'navbutton/forward.png')]]/@href",
+        "next_page_selector": "//div[@class='nav']//a[img[contains(@src, '/forward')]]/@href",
     },
     "TheJunkHyenasDiner": {
         "name": "TheJunkHyenasDiner",
