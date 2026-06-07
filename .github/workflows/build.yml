@@ -45,7 +45,7 @@ jobs:
         env:
           RUN_PLAYWRIGHT_TESTS: '1'
         run: |
-          uv run pytest --cov=webcomix
+          uv run pytest -n auto --cov=webcomix
           uv run mypy . --ignore-missing-imports
       - name: Coveralls
         env:
