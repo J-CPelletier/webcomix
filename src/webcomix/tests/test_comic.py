@@ -14,32 +14,15 @@ from webcomix.tests.fake_websites.fixture import (
 
 
 @pytest.fixture
-def cleanup_test_directories():
-    if os.path.isfile("xkcd.cbz"):
-        os.remove("xkcd.cbz")
-    if os.path.isfile("test.cbz"):
-        os.remove("test.cbz")
-    if os.path.isdir("xkcd"):
-        shutil.rmtree("xkcd")
-    if os.path.isdir("test"):
-        shutil.rmtree("test")
-    yield None
-    if os.path.isdir("xkcd"):
-        shutil.rmtree("xkcd")
-    if os.path.isdir("test"):
-        shutil.rmtree("test")
-    if os.path.isfile("xkcd.cbz"):
-        os.remove("xkcd.cbz")
-    if os.path.isfile("test.cbz"):
-        os.remove("test.cbz")
+def cleanup_test_directories(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    yield tmp_path
 
 
 @pytest.fixture
-def fake_downloaded_xkcd_comic():
-    if os.path.isfile("xkcd.cbz"):
-        os.remove("xkcd.cbz")
-    if os.path.isdir("xkcd"):
-        shutil.rmtree("xkcd")
+def fake_downloaded_xkcd_comic(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+
     comic = Comic(
         "xkcd",
         "http://xkcd.com/1/",
@@ -47,15 +30,13 @@ def fake_downloaded_xkcd_comic():
         "//a[@rel='next']/@href",
         False,
     )
-    os.mkdir("xkcd")
+
+    xkcd_dir = tmp_path / "xkcd"
+    xkcd_dir.mkdir()
     for i in range(1, 6):
-        with open("xkcd/{}.txt".format(i), "w") as image_file:
-            image_file.write("testing {}".format(i))
+        (xkcd_dir / f"{i}.txt").write_text(f"testing {i}")
+
     yield comic
-    if os.path.isfile("xkcd.cbz"):
-        os.remove("xkcd.cbz")
-    if os.path.isdir("xkcd"):
-        shutil.rmtree("xkcd")
 
 
 def test_save_image_location():

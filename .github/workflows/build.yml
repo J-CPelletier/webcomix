@@ -40,7 +40,8 @@ jobs:
         run: uv build
       - name: Run tests
         run: |
-          uv run pytest --cov=webcomix
+          uv run pytest -n auto --ignore=src/webcomix/tests/test_docker.py --cov=webcomix --cov-report=xml
+          uv run pytest src/webcomix/tests/test_docker.py --cov=webcomix --cov-append --cov-report=xml
           uv run mypy . --ignore-missing-imports
       - name: Coveralls
         env:
