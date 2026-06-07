@@ -50,3 +50,13 @@ def one_webpage_searchable_uri():
         .resolve()
         .as_uri()
     )
+
+
+@pytest.fixture
+def playwright_pages_uri():
+    return str(
+        get_dir_path_of_script()
+        .joinpath("playwright_pages/1.html")
+        .resolve()
+        .as_uri()
+    )

@@ -36,9 +36,14 @@ jobs:
       - name: Install dependencies
         run: |
           uv sync --locked --all-extras --dev
+      - name: Install Playwright browsers
+        run: |
+          uv run playwright install chromium
       - name: Build
         run: uv build
       - name: Run tests
+        env:
+          RUN_PLAYWRIGHT_TESTS: '1'
         run: |
           uv run pytest --cov=webcomix
           uv run mypy . --ignore-missing-imports
