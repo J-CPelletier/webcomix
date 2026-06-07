@@ -218,12 +218,6 @@ supported_comics = {
         #  "comic_image_selector": "//img[@id='strip']/@src",
         #  "next_page_selector": "//a[contains(text(), 'Next')]//@href",
     #  },
-    "VisionHaze": {
-        "name": "VisionHaze",
-        "start_url": "https://www.visionhaze.com/index.php?p=1",
-        "comic_image_selector": "//div[@class='content']//img/@src",
-        "next_page_selector": "//div[@class='nav']//a[img[contains(@src, '/forward')]]/@href",
-    },
     "TheJunkHyenasDiner": {
         "name": "TheJunkHyenasDiner",
         "start_url": "https://junkhyenasdiner.com/comic/intro/",
