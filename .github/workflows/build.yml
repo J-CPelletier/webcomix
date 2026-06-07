@@ -45,8 +45,7 @@ jobs:
         env:
           RUN_PLAYWRIGHT_TESTS: '1'
         run: |
-          uv run pytest -n auto --ignore=src/webcomix/tests/test_docker.py --cov=webcomix --cov-report=xml
-          uv run pytest src/webcomix/tests/test_docker.py --cov=webcomix --cov-append --cov-report=xml
+          uv run pytest --cov=webcomix
           uv run mypy . --ignore-missing-imports
       - name: Coveralls
         env:
