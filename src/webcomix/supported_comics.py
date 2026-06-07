@@ -45,7 +45,7 @@ supported_comics = {
     "TheAbominableCharlesChristopher": {
         "name": "TheAbominableCharlesChristopher",
         "start_url": "https://karlkerschl.com/comic/episode-one/",
-        "comic_image_selector": "//div[@id='comic']//img/@src",
+        "comic_image_selector": "//div[@class='comic']//img/@src",
         "next_page_selector": "//a[contains(@class, 'comic-nav-next')]/@href",
     },
     "GuildedAge": {
@@ -111,8 +111,8 @@ supported_comics = {
     "Spinnerette": {
         "name": "Spinnerette",
         "start_url": "https://www.spinnyverse.com/comic/02-09-2010",
-        "comic_image_selector": "//div[@id='cc-comicbody']//img/@src",
-        "next_page_selector": "//a[@class='cc-next']/@href",
+        "comic_image_selector": "//div[@class='comic-holder']//img/@src",
+        "next_page_selector": "//a[@class='next']/@href",
     },
     "RyanMadeMistakes": {
         "name": "RyanMadeMistakes",
@@ -135,9 +135,9 @@ supported_comics = {
     },
     "Housepets": {
         "name": "Housepets",
-        "start_url": "https://www.housepetscomic.com/comic/2008/06/02/when-boredom-strikes/",
-        "comic_image_selector": "//div[@id='comic']//img/@src",
-        "next_page_selector": "//div[@id='comic']//@href",
+        "start_url": "https://rickgriffinstudios.com/housepets/comic/0001/",
+        "comic_image_selector": "//img[@id='comic-image']/@src",
+        "next_page_selector": "//a[@id='next-button']//@href",
     },
     "Aurora": {
         "name": "Aurora",
@@ -211,36 +211,13 @@ supported_comics = {
         "comic_image_selector": "//img[@id='comicimage']/@src",
         "next_page_selector": "//a[contains(@rel, 'next')]//@href",
     },
-    "QuestionableContent": {
-        "name": "QuestionableContent",
-        "start_url": "https://questionablecontent.net/view.php?comic=1",
-        "comic_image_selector": "//img[@id='strip']/@src",
-        "next_page_selector": "//a[contains(text(), 'Next')]//@href",
-    },
-    "VGCats": {
-        "name": "VGCats",
-        "start_url": "https://www.vgcats.com/comics/?strip_id=0",
-        "comic_image_selector": "(//table//img[contains(@src, 'images')]/@src)[1]",
-        "next_page_selector": "//table//a[img[contains(@src, 'next')]]/@href",
-    },
-    "SuperEffective": {
-        "name": "SuperEffective",
-        "start_url": "https://vgcats.com/super/index.php?strip_id=0",
-        "comic_image_selector": "(//table//img[contains(@src, 'images')]/@src)[1]",
-        "next_page_selector": "//table//a[img[contains(@src, 'next')]]/@href",
-    },
-    "RivalQuickies": {
-        "name": "RivalQuickies",
-        "start_url": "https://vgcats.com/rivals/?strip_id=0",
-        "comic_image_selector": "(//table//img[contains(@src, 'images')]/@src)[1]",
-        "next_page_selector": "//table//a[img[contains(@src, 'next')]]/@href",
-    },
-    "VisionHaze": {
-        "name": "VisionHaze",
-        "start_url": "https://www.visionhaze.com/index.php?p=1",
-        "comic_image_selector": "//div[@class='page']//img/@src",
-        "next_page_selector": "//div[@class='navbutton']//a[contains(text(), '›')]/@href",
-    },
+    # Disabled for now due to the site having been deleted as of June 2nd
+    #  "QuestionableContent": {
+        #  "name": "QuestionableContent",
+        #  "start_url": "https://questionablecontent.net/view.php?comic=1",
+        #  "comic_image_selector": "//img[@id='strip']/@src",
+        #  "next_page_selector": "//a[contains(text(), 'Next')]//@href",
+    #  },
     "TheJunkHyenasDiner": {
         "name": "TheJunkHyenasDiner",
         "start_url": "https://junkhyenasdiner.com/comic/intro/",

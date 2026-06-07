@@ -1,9 +1,9 @@
 [project]
 name = "webcomix"
-version = "3.12.0"
+version = "3.12.1"
 description = "Webcomic downloader"
 authors = [{ name = "Jean-Christophe Pelletier", email = "pelletierj97@gmail.com" }]
-requires-python = ">=3.9,<4"
+requires-python = ">=3.10,<4"
 readme = "README.md"
 license = "MIT"
 classifiers = [
@@ -12,17 +12,18 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Operating System :: OS Independent",
     "Framework :: Scrapy",
 ]
 dependencies = [
     "click>=8.0.0,<9",
     "tqdm>=4.66.1,<5",
-    "Scrapy>=2.11.2,<3",
+    "Scrapy>=2.15,<2.16",
     "scrapy-splash>=0.10.0,<0.11",
     "scrapy-fake-useragent>=1.4.4,<2",
     "pytest-rerunfailures>=11.1.2,<12",
