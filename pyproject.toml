@@ -1,6 +1,6 @@
 [project]
 name = "webcomix"
-version = "3.12.0"
+version = "3.12.1"
 description = "Webcomic downloader"
 authors = [{ name = "Jean-Christophe Pelletier", email = "pelletierj97@gmail.com" }]
 requires-python = ">=3.10,<4"
@@ -12,10 +12,11 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Operating System :: OS Independent",
     "Framework :: Scrapy",
 ]
@@ -38,14 +39,14 @@ webcomix = "webcomix.cli:main"
 
 [dependency-groups]
 dev = [
-    "pytest>=7.4.4,<8",
+    "pytest>=7.4.4,<10",
     "pytest-cov>=4.1.0,<5",
     "pytest-mock>=3.6.1,<4",
     "pytest-xdist>=3.6.1,<4",
     "coveralls>=3.2.0,<4",
     "mypy>=1.5.0,<2",
     "pre-commit>=2.15.0,<3",
-    "black>=24.3.0,<25",
+    "black>=24.3.0,<27",
 ]
 
 [tool.hatch.build.targets.sdist]
