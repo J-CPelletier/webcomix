@@ -10,16 +10,17 @@ from webcomix.scrapy.verification.verification_spider import VerificationSpider
 from webcomix.scrapy.crawler_worker import CrawlerWorker
 from webcomix.scrapy.verification.web_page import WebPage
 
-SPLASH_SETTINGS = {
-    "SPLASH_URL": "http://0.0.0.0:8050",
-    "DOWNLOADER_MIDDLEWARES": {
-        "scrapy_splash.SplashCookiesMiddleware": 723,
-        "scrapy_splash.SplashMiddleware": 725,
-        "scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware": 810,
+PLAYWRIGHT_SETTINGS = {
+    # Use Playwright as a drop-in JS renderer (similar purpose to scrapy-splash)
+    "DOWNLOAD_HANDLERS": {
+        "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+        "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
     },
-    "SPIDER_MIDDLEWARES": {"scrapy_splash.SplashDeduplicateArgsMiddleware": 100},
-    "DUPEFILTER_CLASS": "scrapy_splash.SplashAwareDupeFilter",
-    "HTTPCACHE_STORAGE": "scrapy_splash.SplashAwareFSCacheStorage",
+    # Required by scrapy-playwright
+    "TWISTED_REACTOR": "twisted.internet.asyncioreactor.AsyncioSelectorReactor",
+    # Keep defaults explicit/predictable
+    "PLAYWRIGHT_BROWSER_TYPE": "chromium",
+    "PLAYWRIGHT_LAUNCH_OPTIONS": {"headless": True},
 }
 
 FAKE_USERAGENT_SETTINGS = {
@@ -95,7 +96,7 @@ class Comic:
         }  # type: Dict
 
         if self.javascript:
-            settings.update(SPLASH_SETTINGS)
+            settings.update(PLAYWRIGHT_SETTINGS)
 
         worker = CrawlerWorker(
             settings,
@@ -147,7 +148,7 @@ class Comic:
         }  # type: Dict[str, Any]
 
         if self.javascript:
-            settings.update(SPLASH_SETTINGS)
+            settings.update(PLAYWRIGHT_SETTINGS)
 
         worker = CrawlerWorker(
             settings,

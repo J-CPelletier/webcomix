@@ -6,7 +6,6 @@ from webcomix.comic import Comic
 from webcomix.exceptions import CrawlerBlocked, NextLinkNotFound
 from webcomix.search import discovery
 from webcomix.supported_comics import supported_comics
-from webcomix.docker import DockerManager
 
 
 @click.group()
@@ -121,23 +120,22 @@ def search(
     """
     Downloads a webcomic using a general XPath
     """
-    with DockerManager(javascript):
-        comic, validation = discovery(
-            name,
-            start_url,
-            end_url=end_url,
-            start_page=start_page,
-            alt_text=alt_text,
-            single_page=single_page,
-            javascript=javascript,
-            title=title,
-            debug=verbose,
-        )
-        if comic is not None:
-            print_verification(validation)
-            click.echo("Verify that the links above are correct.")
-            if yes or click.confirm("Are you sure you want to proceed?"):
-                download_webcomic(comic, cbz)
+    comic, validation = discovery(
+        name,
+        start_url,
+        end_url=end_url,
+        start_page=start_page,
+        alt_text=alt_text,
+        single_page=single_page,
+        javascript=javascript,
+        title=title,
+        debug=verbose,
+    )
+    if comic is not None:
+        print_verification(validation)
+        click.echo("Verify that the links above are correct.")
+        if yes or click.confirm("Are you sure you want to proceed?"):
+            download_webcomic(comic, cbz)
 
 
 @cli.command()
@@ -248,45 +246,42 @@ def custom(
     """
     Downloads a user-defined webcomic
     """
-    with DockerManager(javascript):
-        comic = Comic(
-            name,
-            start_url,
-            image_xpath,
-            next_page_xpath,
-            end_url=end_url,
-            block_selectors=block_xpath,
-            start_page=start_page,
-            alt_text=alt_text,
-            single_page=single_page,
-            javascript=javascript,
-            title=title,
-            cookies=cookie,
-            debug=verbose,
+    comic = Comic(
+        name,
+        start_url,
+        image_xpath,
+        next_page_xpath,
+        end_url=end_url,
+        block_selectors=block_xpath,
+        start_page=start_page,
+        alt_text=alt_text,
+        single_page=single_page,
+        javascript=javascript,
+        title=title,
+        cookies=cookie,
+        debug=verbose,
+    )
+    try:
+        validation = comic.verify_xpath()
+    except NextLinkNotFound as exception:
+        click.echo(
+            "Could not find next link of: {} \nwith next page XPath expression: {}".format(
+                exception.failed_url, exception.next_page_xpath
+            )
         )
-        try:
-            validation = comic.verify_xpath()
-        except NextLinkNotFound as exception:
-            click.echo(
-                "Could not find next link of: {} \nwith next page XPath expression: {}".format(
-                    exception.failed_url, exception.next_page_xpath
-                )
-            )
-            click.echo(
-                "Have you tried testing your XPath expression with 'scrapy shell'?"
-            )
-            raise click.Abort()
-        try:
-            print_verification(validation)
-        except CrawlerBlocked as exception:
-            click.echo("{} could not be accessed with webcomix.".format(name))
-            click.echo(
-                "Chances are the website you're trying to download images from doesn't want to be scraped."
-            )
-            raise click.Abort()
-        click.echo("Verify that the links above are correct.")
-        if yes or click.confirm("Are you sure you want to proceed?"):
-            download_webcomic(comic, cbz)
+        click.echo("Have you tried testing your XPath expression with 'scrapy shell'?")
+        raise click.Abort()
+    try:
+        print_verification(validation)
+    except CrawlerBlocked as exception:
+        click.echo("{} could not be accessed with webcomix.".format(name))
+        click.echo(
+            "Chances are the website you're trying to download images from doesn't want to be scraped."
+        )
+        raise click.Abort()
+    click.echo("Verify that the links above are correct.")
+    if yes or click.confirm("Are you sure you want to proceed?"):
+        download_webcomic(comic, cbz)
 
 
 def main():
