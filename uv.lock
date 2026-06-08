@@ -1572,7 +1572,7 @@ wheels = [
 
 [[package]]
 name = "webcomix"
-version = "3.12.1"
+version = "4.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
