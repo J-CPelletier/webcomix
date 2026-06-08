@@ -111,7 +111,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
       - name: Publish package on GitHub Releases
         id: create_release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           name: webcomix ${{ github.ref_name }}
           body: |
