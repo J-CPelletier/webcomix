@@ -47,6 +47,7 @@ dev = [
     "mypy>=1.5.0,<2",
     "pre-commit>=2.15.0,<3",
     "black>=24.3.0,<27",
+    "coverage>=6.5.0",
 ]
 
 [tool.hatch.build.targets.sdist]
