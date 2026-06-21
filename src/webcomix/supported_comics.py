@@ -230,4 +230,10 @@ supported_comics = {
         "comic_image_selector": "//img[@id='comicimage']/@src",
         "next_page_selector": "//a[@rel='next']//@href",
     },
+    "RunawayToTheStars": {
+        "name": "RunawayToTheStars",
+        "start_url": "https://www.runawaytothestars.com/comic/rtts-page-1-and-2/",
+        "comic_image_selector": "//div[@id='spliced-comic']/span/img/@src",
+        "next_page_selector": "//a[@class='next-comic']/@href",
+    },
 }
