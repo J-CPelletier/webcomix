@@ -212,12 +212,13 @@ supported_comics = {
         "next_page_selector": "//a[contains(@rel, 'next')]//@href",
     },
     # Disabled for now due to the site having been deleted as of June 2nd
-    #  "QuestionableContent": {
-        #  "name": "QuestionableContent",
-        #  "start_url": "https://questionablecontent.net/view.php?comic=1",
-        #  "comic_image_selector": "//img[@id='strip']/@src",
-        #  "next_page_selector": "//a[contains(text(), 'Next')]//@href",
-    #  },
+    # Creator has restored the website; checked on 2026-08-04
+    "QuestionableContent": {
+        "name": "QuestionableContent",
+        "start_url": "https://questionablecontent.net/view.php?comic=1",
+        "comic_image_selector": "//img[@id='strip']/@src",
+        "next_page_selector": "//a[contains(text(), 'Next')]//@href",
+    },
     "TheJunkHyenasDiner": {
         "name": "TheJunkHyenasDiner",
         "start_url": "https://junkhyenasdiner.com/comic/intro/",
