@@ -211,8 +211,6 @@ supported_comics = {
         "comic_image_selector": "//img[@id='comicimage']/@src",
         "next_page_selector": "//a[contains(@rel, 'next')]//@href",
     },
-    # Disabled for now due to the site having been deleted as of June 2nd
-    # Creator has restored the website; checked on 2026-08-04
     "QuestionableContent": {
         "name": "QuestionableContent",
         "start_url": "https://questionablecontent.net/view.php?comic=1",
