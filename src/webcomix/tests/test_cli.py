@@ -329,7 +329,7 @@ def test_custom_comic_downloads_comic_with_multiple_cookies_entries(mocker):
             "--next_page_xpath=next_page",
             "--image_xpath=image",
             "--cookie=foo bar",
-            "--cookie=bar baz"
+            "--cookie=bar baz",
         ],
         "yes",
     )

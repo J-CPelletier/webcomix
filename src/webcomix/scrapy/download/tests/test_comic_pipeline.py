@@ -29,7 +29,9 @@ def make_pipeline(store_uri="foo"):
     return ComicPipeline.from_crawler(crawler)
 
 
-def test_get_media_requests_returns_good_request_when_file_not_present(mocker, tmp_path):
+def test_get_media_requests_returns_good_request_when_file_not_present(
+    mocker, tmp_path
+):
     mocker.patch("os.path.isfile", return_value=False)
     mock_spider_info = mocker.patch("scrapy.pipelines.media.MediaPipeline.SpiderInfo")
     mocker.patch(

@@ -2,7 +2,6 @@ from scrapy import Request
 
 from webcomix.scrapy.request_factory import RequestFactory
 
-
 AN_URL = "https://xkcd.com"
 
 
