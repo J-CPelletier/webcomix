@@ -25,7 +25,9 @@ def test_verify_xpath_playwright(playwright_pages_uri):
     parsed = urllib.parse.urlparse(playwright_pages_uri)
     pages_dir = Path(urllib.parse.unquote(parsed.path)).parent
 
-    Handler = lambda *args, **kwargs: http.server.SimpleHTTPRequestHandler(*args, directory=str(pages_dir), **kwargs)
+    Handler = lambda *args, **kwargs: http.server.SimpleHTTPRequestHandler(
+        *args, directory=str(pages_dir), **kwargs
+    )
     server = socketserver.TCPServer(("127.0.0.1", 0), Handler)
     host, port = server.server_address
     thread = threading.Thread(target=server.serve_forever, daemon=True)

@@ -2,7 +2,6 @@ import pytest
 from scrapy.http import HtmlResponse, Request
 from webcomix.scrapy.custom_cloudflare_middleware import CustomCloudflareMiddleware
 
-
 AN_URL = "https://example.com/comic"
 CLOUDFLARE_HTML = "<html><body>Cloudflare protected content</body></html>"
 

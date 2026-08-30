@@ -47,12 +47,14 @@ def test_start_raises_child_exception(monkeypatch):
     """If the child process put an Exception into the result queue, start() should re-raise it."""
     # Prevent real process forking/joining
     import multiprocessing
+
     monkeypatch.setattr(multiprocessing.Process, "start", lambda self: None)
     monkeypatch.setattr(multiprocessing.Process, "join", lambda self, *a, **k: None)
 
     worker = CrawlerWorker({}, False)
     # Use a local queue.Queue so get_nowait behaves synchronously in this process
     import queue as _queue
+
     worker.result_queue = _queue.Queue()
     # Simulate the child process reporting an exception
     worker.result_queue.put(ValueError("foo"))
@@ -64,6 +66,7 @@ def test_start_raises_child_exception(monkeypatch):
 def test_start_raises_keyboardinterrupt_when_killed(monkeypatch):
     """If kill_process is set the parent should raise KeyboardInterrupt after join."""
     import multiprocessing
+
     monkeypatch.setattr(multiprocessing.Process, "start", lambda self: None)
     monkeypatch.setattr(multiprocessing.Process, "join", lambda self, *a, **k: None)
 
