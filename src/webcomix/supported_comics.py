@@ -56,9 +56,9 @@ supported_comics = {
     },
     "TalesOfElysium": {
         "name": "TalesOfElysium",
-        "start_url": "https://ssp-comics.com/comics/toe/?page=1&mode=10",
-        "comic_image_selector": "//div[@id='ImageComicContainer']//img[contains(@src, 'comic')]/@src",
-        "next_page_selector": "//a[button/@id='next10Button']/@href",
+        "start_url": "https://talesofelysium.thecomicseries.com/comics/1/#content-start",
+        "comic_image_selector": "//div[@id='comicimagewrap']//img[contains(@id, 'comicimage')]/@src",
+        "next_page_selector": "//a[contains(@class, 'comicnavlink') and @rel='next']/@href",
     },
     "Gunshow": {
         "name": "Gunshow",

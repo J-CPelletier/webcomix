@@ -5,18 +5,6 @@ from webcomix.comic import Comic
 from webcomix.supported_comics import supported_comics
 from webcomix.util import check_first_pages
 
-
-# TODO: Handle 403 errors
-#  supported_comics_ignored = {
-    #  k: v
-    #  for k, v in supported_comics.items()
-    #  if not (
-        #  (k == "TheAbominableCharlesChristopher" or k == "Lackadaisy")
-        #  and os.environ.get("CI", False)
-    #  )
-#  }
-
-
 @pytest.mark.flaky(reruns=2, reruns_delay=60)
 @pytest.mark.slow
 @pytest.mark.parametrize("comic_name", supported_comics.keys())
