@@ -137,14 +137,16 @@ def test_download_xpath_blocks_images(cleanup_test_directories, three_webpages_u
     assert len(files) == 0
 
 
-def test_download_end_url_stops_image_download(cleanup_test_directories, three_webpages_classes_uri):
+def test_download_end_url_stops_image_download(
+    cleanup_test_directories, three_webpages_classes_uri
+):
     three_webpages_folder = three_webpages_classes_uri.strip("1.html")
     comic = Comic(
         "test",
         three_webpages_classes_uri,
         "//img/@src",
         "//a/@href",
-        end_url=three_webpages_folder + "2.html"
+        end_url=three_webpages_folder + "2.html",
     )
     comic.download()
     path, dirs, files = next(os.walk("test"))
@@ -294,7 +296,7 @@ def test_verify_xpath_will_not_stop_with_end_url(three_webpages_uri):
         three_webpages_uri,
         "//img/@src",
         "//a/@href",
-        end_url=three_webpages_folder + "2.html"
+        end_url=three_webpages_folder + "2.html",
     )
 
     assert comic.verify_xpath() == [
