@@ -24,7 +24,6 @@ PLAYWRIGHT_SETTINGS = {
 }
 
 FAKE_USERAGENT_SETTINGS = {
-    "RETRY_HTTP_CODES": [500, 502, 503, 504, 522, 524, 403, 408, 429],
     "DOWNLOADER_MIDDLEWARES": {
         "scrapy.downloadermiddlewares.useragent.UserAgentMiddleware": None,
         "scrapy.downloadermiddlewares.retry.RetryMiddleware": None,
@@ -94,6 +93,7 @@ class Comic:
             "LOG_ENABLED": self.debug,
             "FILES_STORE": self.name,
             "MEDIA_ALLOW_REDIRECTS": True,
+            "RETRY_HTTP_CODES": [500, 502, 503, 504, 522, 524, 403, 408, 429],
             "DOWNLOAD_DELAY": self.delay,
         }  # type: Dict
 
