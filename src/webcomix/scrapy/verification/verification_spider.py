@@ -10,10 +10,10 @@ from webcomix.scrapy.verification.web_page import WebPage
 
 class VerificationSpider(Spider):
     name = "Verification Spider"
-    handle_httpstatus_list = [500]
 
     def __init__(self, *args, **kwargs):
         self.start_url = kwargs.get("start_url")
+        self.handle_httpstatus_list = kwargs.get("handle_httpstatus_list", [])
         self.next_page_selector = kwargs.get("next_page_selector", None)
         self.comic_image_selector = kwargs.get("comic_image_selector", None)
         self.block_selectors = kwargs.get("block_selectors", [])

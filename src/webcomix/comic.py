@@ -55,6 +55,7 @@ class Comic:
         title: bool = False,
         cookies: List[Tuple[str, str]] = [],
         debug: bool = False,
+        handle_httpstatus_list: Optional[List[int]] = None,
     ):
         self.name = name
         self.start_url = start_url
@@ -70,6 +71,7 @@ class Comic:
         self.title = title
         self.cookies = cookies
         self.debug = debug
+        self.handle_httpstatus_list = handle_httpstatus_list or []
 
     def download(self) -> None:
         """
@@ -161,6 +163,7 @@ class Comic:
             javascript=self.javascript,
             cookies=self.cookies,
             alt_text=self.alt_text,
+            handle_httpstatus_list=self.handle_httpstatus_list,
         )
 
         verification = worker.start()

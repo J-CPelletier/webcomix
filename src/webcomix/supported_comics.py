@@ -35,6 +35,7 @@ supported_comics = {
         "start_url": "https://www.smbc-comics.com/comic/2002-09-05",
         "comic_image_selector": "//img[@id='cc-comic']/@src",
         "next_page_selector": "//a[@class='cc-next']/@href",
+        "handle_httpstatus_list": [500],
     },
     "Blindsprings": {
         "name": "Blindsprings",

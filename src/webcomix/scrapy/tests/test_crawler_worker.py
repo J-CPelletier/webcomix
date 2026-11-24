@@ -7,6 +7,16 @@ from webcomix.scrapy.verification.verification_spider import VerificationSpider
 from webcomix.tests.fake_websites.fixture import one_webpage_uri
 
 
+def test_verification_spider_only_allows_configured_http_statuses():
+    default_spider = VerificationSpider(start_url="https://example.com")
+    smbc_spider = VerificationSpider(
+        start_url="https://example.com", handle_httpstatus_list=[500]
+    )
+
+    assert default_spider.handle_httpstatus_list == []
+    assert smbc_spider.handle_httpstatus_list == [500]
+
+
 def test_spider_raising_error_gets_raised_by_crawler_worker(one_webpage_uri):
     settings = {"LOG_ENABLED": False}
     worker = CrawlerWorker(
