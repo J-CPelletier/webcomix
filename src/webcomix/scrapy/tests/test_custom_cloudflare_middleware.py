@@ -46,6 +46,7 @@ def test_middleware_returns_response_when_status_404(middleware, test_request, s
 def test_middleware_uses_cloudscraper_when_status_403(
     mocker, middleware, test_request, spider
 ):
+    test_request.headers[b"User-Agent"] = b"webcomix-test-agent"
     response = HtmlResponse(AN_URL, status=403, body=b"<html></html>")
     mock_cf_response = mocker.Mock()
     mock_cf_response.text = CLOUDFLARE_HTML
@@ -58,7 +59,9 @@ def test_middleware_uses_cloudscraper_when_status_403(
 
     result = middleware.process_response(test_request, response, spider)
 
-    mock_scraper.get.assert_called_once_with(AN_URL)
+    mock_scraper.get.assert_called_once_with(
+        AN_URL, headers={"User-Agent": "webcomix-test-agent"}
+    )
     assert isinstance(result, HtmlResponse)
     assert result.url == AN_URL
     assert CLOUDFLARE_HTML in result.text
@@ -82,7 +85,7 @@ def test_middleware_uses_cloudscraper_when_status_503(
 
     result = middleware.process_response(test_request, response, spider)
 
-    mock_scraper.get.assert_called_once_with(AN_URL)
+    mock_scraper.get.assert_called_once_with(AN_URL, headers={})
     assert isinstance(result, HtmlResponse)
     assert result.url == AN_URL
     spider.logger.info.assert_called_once()
@@ -139,7 +142,7 @@ def test_middleware_handles_different_urls(mocker, middleware, spider):
 
     result = middleware.process_response(test_request, response, spider)
 
-    mock_scraper.get.assert_called_once_with(different_url)
+    mock_scraper.get.assert_called_once_with(different_url, headers={})
     assert result.url == different_url
 
 
