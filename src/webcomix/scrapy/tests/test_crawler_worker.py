@@ -7,6 +7,16 @@ from webcomix.scrapy.verification.verification_spider import VerificationSpider
 from webcomix.tests.fake_websites.fixture import one_webpage_uri
 
 
+def test_verification_spider_only_allows_configured_http_statuses():
+    default_spider = VerificationSpider(start_url="https://example.com")
+    smbc_spider = VerificationSpider(
+        start_url="https://example.com", handle_httpstatus_list=[500]
+    )
+
+    assert default_spider.handle_httpstatus_list == []
+    assert smbc_spider.handle_httpstatus_list == [500]
+
+
 def test_spider_raising_error_gets_raised_by_crawler_worker(one_webpage_uri):
     settings = {"LOG_ENABLED": False}
     worker = CrawlerWorker(
@@ -60,6 +70,34 @@ def test_start_raises_child_exception(monkeypatch):
     worker.result_queue.put(ValueError("foo"))
 
     with pytest.raises(ValueError):
+        worker.start()
+
+
+def test_start_raises_exception_after_partial_results(monkeypatch):
+    import multiprocessing
+    import queue
+
+    monkeypatch.setattr(multiprocessing.Process, "start", lambda self: None)
+    monkeypatch.setattr(multiprocessing.Process, "join", lambda self, *a, **k: None)
+
+    worker = CrawlerWorker({}, False)
+    worker.result_queue = queue.Queue()
+    worker.result_queue.put({"url": "https://example.com/1"})
+    worker.result_queue.put(NextLinkNotFound("https://example.com/2", "//a/@href"))
+
+    with pytest.raises(NextLinkNotFound):
+        worker.start()
+
+
+def test_start_raises_when_no_results_are_returned(monkeypatch):
+    import multiprocessing
+
+    monkeypatch.setattr(multiprocessing.Process, "start", lambda self: None)
+    monkeypatch.setattr(multiprocessing.Process, "join", lambda self, *a, **k: None)
+
+    worker = CrawlerWorker({}, True)
+
+    with pytest.raises(RuntimeError, match="without returning any results"):
         worker.start()
 
 

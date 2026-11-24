@@ -216,6 +216,21 @@ def test_verify_xpath(three_webpages_uri):
     ]
 
 
+def test_verify_xpath_passes_httpstatus_list_to_spider(mocker):
+    worker = mocker.patch("webcomix.comic.CrawlerWorker")
+    comic = Comic(
+        "test",
+        "https://example.com",
+        "//img/@src",
+        "//a/@href",
+        handle_httpstatus_list=[500],
+    )
+
+    comic.verify_xpath()
+
+    assert worker.call_args.kwargs["handle_httpstatus_list"] == [500]
+
+
 def test_verify_xpath_with_alt_text(three_webpages_alt_text_uri):
     comic = Comic(
         "test_alt",

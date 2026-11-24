@@ -35,6 +35,7 @@ supported_comics = {
         "start_url": "https://www.smbc-comics.com/comic/2002-09-05",
         "comic_image_selector": "//img[@id='cc-comic']/@src",
         "next_page_selector": "//a[@class='cc-next']/@href",
+        "handle_httpstatus_list": [500],
     },
     "Blindsprings": {
         "name": "Blindsprings",
@@ -48,12 +49,12 @@ supported_comics = {
         "comic_image_selector": "//div[@class='comic']//img/@src",
         "next_page_selector": "//a[contains(@class, 'comic-nav-next')]/@href",
     },
-    "GuildedAge": {
-        "name": "GuildedAge",
-        "start_url": "http://guildedage.net/comic/chapter-1-cover/",
-        "comic_image_selector": "//div[@id='comic']//img/@src",
-        "next_page_selector": "//a[contains(@class, 'comic-nav-next')]/@href",
-    },
+    #  "GuildedAge": {
+        #  "name": "GuildedAge",
+        #  "start_url": "http://guildedage.net/comic/chapter-1-cover/",
+        #  "comic_image_selector": "//div[@id='comic']//img/@src",
+        #  "next_page_selector": "//a[contains(@class, 'comic-nav-next')]/@href",
+    #  },
     "TalesOfElysium": {
         "name": "TalesOfElysium",
         "start_url": "https://talesofelysium.thecomicseries.com/comics/1/#content-start",

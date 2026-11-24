@@ -1,5 +1,7 @@
 import pytest
+from scrapy.spidermiddlewares.httperror import HttpErrorMiddleware
 from scrapy.http import HtmlResponse, Request
+from scrapy.settings import Settings
 from webcomix.scrapy.custom_cloudflare_middleware import CustomCloudflareMiddleware
 
 AN_URL = "https://example.com/comic"
@@ -44,18 +46,27 @@ def test_middleware_returns_response_when_status_404(middleware, test_request, s
 def test_middleware_uses_cloudscraper_when_status_403(
     mocker, middleware, test_request, spider
 ):
+    test_request.headers[b"User-Agent"] = b"webcomix-test-agent"
     response = HtmlResponse(AN_URL, status=403, body=b"<html></html>")
     mock_cf_response = mocker.Mock()
     mock_cf_response.text = CLOUDFLARE_HTML
+    mock_cf_response.content = CLOUDFLARE_HTML.encode()
+    mock_cf_response.status_code = 200
+    mock_cf_response.url = AN_URL
+    mock_cf_response.encoding = "utf-8"
     mock_scraper = mocker.patch.object(CustomCloudflareMiddleware, "cloudflare_scraper")
     mock_scraper.get.return_value = mock_cf_response
 
     result = middleware.process_response(test_request, response, spider)
 
-    mock_scraper.get.assert_called_once_with(AN_URL)
+    mock_scraper.get.assert_called_once_with(
+        AN_URL, headers={"User-Agent": "webcomix-test-agent"}
+    )
     assert isinstance(result, HtmlResponse)
     assert result.url == AN_URL
     assert CLOUDFLARE_HTML in result.text
+    assert result.status == 200
+    assert result.request is test_request
     spider.logger.info.assert_called_once()
 
 
@@ -65,12 +76,16 @@ def test_middleware_uses_cloudscraper_when_status_503(
     response = HtmlResponse(AN_URL, status=503, body=b"<html></html>")
     mock_cf_response = mocker.Mock()
     mock_cf_response.text = CLOUDFLARE_HTML
+    mock_cf_response.content = CLOUDFLARE_HTML.encode()
+    mock_cf_response.status_code = 200
+    mock_cf_response.url = AN_URL
+    mock_cf_response.encoding = "utf-8"
     mock_scraper = mocker.patch.object(CustomCloudflareMiddleware, "cloudflare_scraper")
     mock_scraper.get.return_value = mock_cf_response
 
     result = middleware.process_response(test_request, response, spider)
 
-    mock_scraper.get.assert_called_once_with(AN_URL)
+    mock_scraper.get.assert_called_once_with(AN_URL, headers={})
     assert isinstance(result, HtmlResponse)
     assert result.url == AN_URL
     spider.logger.info.assert_called_once()
@@ -80,6 +95,10 @@ def test_middleware_logs_cloudflare_detection(mocker, middleware, test_request, 
     response = HtmlResponse(AN_URL, status=403, body=b"<html></html>")
     mock_cf_response = mocker.Mock()
     mock_cf_response.text = CLOUDFLARE_HTML
+    mock_cf_response.content = CLOUDFLARE_HTML.encode()
+    mock_cf_response.status_code = 200
+    mock_cf_response.url = AN_URL
+    mock_cf_response.encoding = "utf-8"
     mock_scraper = mocker.patch.object(CustomCloudflareMiddleware, "cloudflare_scraper")
     mock_scraper.get.return_value = mock_cf_response
 
@@ -96,6 +115,10 @@ def test_middleware_returns_htmlresponse_with_utf8_encoding(
     response = HtmlResponse(AN_URL, status=503, body=b"<html></html>")
     mock_cf_response = mocker.Mock()
     mock_cf_response.text = CLOUDFLARE_HTML
+    mock_cf_response.content = CLOUDFLARE_HTML.encode()
+    mock_cf_response.status_code = 200
+    mock_cf_response.url = AN_URL
+    mock_cf_response.encoding = "utf-8"
     mock_scraper = mocker.patch.object(CustomCloudflareMiddleware, "cloudflare_scraper")
     mock_scraper.get.return_value = mock_cf_response
 
@@ -110,10 +133,39 @@ def test_middleware_handles_different_urls(mocker, middleware, spider):
     response = HtmlResponse(different_url, status=403, body=b"<html></html>")
     mock_cf_response = mocker.Mock()
     mock_cf_response.text = CLOUDFLARE_HTML
+    mock_cf_response.content = CLOUDFLARE_HTML.encode()
+    mock_cf_response.status_code = 200
+    mock_cf_response.url = different_url
+    mock_cf_response.encoding = "utf-8"
     mock_scraper = mocker.patch.object(CustomCloudflareMiddleware, "cloudflare_scraper")
     mock_scraper.get.return_value = mock_cf_response
 
     result = middleware.process_response(test_request, response, spider)
 
-    mock_scraper.get.assert_called_once_with(different_url)
+    mock_scraper.get.assert_called_once_with(different_url, headers={})
     assert result.url == different_url
+
+
+def test_middleware_returns_cloudscraper_error_body_with_status_allowed(
+    mocker, middleware, test_request, spider
+):
+    response = HtmlResponse(AN_URL, status=503, body=b"<html></html>")
+    mock_cf_response = mocker.Mock(
+        status_code=403,
+        content=CLOUDFLARE_HTML.encode(),
+        url=AN_URL,
+        encoding="utf-8",
+    )
+    mock_scraper = mocker.patch.object(CustomCloudflareMiddleware, "cloudflare_scraper")
+    mock_scraper.get.return_value = mock_cf_response
+
+    result = middleware.process_response(test_request, response, spider)
+
+    assert isinstance(result, HtmlResponse)
+    assert result.status == 403
+    assert result.request is test_request
+    assert test_request.meta["handle_httpstatus_list"] == [403]
+    assert CLOUDFLARE_HTML in result.text
+    http_error_middleware = HttpErrorMiddleware(Settings())
+    http_error_middleware.crawler = mocker.Mock(spider=spider)
+    assert http_error_middleware.process_spider_input(result) is None

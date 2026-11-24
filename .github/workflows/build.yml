@@ -44,6 +44,7 @@ jobs:
       - name: Run tests
         env:
           RUN_PLAYWRIGHT_TESTS: '1'
+          PYTHONUNBUFFERED: '1'
         run: |
           uv run pytest -n auto --cov=webcomix
           uv run mypy . --ignore-missing-imports
@@ -78,6 +79,8 @@ jobs:
       - name: Build
         run: uv build
       - name: Run tests
+        env:
+          PYTHONUNBUFFERED: '1'
         run: |
           uv run pytest -n auto -m "slow" --check-supported-comics
   deploy:

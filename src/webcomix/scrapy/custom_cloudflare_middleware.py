@@ -15,8 +15,24 @@ class CustomCloudflareMiddleware:
         spider.logger.info(
             "Cloudflare detected. Using cloudscraper on URL: %s", request_url
         )
-        cflare_response = self.cloudflare_scraper.get(request_url)
-        cflare_res_transformed = HtmlResponse(
-            url=request_url, body=cflare_response.text, encoding="utf-8"
+        headers = {}
+        user_agent = request.headers.get(b"User-Agent")
+        if user_agent:
+            headers["User-Agent"] = user_agent.decode("latin-1")
+
+        cflare_response = self.cloudflare_scraper.get(request_url, headers=headers)
+        if cflare_response.status_code in (403, 503):
+            allowed_statuses = request.meta.get("handle_httpstatus_list", [])
+            if cflare_response.status_code not in allowed_statuses:
+                request.meta["handle_httpstatus_list"] = [
+                    *allowed_statuses,
+                    cflare_response.status_code,
+                ]
+
+        return HtmlResponse(
+            url=cflare_response.url,
+            status=cflare_response.status_code,
+            body=cflare_response.content,
+            encoding=cflare_response.encoding or "utf-8",
+            request=request,
         )
-        return cflare_res_transformed
