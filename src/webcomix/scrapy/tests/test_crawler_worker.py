@@ -63,6 +63,34 @@ def test_start_raises_child_exception(monkeypatch):
         worker.start()
 
 
+def test_start_raises_exception_after_partial_results(monkeypatch):
+    import multiprocessing
+    import queue
+
+    monkeypatch.setattr(multiprocessing.Process, "start", lambda self: None)
+    monkeypatch.setattr(multiprocessing.Process, "join", lambda self, *a, **k: None)
+
+    worker = CrawlerWorker({}, False)
+    worker.result_queue = queue.Queue()
+    worker.result_queue.put({"url": "https://example.com/1"})
+    worker.result_queue.put(NextLinkNotFound("https://example.com/2", "//a/@href"))
+
+    with pytest.raises(NextLinkNotFound):
+        worker.start()
+
+
+def test_start_raises_when_no_results_are_returned(monkeypatch):
+    import multiprocessing
+
+    monkeypatch.setattr(multiprocessing.Process, "start", lambda self: None)
+    monkeypatch.setattr(multiprocessing.Process, "join", lambda self, *a, **k: None)
+
+    worker = CrawlerWorker({}, True)
+
+    with pytest.raises(RuntimeError, match="without returning any results"):
+        worker.start()
+
+
 def test_start_raises_keyboardinterrupt_when_killed(monkeypatch):
     """If kill_process is set the parent should raise KeyboardInterrupt after join."""
     import multiprocessing

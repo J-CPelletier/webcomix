@@ -16,6 +16,9 @@ class CustomCloudflareMiddleware:
             "Cloudflare detected. Using cloudscraper on URL: %s", request_url
         )
         cflare_response = self.cloudflare_scraper.get(request_url)
+        if cflare_response.status_code >= 400:
+            return response
+
         cflare_res_transformed = HtmlResponse(
             url=request_url, body=cflare_response.text, encoding="utf-8"
         )

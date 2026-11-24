@@ -11,6 +11,7 @@ class CrawlerWorker(Process):
     def __init__(self, settings, return_items, *crawl_args, **crawl_kwargs):
         super().__init__(daemon=True)
         self.settings = settings
+        self.return_items = return_items
         self.result_queue = Queue()
         self.crawl_args = crawl_args
         self.crawl_kwargs = crawl_kwargs
@@ -53,8 +54,11 @@ class CrawlerWorker(Process):
 
         if self.kill_process.is_set():
             raise KeyboardInterrupt
-        if len(result) == 1 and isinstance(result[0], Exception):
-            raise result[0]
+        exception = next((item for item in result if isinstance(item, Exception)), None)
+        if exception is not None:
+            raise exception
         if not result:
+            if self.return_items:
+                raise RuntimeError("Crawler finished without returning any results")
             return None
         return result
